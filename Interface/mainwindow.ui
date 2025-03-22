@@ -758,10 +758,24 @@
     <property name="title">
      <string>About</string>
     </property>
+    <widget class="QMenu" name="menuReset_Login">
+     <property name="title">
+      <string>Reset Login</string>
+     </property>
+     <addaction name="actionTelegram"/>
+     <addaction name="actionWhatsApp"/>
+     <addaction name="actionFacebook"/>
+     <addaction name="actionGoogle_Youtube"/>
+     <addaction name="actionInstegram"/>
+     <addaction name="actionVK"/>
+     <addaction name="actionOdnoklassniki"/>
+     <addaction name="actionTwitter"/>
+    </widget>
     <addaction name="actionCreator"/>
     <addaction name="separator"/>
     <addaction name="action_Settings"/>
     <addaction name="actionCheck_Update"/>
+    <addaction name="menuReset_Login"/>
    </widget>
    <widget class="QMenu" name="menuNetwork">
     <property name="title">
@@ -853,6 +867,61 @@
   <action name="actionGet_Temp_Mail">
    <property name="text">
     <string>Get Temp Mail</string>
+   </property>
+  </action>
+  <action name="actionTelegram">
+   <property name="text">
+    <string>Telegram</string>
+   </property>
+  </action>
+  <action name="actionWhatsApp">
+   <property name="text">
+    <string>WhatsApp</string>
+   </property>
+  </action>
+  <action name="actionFacebook">
+   <property name="text">
+    <string>Facebook</string>
+   </property>
+  </action>
+  <action name="actionGoogle_Youtube">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Google &amp; Youtube</string>
+   </property>
+  </action>
+  <action name="actionInstegram">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Instegram</string>
+   </property>
+  </action>
+  <action name="actionVK">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>VK</string>
+   </property>
+  </action>
+  <action name="actionOdnoklassniki">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Odnoklassniki</string>
+   </property>
+  </action>
+  <action name="actionTwitter">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Twitter</string>
    </property>
   </action>
  </widget>

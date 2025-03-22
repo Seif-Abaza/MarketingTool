@@ -1,20 +1,26 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
+import PySide6
+import os
 
 datas = [
+    ('run_debug.sh', '.'),
     ('requirements.txt', '.'),
     ('Resource/countries.json', '.'),
-    ('locat/*.qm', 'locat'),
     ('images/MM_Logo.ico', 'images')
 ]
 
-binaries = []
+binaries = [
+    ('locat/*.qm', 'locat'),
+    ('/usr/lib/x86_64-linux-gnu/libxkbcommon.so.0', '.'),
+    ('/usr/lib/x86_64-linux-gnu/libEGL.so.1', '.'),
+]
 hiddenimports = [
     'beautifulsoup4', 'cryptography', 'Flask', 'flask_limiter', 'googletrans',
-    'langcodes', 'langdetect', 'MailTMClient', 'PyNaCl', 'openpyxl',
-    'phonenumbers', 'Pillow', 'playwright', 'psutil', 'pymongo', 'pyperclip',
+    'langcodes', 'langdetect', 'py-cpuinfo', 'openpyxl',
+    'phonenumbers', 'pillow','python-magic', 'playwright', 'psutil', 'pymongo', 'pyperclip',
     'pyqrcode', 'PySide6', 'python_magic', 'pytz', 'qrcode', 'requests',
-    'rich', 'selenium', 'selenium_stealth', 'smsactivate', 'telethon',
+    'smsactivate', 'telethon',
     'torch', 'transformers', 'urllib3', 'numpy'
 ]
 
@@ -35,7 +41,7 @@ a = Analysis(
     runtime_hooks=[],
     excludes=['tkinter', 'unittest', 'numpy.testing'],
     noarchive=False,
-    optimize=2,
+    optimize=0,
 )
 
 pyz = PYZ(a.pure)
@@ -50,7 +56,7 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=False,
+    console=True,
     disable_windowed_traceback=True,
     argv_emulation=False,
     target_arch=None,

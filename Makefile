@@ -11,7 +11,7 @@ build: build-$(PLATFORM)
 
 # Platform-specific instructions
 build-linux: dist/MarketMiner
-	(cd dist; tar czf MarketMiner-LINUX_VERS.tar.gz MarketMiner)
+#(cd dist; tar czf MarketMiner-LINUX_VERS.tar.gz MarketMiner)
 
 build-darwin: dist/MarketMiner.app
 	packagesbuild dev/installer-builders/macos/packages-config/MarketMiner.pkgproj 2>/dev/null || echo "macOS package build skipped"

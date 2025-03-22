@@ -1,6 +1,10 @@
+import asyncio
+import importlib.util
 import logging
 import os
+import shutil
 import socket
+import subprocess
 import sys
 import threading
 
@@ -22,12 +26,15 @@ from Classes.MailGenerator import MailGenerator
 from Classes.PhoneGenerator import PhoneGenerator
 from Classes.PopupDialog import PopupDialog
 from Classes.Settings import SETTINGS_KEYS_TO_ELEMENT_KEYS, Settings
+from Facebook.Facebook import Facebook
 from Interface.mainwindow_ui import Ui_MainWindow
+from Telegram.sTelegram import sTelegram
 from utils.DBManager import DBManager
 from utils.helper import helper
 from utils.Security import Security
 from utils.systeminfo import hash_computer
 from utils.Updater import Updater
+from WhatsApp.WhatsApp import WhatsApp
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "Classes")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "Interface")))
@@ -39,7 +46,7 @@ if IS_DEBUG:
 else:
     API_URL = "http://172.86.114.80:23004"
 
-CURRENT_VERSION = "1.0.0"
+CURRENT_VERSION = "2.0.1"
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "./Interface/"))
@@ -47,7 +54,6 @@ sys.path.append(
 
 
 class MainWindw(QMainWindow, Ui_MainWindow):
-
     def __init__(
         self, parent=None, databasemode: str = None, database=None, settings=None
     ):
@@ -83,20 +89,34 @@ class MainWindw(QMainWindow, Ui_MainWindow):
         for media in self.settings.value("can_use"):
             match media.lower():
                 case "telegram":
-                    self.pushButton.clicked.connect(
-                        lambda: self.on_dialog_order("Telegram")
+                    dir1_path = os.path.join(
+                        os.getcwd(), "Sessions/teleSession.session"
                     )
-                    self.pushButton.setEnabled(True)
+                    if os.path.exists(dir1_path):
+                        self.pushButton.clicked.connect(
+                            lambda: self.on_dialog_order("Telegram")
+                        )
+                        self.pushButton.setEnabled(True)
+                    else:
+                        self.pushButton.setEnabled(False)
                 case "whatsapp":
-                    self.pushButton_2.clicked.connect(
-                        lambda: self.on_dialog_order("WhatsApp")
-                    )
-                    self.pushButton_2.setEnabled(True)
+                    dir1_path = os.path.join(os.getcwd(), "Sessions/whatsapp")
+                    if os.path.exists(dir1_path):
+                        self.pushButton_2.clicked.connect(
+                            lambda: self.on_dialog_order("WhatsApp")
+                        )
+                        self.pushButton_2.setEnabled(True)
+                    else:
+                        self.pushButton_2.setEnabled(False)
                 case "facebook":
-                    self.pushButton_3.clicked.connect(
-                        lambda: self.on_dialog_order("Facebook")
-                    )
-                    self.pushButton_3.setEnabled(True)
+                    dir1_path = os.path.join(os.getcwd(), "Sessions/facebook")
+                    if os.path.exists(dir1_path):
+                        self.pushButton_3.clicked.connect(
+                            lambda: self.on_dialog_order("Facebook")
+                        )
+                        self.pushButton_3.setEnabled(True)
+                    else:
+                        self.pushButton_3.setEnabled(False)
         self.UpDateOutput("....")
         # Menus
 
@@ -111,8 +131,50 @@ class MainWindw(QMainWindow, Ui_MainWindow):
         self.actionCreator.triggered.connect(self.show_about)
         self.actionCheck_Update.triggered.connect(self.checkUpdate)
 
+        self.actionTelegram.triggered.connect(self.reset_telegram)
+        self.actionWhatsApp.triggered.connect(self.reset_whatsapp)
+        self.actionFacebook.triggered.connect(self.reset_facebook)
+
         # StatusBar
         self.statusBar().showMessage(databasemode)
+        self.show()
+
+    def reset_telegram(self):
+        dir1_path = os.path.join(os.getcwd(), "Sessions/teleSession.session")
+        if os.path.exists(dir1_path):
+            os.remove(dir1_path)
+        sTelegram(settings=self.settings, needReset=True)
+        QMessageBox.information(
+            self,
+            "Telegram",
+            "Telegram is Reset",
+            QMessageBox.StandardButton.Ok,
+        )
+
+    def reset_whatsapp(self):
+        dir1_path = os.path.join(os.getcwd(), "Sessions/whatsapp")
+        if os.path.exists(dir1_path):
+            shutil.rmtree(dir1_path, ignore_errors=True)
+
+        if WhatsApp(runReset=True).reLogin(userdata=dir1_path):
+            QMessageBox.information(
+                self,
+                "WhatsApp",
+                "WhatsApp is Reset",
+                QMessageBox.StandardButton.Ok,
+            )
+
+    def reset_facebook(self):
+        dir1_path = os.path.join(os.getcwd(), "Sessions/facebook")
+        if os.path.exists(dir1_path):
+            shutil.rmtree(dir1_path, ignore_errors=True)
+        if Facebook(reset=True).reset(dir1_path, self.settings):
+            QMessageBox.information(
+                self,
+                "Facebook",
+                "Facebook is Reset",
+                QMessageBox.StandardButton.Ok,
+            )
 
     def show_about(self):
         about(self).exec()
@@ -200,18 +262,24 @@ class MainWindw(QMainWindow, Ui_MainWindow):
 
     def reCalculateAll(self):
         self.UpDateOutput("Please Wait...")
-        CountTelegram = self.database.get_count_of_table("Telegram")
-        CountFacebook = self.database.get_count_of_table("facebook")
-        CountWhatsApp = self.database.get_count_of_table("phone_numbers")
-        CountOfUsers = CountTelegram + CountFacebook + CountWhatsApp
-
-        # MessagePostToday = self.database.get_count_of_table(
-        #     "facebook_group_message_sended"
-        # )
-        MessageSendToday = self.database.get_count_of_table("total_msg_post", True)
-        self.lblusers.setText(str(CountOfUsers))
-        self.lblmsg.setText(str(MessageSendToday))
-        # self.lblpost.setText(str(MessagePostToday))
+        try:
+            if IS_DEBUG:
+                logging.warning(f"Calculate Database")
+            # self.window.groupBox.setEnabled(False)
+            CountTelegram = self.database.get_count_of_table("Telegram")
+            CountFacebook = self.database.get_count_of_table("facebook")
+            CountWhatsApp = self.database.get_count_of_table("phone_numbers")
+            CountOfUsers = int(CountTelegram + CountFacebook + CountWhatsApp)
+            # MessagePostToday = int(self.database.get_count_of_table("facebook_group_message_sended", True))
+            MessageSendToday = int(
+                self.database.get_count_of_table("total_msg_post", True)
+            )
+            self.window.lblusers.setText(str(CountOfUsers))
+            self.window.lblmsg.setText(str(MessageSendToday))
+            # self.window.lblpost.setText(str(MessagePostToday))
+            # self.window.groupBox.setEnabled(True)
+        except Exception as e:
+            logging.error(f"Error : {e}")
 
     def _initWidget(self, dialog: PopupDialog):
         dialog.groupBox_5.setVisible(False)
@@ -247,20 +315,28 @@ class main_class:
                     if IS_DEBUG:
                         logging.warning(f"User Account is Not None")
                     try:
-                        self.database = DBManager(
-                            database_name="MarketingTools",
-                            settings=self.settings,
-                            isServer=not IS_DEBUG,
-                            isDebug=IS_DEBUG,
-                        )
+                        if not self.settings.value("default_output"):
+                            self.ensure_playwright_installed()
+                            settings = Settings()
+                            settings.setWindowTitle("Settings")
+                            if settings.exec() == QDialog.Accepted:
+                                QMessageBox.information(
+                                    self,
+                                    "Settings",
+                                    "Must restart MarketMiner Now.",
+                                    QMessageBox.StandardButton.Ok,
+                                )
+                            sys.exit()
+                        else:
+                            self.database = DBManager(
+                                settings=self.settings,
+                            )
 
-                        if IS_DEBUG:
-                            logging.warning(f"Run Database in Debug Mode")
-                        self.connect_database = (
-                            f"Database is Connect | Account Name : {UserAccountName}"
-                        )
-                        self.database.create_table("total_msg_post")
-                        self.database.create_table("message_history")
+                            if IS_DEBUG:
+                                logging.warning(f"Run Database in Debug Mode")
+                            self.connect_database = f"Database is Connect | Account Name : {UserAccountName}"
+                            self.database.create_table("total_msg_post")
+                            self.database.create_table("message_history")
                     except Exception:
                         self.connect_database = (
                             f"Database not Connect | Account Name : {UserAccountName}"
@@ -274,8 +350,10 @@ class main_class:
                         database=self.database,
                         settings=self.settings,
                     )
-                    threading.Thread(target=self.calculation).start()
-                    self.window.show()
+                    print("Calculation")
+                    self.calculation()
+                    # self.window.exec()
+                    # thread.join()
 
                     # if self.window is None:
                     #     self.database.close_connection()
@@ -286,24 +364,42 @@ class main_class:
             if IS_DEBUG:
                 logging.warning(f"Check Key Retern With False")
             QMessageBox.information(
-                None, "MarketMiner V1.0.0", "Try Later", QMessageBox.Ok
+                None, f"MarketMiner {CURRENT_VERSION}", "Try Later", QMessageBox.Ok
             )
             sys.exit()
 
     def calculation(self):
-        if IS_DEBUG:
-            logging.warning(f"Calculate Database")
-        self.window.groupBox.setEnabled(False)
-        CountTelegram = self.database.get_count_of_table("Telegram")
-        CountFacebook = self.database.get_count_of_table("facebook")
-        CountWhatsApp = self.database.get_count_of_table("phone_numbers")
-        CountOfUsers = int(CountTelegram + CountFacebook + CountWhatsApp)
-        # MessagePostToday = int(self.database.get_count_of_table("facebook_group_message_sended", True))
-        MessageSendToday = int(self.database.get_count_of_table("total_msg_post", True))
-        self.window.lblusers.setText(str(CountOfUsers))
-        self.window.lblmsg.setText(str(MessageSendToday))
-        # self.window.lblpost.setText(str(MessagePostToday))
-        self.window.groupBox.setEnabled(True)
+        try:
+            if IS_DEBUG:
+                logging.warning(f"Calculate Database")
+            # self.window.groupBox.setEnabled(False)
+            CountTelegram = self.database.get_count_of_table("Telegram")
+            CountFacebook = self.database.get_count_of_table("facebook")
+            CountWhatsApp = self.database.get_count_of_table("phone_numbers")
+            CountOfUsers = int(CountTelegram + CountFacebook + CountWhatsApp)
+            # MessagePostToday = int(self.database.get_count_of_table("facebook_group_message_sended", True))
+            MessageSendToday = int(
+                self.database.get_count_of_table("total_msg_post", True)
+            )
+            self.window.lblusers.setText(str(CountOfUsers))
+            self.window.lblmsg.setText(str(MessageSendToday))
+            # self.window.lblpost.setText(str(MessagePostToday))
+            # self.window.groupBox.setEnabled(True)
+        except Exception as e:
+            logging.error(f"Error : {e}")
+
+    def ensure_playwright_installed(self):
+        package_name = "playwright"
+        # Check if Playwright is installed
+        if importlib.util.find_spec(package_name) is None:
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", package_name]
+            )
+
+        # Run Playwright install command
+        subprocess.check_call(
+            [sys.executable, "-m", "playwright", "install"], stderr=None
+        )
 
     def is_connected(self):
         try:

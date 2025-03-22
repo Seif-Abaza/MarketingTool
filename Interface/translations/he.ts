@@ -4,756 +4,1056 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="../admin_controller.ui" line="29"/>
         <source>Click Me</source>
-        <translation>לחץ כאן</translation>
+        <translation type="vanished">לחץ כאן</translation>
     </message>
     <message>
-        <location filename="../about.ui" line="14"/>
         <location filename="../ai_interface.ui" line="14"/>
         <location filename="../generate_mail.ui" line="14"/>
         <location filename="../generate_phone.ui" line="14"/>
-        <location filename="../import_excel.ui" line="14"/>
-        <location filename="../import.ui" line="17"/>
+        <location filename="../import.ui" line="20"/>
+        <location filename="../number_of_account.ui" line="14"/>
         <source>Dialog</source>
         <translation>הודעות בינה מלאכותית</translation>
     </message>
     <message>
-        <location filename="../about.ui" line="47"/>
-        <location filename="../keyapp.ui" line="77"/>
         <source>MarketingTools</source>
-        <translation type="unfinished">MarketMiner</translation>
+        <translation type="obsolete">MarketMiner</translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="14"/>
+        <source>About</source>
+        <translation type="unfinished">אודות התוכנה</translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="47"/>
+        <location filename="../keyapp.ui" line="64"/>
+        <source>MarketMiner</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../about.ui" line="65"/>
-        <location filename="../keyapp.ui" line="95"/>
+        <location filename="../keyapp.ui" line="88"/>
         <source>Version 1.0.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="83"/>
-        <location filename="../keyapp.ui" line="211"/>
+        <location filename="../keyapp.ui" line="112"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The best software for marketing and advertising services.&lt;/p&gt;&lt;p&gt;Custom modifications are available. &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;just contact us&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="101"/>
-        <location filename="../keyapp.ui" line="113"/>
+        <location filename="../keyapp.ui" line="524"/>
         <source>For English-speaking</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="114"/>
-        <location filename="../keyapp.ui" line="126"/>
+        <location filename="../keyapp.ui" line="543"/>
         <source>لمتحديثين اللغة العربية</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="127"/>
-        <location filename="../keyapp.ui" line="139"/>
+        <location filename="../keyapp.ui" line="562"/>
         <source>Для русскоязычных</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="144"/>
-        <location filename="../keyapp.ui" line="156"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/nt1t9b&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../about.ui" line="150"/>
+        <location filename="../keyapp.ui" line="588"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/7p817s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="154"/>
-        <location filename="../keyapp.ui" line="169"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/dzxxkv&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;الدعم الفني&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../about.ui" line="169"/>
+        <location filename="../keyapp.ui" line="607"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/4y01cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;الدعم الفني&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="164"/>
-        <location filename="../keyapp.ui" line="182"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/qszmuk&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;техподдержка&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../about.ui" line="188"/>
+        <location filename="../keyapp.ui" line="626"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/aij342&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;техподдержка&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="185"/>
-        <location filename="../keyapp.ui" line="266"/>
+        <location filename="../about.ui" line="217"/>
+        <location filename="../keyapp.ui" line="383"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.binance.com/en/square/post/15833955645849&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;How you can buy USDT&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="237"/>
+        <location filename="../keyapp.ui" line="403"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/people/MarketMiner/61574189555294/&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Follow us&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="257"/>
+        <location filename="../keyapp.ui" line="423"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://t.me/marketminer25&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Telegram&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="280"/>
+        <location filename="../keyapp.ui" line="446"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/g6uu40&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Technical Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="293"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Seif-Abaza/MarketMiner/issues&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="311"/>
+        <location filename="../keyapp.ui" line="477"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://usdtfreelancer.com&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#1a5fb4;&quot;&gt;Support By USDTFreelancer.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ai_interface.ui" line="35"/>
         <source>AI Message List</source>
-        <translation type="unfinished">רשימת הודעות מבינה מלאכותית</translation>
+        <translation>רשימת הודעות מבינה מלאכותית</translation>
     </message>
     <message>
         <location filename="../ai_interface.ui" line="56"/>
         <source>Remove</source>
-        <translation>إزالة</translation>
+        <translation>הסר</translation>
     </message>
     <message>
         <location filename="../generate_mail.ui" line="62"/>
         <source>Delete</source>
-        <translation>إزالة</translation>
+        <translation>מחק</translation>
     </message>
     <message>
         <location filename="../generate_mail.ui" line="75"/>
         <source>Create New and Copy</source>
-        <translation>إنشاء جديد و نسخ</translation>
+        <translation>צור חדש והעתק</translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="26"/>
         <source>Virtual Phone Number</source>
-        <translation>رقم الهاتف المؤقت</translation>
+        <translation>מספר טלפון זמני</translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="49"/>
         <source>Service</source>
-        <translation>الخدمة</translation>
+        <translation>שירות</translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="82"/>
-        <location filename="../tab_media.ui" line="1011"/>
+        <location filename="../tab_media.ui" line="1480"/>
         <source>Country</source>
-        <translation>البلد</translation>
+        <translation>מדינה</translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="121"/>
         <source>Phone :</source>
-        <translation>الرقم:</translation>
+        <translation>מספר:</translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="134"/>
         <source>+000-0000000</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="165"/>
         <source>SMS Code : 000000</source>
-        <translation>الكود الرسالة</translation>
+        <translation>קוד הודעה</translation>
     </message>
     <message>
         <location filename="../generate_phone.ui" line="200"/>
         <source>Note:</source>
-        <translation>ملاحظات :</translation>
+        <translation>הערות:</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="74"/>
         <source>Name</source>
-        <translation>الأسم</translation>
+        <translation type="vanished">שם</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="79"/>
-        <location filename="../import.ui" line="125"/>
-        <location filename="../keyapp.ui" line="329"/>
+        <location filename="../keyapp.ui" line="220"/>
         <location filename="../settings.ui" line="99"/>
         <source>Phone</source>
-        <translation>الهاتف</translation>
+        <translation>טלפון</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="84"/>
         <source>Account</source>
-        <translation>الحساب</translation>
+        <translation type="vanished">חשבון</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="89"/>
         <source>Source</source>
-        <translation>المصدر</translation>
+        <translation type="vanished">מקור</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="104"/>
         <source>Search By</source>
-        <translation>البحث بواسطة</translation>
+        <translation type="vanished">חפש לפי</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="141"/>
         <source>Profile Name</source>
-        <translation>أسم الصفحة الشخصية</translation>
+        <translation type="vanished">שם פרופיל</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="154"/>
         <source>Group</source>
-        <translation>المجموعة</translation>
+        <translation type="vanished">קבוצה</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="167"/>
-        <location filename="../tab_media.ui" line="1160"/>
+        <location filename="../tab_media.ui" line="1655"/>
         <source>Category</source>
-        <translation>التصنيف</translation>
+        <translation>קטגוריה</translation>
     </message>
     <message>
         <location filename="../keyapp.ui" line="32"/>
         <source>Key</source>
-        <translation>المفتاح</translation>
+        <translation>מפתח</translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="59"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#e01b24;&quot;&gt;Only 300 USDT for End-User Full Version&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="227"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Paste the Transaction Hash (Txid), your account will be activated within 12 hours.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="234"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body dir=&quot;rtl&quot;&gt;&lt;p align=&quot;center&quot;&gt;قم بلصق ال (Txid) Transaction Hash , في خلال 12 ساعة سيتم تفعيل حسابك &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="247"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Вставьте хэш транзакции (Txid), ваша учетная запись будет активирована в течение 12 часов.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="287"/>
+        <location filename="../keyapp.ui" line="148"/>
         <source>Your Name</source>
-        <translation>أسمك</translation>
+        <translation>שמך</translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="305"/>
-        <source>account name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="315"/>
-        <source>mail@mail.com</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="336"/>
-        <source>Txid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="347"/>
-        <source>+000...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="357"/>
-        <source>0x47a7...d93dd7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="381"/>
-        <source>Buy USDT from Binance P2P</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="418"/>
-        <source>USDT Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="425"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Binance : &lt;span style=&quot; font-weight:700; color:#ed333b;&quot;&gt;Only BUSD-T (BNB Smart Chain (BEP20))&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="440"/>
-        <source>0x47a7b312093304d536b376b9b8057317a7d93dd7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="294"/>
+        <location filename="../keyapp.ui" line="161"/>
         <source>Mail</source>
-        <translation>البريد الإلكتروني</translation>
+        <translation>דוא&quot;ל</translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="181"/>
+        <source>account name</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="197"/>
+        <source>mail@mail.com</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="233"/>
+        <source>Txid</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="253"/>
+        <source>+000...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="269"/>
+        <source>0x47a7...d93dd7</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="313"/>
+        <source>USDT Address</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="320"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Binance : &lt;span style=&quot; font-weight:700; color:#ed333b;&quot;&gt;Only BUSD-T (BNB Smart Chain (BEP20))&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="341"/>
+        <source>0x47a7b312093304d536b376b9b8057317a7d93dd7</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="655"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#e01b24;&quot;&gt;Only 300 USDT for End-User Full Version&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="673"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Paste the Transaction Hash (Txid), your account will be activated within 12 hours.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="686"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body dir=&quot;rtl&quot;&gt;&lt;p align=&quot;center&quot;&gt;قم بلصق ال (Txid) Transaction Hash , في خلال 12 ساعة سيتم تفعيل حسابك &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../keyapp.ui" line="705"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Вставьте хэш транзакции (Txid), ваша учетная запись будет активирована в течение 12 часов.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../settings.ui" line="14"/>
         <source>Settings</source>
-        <translation>الإعدادات</translation>
+        <translation>הגדרות</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="54"/>
         <source>Telegram</source>
-        <translation>تيليجرام</translation>
+        <translation>טלגרם</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="71"/>
         <source>App ID</source>
-        <translation>رقم البرنامج</translation>
+        <translation>מספר יישום</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="85"/>
         <source>Hash</source>
-        <translation>التشفير</translation>
+        <translation>הצפנה</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="113"/>
         <source>Facebook</source>
-        <translation>فيسبوك</translation>
+        <translation>פייסבוק</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="130"/>
         <source>Username</source>
-        <translation>المستخدم</translation>
+        <translation>שם משתמש</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="144"/>
         <source>Password</source>
-        <translation>كلمة المرور</translation>
+        <translation>סיסמה</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="172"/>
         <source>Default Output</source>
-        <translation>مسار المخرجات</translation>
+        <translation>נתיב פלט</translation>
     </message>
     <message>
-        <location filename="../settings.ui" line="182"/>
-        <location filename="../settings.ui" line="203"/>
-        <location filename="../tab_media.ui" line="136"/>
-        <location filename="../tab_media.ui" line="238"/>
-        <location filename="../tab_media.ui" line="248"/>
-        <location filename="../tab_media.ui" line="489"/>
-        <location filename="../tab_media.ui" line="655"/>
-        <location filename="../tab_media.ui" line="946"/>
-        <location filename="../tab_media.ui" line="956"/>
-        <location filename="../tab_media.ui" line="1102"/>
-        <location filename="../tab_media.ui" line="1344"/>
-        <location filename="../tab_media.ui" line="1581"/>
-        <location filename="../tab_media.ui" line="1618"/>
-        <location filename="../tab_media.ui" line="1968"/>
-        <location filename="../tab_media.ui" line="1993"/>
-        <location filename="../tab_media.ui" line="2152"/>
-        <location filename="../tab_media.ui" line="2320"/>
-        <source>...</source>
-        <translation></translation>
+        <source>Chrom Driver</source>
+        <translation type="vanished">גוגל כרום</translation>
     </message>
     <message>
         <location filename="../settings.ui" line="193"/>
-        <source>Chrom Driver</source>
-        <translation>جوجيل كروم</translation>
-    </message>
-    <message>
-        <location filename="../settings.ui" line="214"/>
         <source>Language</source>
-        <translation>اللغة</translation>
+        <translation>שפה</translation>
     </message>
     <message>
         <location filename="../tab_media.ui" line="32"/>
         <source>Marketing</source>
-        <translation>إعدادات شبكة التواصل الإجتماعي</translation>
+        <translation>הגדרות רשת חברתית</translation>
     </message>
     <message>
         <location filename="../tab_media.ui" line="81"/>
         <source>Send Message To Members</source>
-        <translation>إرسال للأعضاء</translation>
+        <translation>שלח לחברים</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="93"/>
-        <location filename="../tab_media.ui" line="596"/>
-        <location filename="../tab_media.ui" line="1072"/>
-        <location filename="../tab_media.ui" line="1285"/>
-        <location filename="../tab_media.ui" line="2106"/>
-        <location filename="../tab_media.ui" line="2277"/>
+        <location filename="../tab_media.ui" line="99"/>
+        <location filename="../tab_media.ui" line="999"/>
+        <location filename="../tab_media.ui" line="1567"/>
+        <location filename="../tab_media.ui" line="1792"/>
+        <location filename="../tab_media.ui" line="2529"/>
+        <location filename="../tab_media.ui" line="2858"/>
         <source>Data Source</source>
-        <translation>مصدر البيانات</translation>
+        <translation>מקור נתונים</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="156"/>
-        <location filename="../tab_media.ui" line="611"/>
-        <location filename="../tab_media.ui" line="1122"/>
-        <location filename="../tab_media.ui" line="1300"/>
-        <location filename="../tab_media.ui" line="2181"/>
-        <location filename="../tab_media.ui" line="2352"/>
+        <location filename="../tab_media.ui" line="180"/>
+        <location filename="../tab_media.ui" line="1020"/>
+        <location filename="../tab_media.ui" line="1617"/>
+        <location filename="../tab_media.ui" line="1807"/>
+        <location filename="../tab_media.ui" line="2604"/>
+        <location filename="../tab_media.ui" line="2935"/>
         <source>Database</source>
-        <translation>قواعد البيانات</translation>
+        <translation>מאגרי נתונים</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="166"/>
-        <location filename="../tab_media.ui" line="621"/>
-        <location filename="../tab_media.ui" line="1132"/>
-        <location filename="../tab_media.ui" line="1310"/>
-        <location filename="../tab_media.ui" line="2203"/>
-        <location filename="../tab_media.ui" line="2368"/>
+        <location filename="../tab_media.ui" line="196"/>
+        <location filename="../tab_media.ui" line="1036"/>
+        <location filename="../tab_media.ui" line="1627"/>
+        <location filename="../tab_media.ui" line="1817"/>
+        <location filename="../tab_media.ui" line="2626"/>
+        <location filename="../tab_media.ui" line="2951"/>
         <source>File List</source>
-        <translation>قائمة خارجية</translation>
+        <translation>רשימה חיצונית</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="186"/>
-        <location filename="../tab_media.ui" line="836"/>
-        <location filename="../tab_media.ui" line="1499"/>
-        <location filename="../tab_media.ui" line="1889"/>
+        <location filename="../tab_media.ui" line="222"/>
+        <location filename="../tab_media.ui" line="1277"/>
+        <location filename="../tab_media.ui" line="2032"/>
+        <location filename="../tab_media.ui" line="2290"/>
         <source>Message Aria</source>
-        <translation>إعدادات الرسائل</translation>
+        <translation>הגדרות הודעות</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="203"/>
-        <location filename="../tab_media.ui" line="865"/>
-        <location filename="../tab_media.ui" line="1539"/>
-        <location filename="../tab_media.ui" line="1916"/>
+        <location filename="../tab_media.ui" line="239"/>
+        <location filename="../tab_media.ui" line="1306"/>
+        <location filename="../tab_media.ui" line="2072"/>
+        <location filename="../tab_media.ui" line="2317"/>
         <source>Message</source>
-        <translation>الرسالة</translation>
+        <translation>הודעה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="217"/>
-        <location filename="../tab_media.ui" line="925"/>
-        <location filename="../tab_media.ui" line="1569"/>
-        <location filename="../tab_media.ui" line="1956"/>
+        <location filename="../tab_media.ui" line="251"/>
+        <source>Translation My Message</source>
+        <translation type="unfinished">תרגם הודעה זו במידת הצורך</translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="260"/>
+        <location filename="../tab_media.ui" line="1375"/>
+        <location filename="../tab_media.ui" line="2102"/>
+        <location filename="../tab_media.ui" line="2357"/>
         <source>Or Path To Message</source>
-        <translation>أو مسار رسالة سابقة</translation>
+        <translation>או נתיב להודעה קודמת</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="224"/>
-        <location filename="../tab_media.ui" line="932"/>
-        <location filename="../tab_media.ui" line="1606"/>
-        <location filename="../tab_media.ui" line="1981"/>
+        <location filename="../tab_media.ui" line="267"/>
+        <location filename="../tab_media.ui" line="1382"/>
+        <location filename="../tab_media.ui" line="2145"/>
+        <location filename="../tab_media.ui" line="2382"/>
         <source>Or File To Send</source>
-        <translation>أو ملف للمشاركة</translation>
+        <translation>או קובץ לשיתוף</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="281"/>
-        <location filename="../tab_media.ui" line="898"/>
-        <location filename="../tab_media.ui" line="1654"/>
-        <location filename="../tab_media.ui" line="2029"/>
+        <location filename="../tab_media.ui" line="351"/>
+        <location filename="../tab_media.ui" line="1339"/>
+        <location filename="../tab_media.ui" line="2199"/>
+        <location filename="../tab_media.ui" line="2430"/>
         <source>Slogin</source>
-        <translation>الشعار</translation>
+        <translation>סיסמה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="317"/>
-        <location filename="../tab_media.ui" line="463"/>
-        <location filename="../tab_media.ui" line="1004"/>
-        <location filename="../tab_media.ui" line="1707"/>
+        <location filename="../tab_media.ui" line="575"/>
+        <location filename="../tab_media.ui" line="1467"/>
+        <location filename="../tab_media.ui" line="2236"/>
         <source>Members Category</source>
-        <translation>تصنيف الأعضاء</translation>
+        <translation>קטגוריית חברים</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="358"/>
-        <location filename="../tab_media.ui" line="721"/>
-        <location filename="../tab_media.ui" line="1403"/>
-        <location filename="../tab_media.ui" line="1789"/>
+        <location filename="../tab_media.ui" line="450"/>
+        <location filename="../tab_media.ui" line="1150"/>
+        <location filename="../tab_media.ui" line="1926"/>
+        <location filename="../tab_media.ui" line="2686"/>
         <source>Use AI</source>
-        <translation>الذكاء الصناعي</translation>
+        <translation>בינה מלאכותית</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="365"/>
-        <location filename="../tab_media.ui" line="728"/>
-        <location filename="../tab_media.ui" line="1410"/>
-        <location filename="../tab_media.ui" line="1802"/>
+        <location filename="../tab_media.ui" line="457"/>
+        <location filename="../tab_media.ui" line="1157"/>
+        <location filename="../tab_media.ui" line="1933"/>
+        <location filename="../tab_media.ui" line="2699"/>
         <source>Use Compan ID</source>
-        <translation>حملة سابقة</translation>
+        <translation>קמפיין קודם</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="372"/>
-        <location filename="../tab_media.ui" line="735"/>
-        <location filename="../tab_media.ui" line="1417"/>
-        <location filename="../tab_media.ui" line="1815"/>
+        <location filename="../tab_media.ui" line="464"/>
+        <location filename="../tab_media.ui" line="1164"/>
+        <location filename="../tab_media.ui" line="1940"/>
+        <location filename="../tab_media.ui" line="2712"/>
         <source>Nothing</source>
-        <translation>لا شيء</translation>
+        <translation>כלום</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="428"/>
-        <location filename="../tab_media.ui" line="800"/>
-        <location filename="../tab_media.ui" line="1473"/>
-        <location filename="../tab_media.ui" line="1865"/>
+        <location filename="../tab_media.ui" line="526"/>
+        <location filename="../tab_media.ui" line="1235"/>
+        <location filename="../tab_media.ui" line="2002"/>
+        <location filename="../tab_media.ui" line="2762"/>
         <source>Compan Name</source>
-        <translation>أسم الحملة</translation>
+        <translation>שם הקמפיין</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="448"/>
+        <location filename="../tab_media.ui" line="552"/>
         <source>Get Members From Groups</source>
-        <translation>الحصول على أعضاء من مجموعة</translation>
+        <translation>קבל חברים מקבוצה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="477"/>
+        <location filename="../tab_media.ui" line="607"/>
         <source>Group File List</source>
-        <translation>قائمة المجموعات</translation>
+        <translation>רשימת קבוצות</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="500"/>
+        <location filename="../tab_media.ui" line="645"/>
+        <source>If from Excel , so the Group name = Name and write this Group Category for Save it on your database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="654"/>
         <source>Copy Message to Channel</source>
-        <translation>نسخ رسائل إلى قناه</translation>
+        <translation>העתק הודעות לערוץ</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="515"/>
+        <location filename="../tab_media.ui" line="672"/>
+        <source>Replacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="687"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="739"/>
+        <source>Replace From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="751"/>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="803"/>
+        <source>Replace To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="815"/>
+        <source>Dub-Click on the text and Drop It for New Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="840"/>
         <source>From :</source>
-        <translation>من :</translation>
+        <translation>מ-:</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="525"/>
+        <location filename="../tab_media.ui" line="864"/>
         <source>To :</source>
-        <translation>إلى :</translation>
+        <translation>ל-:</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="535"/>
         <source>Only Message Befour this Date</source>
-        <translation>كل الرسائل قبل هذا التاريخ</translation>
+        <translation type="vanished">כל ההודעות לפני תאריך זה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="551"/>
+        <location filename="../tab_media.ui" line="923"/>
         <source>Add Member to Chanel</source>
-        <translation>إضافة أعضاء إلى قناه</translation>
+        <translation>הוסף חברים לערוץ</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="566"/>
-        <location filename="../tab_media.ui" line="1255"/>
-        <location filename="../tab_media.ui" line="2228"/>
+        <location filename="../tab_media.ui" line="947"/>
+        <location filename="../tab_media.ui" line="1756"/>
+        <location filename="../tab_media.ui" line="2797"/>
         <source>Group Name</source>
-        <translation>أسم المجموعة</translation>
+        <translation>שם הקבוצה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="576"/>
-        <location filename="../tab_media.ui" line="1269"/>
-        <location filename="../tab_media.ui" line="2254"/>
+        <location filename="../tab_media.ui" line="391"/>
+        <location filename="../tab_media.ui" line="967"/>
+        <location filename="../tab_media.ui" line="1770"/>
+        <location filename="../tab_media.ui" line="2829"/>
         <source>Member Category</source>
-        <translation>تصنيف المجموعة</translation>
+        <translation>קטגוריית קבוצה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="682"/>
-        <location filename="../tab_media.ui" line="1371"/>
+        <location filename="../tab_media.ui" line="882"/>
+        <source>Old Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="889"/>
+        <source>New Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="901"/>
+        <source>Stop in this Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1089"/>
+        <source>If you want to select users from Excel must important set account ID as a [Account] </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1111"/>
+        <location filename="../tab_media.ui" line="1884"/>
         <source>Send To Members</source>
-        <translation>إرسال إلى أعضاء</translation>
+        <translation>שלח לחברים</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="975"/>
+        <location filename="../tab_media.ui" line="1438"/>
         <source>Target Members</source>
-        <translation>الأعضاء المستهدفين</translation>
+        <translation>חברים ממוקדים</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1018"/>
+        <location filename="../tab_media.ui" line="1493"/>
         <source>TimeZone</source>
-        <translation>التوقيت الزمني</translation>
+        <translation>אזור זמן</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1145"/>
+        <location filename="../tab_media.ui" line="1500"/>
+        <source>Translat Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1536"/>
+        <source>Translat to Other Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1640"/>
         <source>Get Numbers from My Contact</source>
-        <translation>الحصول على أرقام في قائمتي</translation>
+        <translation>קבל מספרים מהרשימה שלי</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1198"/>
+        <location filename="../tab_media.ui" line="1699"/>
         <source>Get My WhatsApp Contact Numbers</source>
-        <translation>الحصول على أرقام واتساب في قائمتي</translation>
+        <translation>קבל מספרי וואטסאפ מהרשימה שלי</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1229"/>
+        <location filename="../tab_media.ui" line="1730"/>
         <source>Add Numbers from Excel or CSV File</source>
-        <translation>أضيف أرقام من ملف إكسيل خارجي</translation>
+        <translation>הוסף מספרים מקובץ אקסל חיצוני</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1238"/>
+        <location filename="../tab_media.ui" line="1739"/>
         <source>Get Data from Groups</source>
-        <translation>الحصول على بيانات من المجموعات</translation>
+        <translation>קבל נתונים מקבוצות</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1629"/>
-        <location filename="../tab_media.ui" line="2004"/>
+        <location filename="../tab_media.ui" line="312"/>
+        <location filename="../tab_media.ui" line="1413"/>
+        <location filename="../tab_media.ui" line="2174"/>
+        <location filename="../tab_media.ui" line="2405"/>
         <source>Both</source>
-        <translation>كليهما</translation>
+        <translation>שניהם</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1737"/>
+        <location filename="../tab_media.ui" line="2219"/>
+        <location filename="../tab_media.ui" line="2450"/>
+        <source>Befour Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="2224"/>
+        <location filename="../tab_media.ui" line="2455"/>
+        <source>After Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="2272"/>
         <source>Post to Groups</source>
-        <translation>منشور في مجموعات</translation>
+        <translation>פרסם בקבוצות</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="2071"/>
+        <location filename="../tab_media.ui" line="2482"/>
         <source>Group Category</source>
-        <translation>تصنيف المجموعة</translation>
+        <translation>קטגוריית קבוצה</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="2213"/>
+        <location filename="../tab_media.ui" line="2782"/>
         <source>Get Members fro Groups</source>
-        <translation>الحصول على أعضاء المجموعة</translation>
+        <translation>קבל חברים מקבוצות</translation>
+    </message>
+    <message>
+        <location filename="../import.ui" line="52"/>
+        <source>Save and Use it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../import.ui" line="62"/>
+        <source>Use This</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../import.ui" line="86"/>
+        <location filename="../settings.ui" line="182"/>
+        <location filename="../tab_media.ui" line="151"/>
+        <location filename="../tab_media.ui" line="285"/>
+        <location filename="../tab_media.ui" line="302"/>
+        <location filename="../tab_media.ui" line="629"/>
+        <location filename="../tab_media.ui" line="1074"/>
+        <location filename="../tab_media.ui" line="1396"/>
+        <location filename="../tab_media.ui" line="1406"/>
+        <location filename="../tab_media.ui" line="1597"/>
+        <location filename="../tab_media.ui" line="1857"/>
+        <location filename="../tab_media.ui" line="2120"/>
+        <location filename="../tab_media.ui" line="2163"/>
+        <location filename="../tab_media.ui" line="2369"/>
+        <location filename="../tab_media.ui" line="2394"/>
+        <location filename="../tab_media.ui" line="2575"/>
+        <location filename="../tab_media.ui" line="2901"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../number_of_account.ui" line="31"/>
+        <source>Number Of Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../number_of_account.ui" line="55"/>
+        <source>Generate Phone Number</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../Controller.ui" line="14"/>
+        <location filename="../Controller.ui" line="20"/>
         <source>MainWindow</source>
         <translation>MarketingTool</translation>
     </message>
     <message>
-        <location filename="../Controller.ui" line="38"/>
-        <source>...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../Controller.ui" line="63"/>
-        <source>Tab 1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../Controller.ui" line="88"/>
-        <source>Open</source>
-        <translation>فتح</translation>
+        <location filename="../Controller.ui" line="76"/>
+        <source>Basic Informations</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Controller.ui" line="95"/>
-        <source>Edit</source>
-        <translation>تعديل</translation>
+        <source>Name</source>
+        <translation type="unfinished">שם</translation>
     </message>
     <message>
         <location filename="../Controller.ui" line="102"/>
+        <source>Phone</source>
+        <translation type="unfinished">טלפון</translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="109"/>
+        <source>Mail</source>
+        <translation type="unfinished">דוא&quot;ל</translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="116"/>
+        <source>Computer Hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="145"/>
+        <source>Block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="152"/>
+        <location filename="../Controller.ui" line="275"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="176"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="193"/>
+        <source>Can Get Phone Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="203"/>
+        <source>Can Generate Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="210"/>
+        <source>Can Run Super Fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="217"/>
+        <source>Can Access Number Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="224"/>
+        <source>Can Export Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="231"/>
+        <source>Can Use Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="238"/>
+        <source>Can Scrip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="245"/>
+        <source>Can Send Messages To Members Or Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="252"/>
+        <source>Can Use AI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="259"/>
+        <source>Can Use Online Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="266"/>
+        <source>Can Use Offline Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="301"/>
+        <source>Connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="311"/>
+        <source>User Mangment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="317"/>
+        <source>Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="329"/>
+        <source>Run Online Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="334"/>
+        <source>Run Online Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="339"/>
+        <source>Run Offline Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="344"/>
+        <source>Run Offline Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="349"/>
+        <source>Open User Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="354"/>
+        <source>Version Mangement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="359"/>
+        <source>Apps URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="vanished">פתח</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="vanished">ערוך</translation>
+    </message>
+    <message>
         <source>Remove</source>
-        <translation>إزالة</translation>
+        <translation type="vanished">הסר</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="17"/>
         <source>MarketingTool</source>
-        <translation>MarketingTool</translation>
+        <translation type="vanished">MarketingTool</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="30"/>
+        <location filename="../mainwindow.ui" line="70"/>
         <source>Media</source>
-        <translation>الشبكة الإجتماعيى</translation>
+        <translation>רשת חברתית</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="63"/>
+        <location filename="../mainwindow.ui" line="106"/>
+        <location filename="../mainwindow.ui" line="874"/>
         <source>Telegram</source>
-        <translation>تيليجرام</translation>
+        <translation>טלגרם</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="103"/>
+        <location filename="../mainwindow.ui" line="146"/>
+        <location filename="../mainwindow.ui" line="879"/>
         <source>WhatsApp</source>
-        <translation>واتساب</translation>
+        <translation>וואטסאפ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="143"/>
+        <location filename="../mainwindow.ui" line="186"/>
+        <location filename="../mainwindow.ui" line="884"/>
         <source>Facebook</source>
-        <translation>فيسبوك</translation>
+        <translation>פייסבוק</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="189"/>
+        <location filename="../mainwindow.ui" line="254"/>
         <source>Tiktok</source>
-        <translation type="unfinished">تيك توك</translation>
+        <translation type="unfinished">טיק טוק</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="235"/>
+        <location filename="../mainwindow.ui" line="300"/>
+        <location filename="../mainwindow.ui" line="900"/>
         <source>Instegram</source>
-        <translation type="unfinished">أنستجرام</translation>
+        <translation type="unfinished">אינסטגרם</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="281"/>
+        <location filename="../mainwindow.ui" line="346"/>
+        <location filename="../mainwindow.ui" line="908"/>
         <source>VK</source>
-        <translation type="unfinished">في كا</translation>
+        <translation type="unfinished">VK</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="327"/>
+        <location filename="../mainwindow.ui" line="438"/>
         <source>Twitter (X)</source>
-        <translation type="unfinished">تويتر</translation>
+        <translation type="unfinished">טוויטר</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="398"/>
         <source>Total Number of Post today</source>
-        <translation>إجمالي عدد المنشورات اليوم</translation>
+        <translation type="vanished">סך כל הפוסטים היום</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="424"/>
-        <location filename="../mainwindow.ui" line="478"/>
-        <location filename="../mainwindow.ui" line="532"/>
-        <source>0</source>
-        <translation></translation>
+        <location filename="../mainwindow.ui" line="23"/>
+        <source>MarketMiner</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="452"/>
+        <location filename="../mainwindow.ui" line="217"/>
+        <source>Youtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="392"/>
+        <location filename="../mainwindow.ui" line="916"/>
+        <source>Odnoklassniki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="521"/>
         <source>Total Number of Messages today</source>
-        <translation>إجمالي عدد الرسائل اليوم</translation>
+        <translation>סך כל ההודעות היום</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="506"/>
+        <location filename="../mainwindow.ui" line="553"/>
+        <location filename="../mainwindow.ui" line="619"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="587"/>
         <source>Total Number of users</source>
-        <translation>عدد العملاء</translation>
+        <translation>מספר הלקוחות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="545"/>
+        <location filename="../mainwindow.ui" line="636"/>
         <source>Output</source>
-        <translation>النتائج</translation>
+        <translation>תוצאות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="564"/>
+        <location filename="../mainwindow.ui" line="658"/>
         <source>Clear</source>
-        <translation>مسح</translation>
+        <translation>נקה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="571"/>
+        <location filename="../mainwindow.ui" line="676"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://usdtfreelancer.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Sponsor: USDTFreelancer.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="594"/>
+        <location filename="../mainwindow.ui" line="702"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/people/MarketMiner/61574189555294/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Follow us&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="725"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/hawg4s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Technical Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="749"/>
         <source>Database</source>
-        <translation>قواعد البيانات</translation>
+        <translation>מאגרי נתונים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="604"/>
+        <location filename="../mainwindow.ui" line="759"/>
         <source>About</source>
-        <translation>حول البرنامج</translation>
+        <translation>אודות התוכנה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="614"/>
+        <location filename="../mainwindow.ui" line="763"/>
+        <source>Reset Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="782"/>
         <source>Network</source>
-        <translation>الشبكة الداخلية</translation>
+        <translation>רשת פנימית</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="621"/>
+        <location filename="../mainwindow.ui" line="789"/>
         <source>Phone Number</source>
-        <translation>رقم الهاتف</translation>
+        <translation>מספר טלפון</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="634"/>
+        <location filename="../mainwindow.ui" line="809"/>
         <source>Explor</source>
-        <translation>إخراج</translation>
+        <translation>ייצוא</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="639"/>
+        <location filename="../mainwindow.ui" line="814"/>
         <source>Search</source>
-        <translation>بحث</translation>
+        <translation>חיפוש</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="644"/>
+        <location filename="../mainwindow.ui" line="819"/>
         <source>Support</source>
-        <translation>الدعم</translation>
+        <translation>תמיכה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="649"/>
+        <location filename="../mainwindow.ui" line="824"/>
         <source>Version</source>
-        <translation>الإصدار</translation>
+        <translation>גרסה</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="654"/>
+        <location filename="../mainwindow.ui" line="829"/>
         <source>&amp;Settings</source>
-        <translation>الإعدادات</translation>
+        <translation>הגדרות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="659"/>
+        <location filename="../mainwindow.ui" line="834"/>
         <source>Allow Access</source>
-        <translation>الصلاحيات</translation>
+        <translation>הרשאות</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="664"/>
+        <location filename="../mainwindow.ui" line="839"/>
         <source>Network Settings</source>
-        <translation>إعدادات الشبكة</translation>
+        <translation>הגדרות רשת</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="669"/>
+        <location filename="../mainwindow.ui" line="844"/>
         <source>Get Mobile Number</source>
-        <translation>الحصول على رقم هاتف</translation>
+        <translation>קבל מספר טלפון</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="674"/>
+        <location filename="../mainwindow.ui" line="849"/>
         <source>Check Update</source>
-        <translation>التحديثات</translation>
+        <translation>עדכונים</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="679"/>
+        <location filename="../mainwindow.ui" line="854"/>
         <source>Search By Phone Number</source>
-        <translation>البحث برقم الهاتف</translation>
+        <translation>חפש לפי מספר טלפון</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="684"/>
+        <location filename="../mainwindow.ui" line="859"/>
         <source>Search By Email</source>
-        <translation>البحث بالبريد الإلكتروني</translation>
+        <translation>חפש לפי דוא&quot;ל</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="689"/>
+        <location filename="../mainwindow.ui" line="864"/>
         <source>Search By Account</source>
-        <translation>البحث بأسم الحساب</translation>
+        <translation>חפש לפי שם חשבון</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="694"/>
+        <location filename="../mainwindow.ui" line="869"/>
         <source>Get Temp Mail</source>
-        <translation>الحصول على بريد مؤقت</translation>
+        <translation>קבל דוא&quot;ל זמני</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="892"/>
+        <source>Google &amp; Youtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="924"/>
+        <source>Twitter</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

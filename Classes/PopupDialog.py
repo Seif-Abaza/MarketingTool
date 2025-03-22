@@ -316,10 +316,11 @@ class Worker(QThread):
         """Runs an async function inside the Worker thread."""
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
+
         if inspect.iscoroutinefunction(func):
             await func(*args, **kwargs)  # إذا كانت دالة غير متزامنة
         elif inspect.iscoroutine(func):
-            await func  # إذا كان كائن coroutine
+            await func
         else:
             func(*args, **kwargs)
 

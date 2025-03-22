@@ -16,17 +16,17 @@ from utils.systeminfo import hash_computer
 
 
 class DBManager:
-    ONLINE_DATABASE_IP = "172.86.114.80"
-    ONLINE_DATABASE_PORT = "27018"
-    ONLINE_DATABASE_USERNAME = "admin"
-    ONLINE_DATABASE_PASSWORD = "SeifAbazaRedR00t!@"
-    ONLINE_DATABASE_LINK = f"mongodb://{ONLINE_DATABASE_USERNAME}:{ONLINE_DATABASE_PASSWORD}{ONLINE_DATABASE_IP}:{ONLINE_DATABASE_PORT}/{ONLINE_DATABASE_USERNAME}"
+    # ONLINE_DATABASE_IP = "172.86.114.80"
+    # ONLINE_DATABASE_PORT = "27018"
+    # ONLINE_DATABASE_USERNAME = "admin"
+    # ONLINE_DATABASE_PASSWORD = "SeifAbazaRedR00t!@"
+    # ONLINE_DATABASE_LINK = f"mongodb://{ONLINE_DATABASE_USERNAME}:{ONLINE_DATABASE_PASSWORD}{ONLINE_DATABASE_IP}:{ONLINE_DATABASE_PORT}/{ONLINE_DATABASE_USERNAME}"
 
     def __init__(
         self,
         host="localhost",
         port=27017,
-        database_name: str = "Marketing",
+        database_name: str = "MarketMiner",
         settings: str = None,
         isServer=False,
         isDebug=False,
@@ -39,11 +39,11 @@ class DBManager:
         if not settings is None:
             self.settings = settings
 
-        if isServer:
-            self.client = pymongo.MongoClient(self.ONLINE_DATABASE_LINK)
+        # if isServer:
+        # self.client = pymongo.MongoClient(self.ONLINE_DATABASE_LINK)
 
-        if isDebug:
-            self.client = pymongo.MongoClient(host, port)
+        # if isDebug:
+        self.client = pymongo.MongoClient(host, port)
 
         self.db = self.client[database_name]
 
