@@ -22,7 +22,7 @@
         <location filename="../about.ui" line="47"/>
         <location filename="../keyapp.ui" line="77"/>
         <source>MarketingTools</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MarketMiner</translation>
     </message>
     <message>
         <location filename="../about.ui" line="65"/>

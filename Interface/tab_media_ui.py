@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QCalendarWidget, QCheckBox,
-    QComboBox, QDialog, QDialogButtonBox, QFrame,
-    QGroupBox, QHBoxLayout, QLabel, QLineEdit,
+from PySide6.QtWidgets import (QAbstractButton, QAbstractItemView, QApplication, QCalendarWidget,
+    QCheckBox, QComboBox, QDialog, QDialogButtonBox,
+    QFrame, QGroupBox, QHBoxLayout, QLabel,
+    QLineEdit, QListView, QListWidget, QListWidgetItem,
     QPushButton, QRadioButton, QSizePolicy, QTabWidget,
     QTextEdit, QToolButton, QVBoxLayout, QWidget)
 
@@ -50,7 +51,7 @@ class Ui_Dialog(object):
         self.tab_tg_1.setObjectName(u"tab_tg_1")
         self.groupBox_12 = QGroupBox(self.tab_tg_1)
         self.groupBox_12.setObjectName(u"groupBox_12")
-        self.groupBox_12.setGeometry(QRect(10, 440, 1041, 80))
+        self.groupBox_12.setGeometry(QRect(10, 460, 1041, 80))
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -72,11 +73,14 @@ class Ui_Dialog(object):
         self.lineEdit_3.setObjectName(u"lineEdit_3")
         self.lineEdit_3.setMinimumSize(QSize(0, 0))
         self.lineEdit_3.setMaximumSize(QSize(16777215, 16777215))
+        self.lineEdit_3.setClearButtonEnabled(True)
 
         self.horizontalLayout_26.addWidget(self.lineEdit_3)
 
         self.toolButton_3 = QToolButton(self.layoutWidget)
         self.toolButton_3.setObjectName(u"toolButton_3")
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentNew))
+        self.toolButton_3.setIcon(icon)
 
         self.horizontalLayout_26.addWidget(self.toolButton_3)
 
@@ -131,6 +135,11 @@ class Ui_Dialog(object):
 
         self.verticalLayout_18.addLayout(self.horizontalLayout_28)
 
+        self.chkTranslat = QCheckBox(self.layoutWidget2)
+        self.chkTranslat.setObjectName(u"chkTranslat")
+
+        self.verticalLayout_18.addWidget(self.chkTranslat)
+
         self.horizontalLayout_29 = QHBoxLayout()
         self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
         self.label_2 = QLabel(self.layoutWidget2)
@@ -150,23 +159,32 @@ class Ui_Dialog(object):
         self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
         self.lineEdit = QLineEdit(self.layoutWidget2)
         self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setClearButtonEnabled(True)
 
         self.horizontalLayout_30.addWidget(self.lineEdit)
 
         self.toolButton = QToolButton(self.layoutWidget2)
         self.toolButton.setObjectName(u"toolButton")
+        self.toolButton.setIcon(icon)
 
         self.horizontalLayout_30.addWidget(self.toolButton)
 
         self.lineEdit_2 = QLineEdit(self.layoutWidget2)
         self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_2.setClearButtonEnabled(True)
 
         self.horizontalLayout_30.addWidget(self.lineEdit_2)
 
         self.toolButton_2 = QToolButton(self.layoutWidget2)
         self.toolButton_2.setObjectName(u"toolButton_2")
+        self.toolButton_2.setIcon(icon)
 
         self.horizontalLayout_30.addWidget(self.toolButton_2)
+
+        self.BothcheckBox = QCheckBox(self.layoutWidget2)
+        self.BothcheckBox.setObjectName(u"BothcheckBox")
+
+        self.horizontalLayout_30.addWidget(self.BothcheckBox)
 
 
         self.verticalLayout_18.addLayout(self.horizontalLayout_30)
@@ -177,7 +195,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_39 = QHBoxLayout(self.layoutWidget_7)
         self.horizontalLayout_39.setSpacing(6)
         self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
-        self.horizontalLayout_39.setContentsMargins(0, 6, 0, 0)
+        self.horizontalLayout_39.setContentsMargins(6, 6, 6, 0)
         self.label_20 = QLabel(self.layoutWidget_7)
         self.label_20.setObjectName(u"label_20")
         self.label_20.setMinimumSize(QSize(64, 0))
@@ -186,6 +204,7 @@ class Ui_Dialog(object):
 
         self.lineEdit_17 = QLineEdit(self.layoutWidget_7)
         self.lineEdit_17.setObjectName(u"lineEdit_17")
+        self.lineEdit_17.setClearButtonEnabled(True)
 
         self.horizontalLayout_39.addWidget(self.lineEdit_17)
 
@@ -197,24 +216,20 @@ class Ui_Dialog(object):
 
         self.layoutWidget3 = QWidget(self.tab_tg_1)
         self.layoutWidget3.setObjectName(u"layoutWidget3")
-        self.layoutWidget3.setGeometry(QRect(10, 380, 1041, 61))
+        self.layoutWidget3.setGeometry(QRect(10, 380, 1041, 76))
         self.verticalLayout_19 = QVBoxLayout(self.layoutWidget3)
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.verticalLayout_19.setContentsMargins(0, 0, 0, 0)
-        self.label_4 = QLabel(self.layoutWidget3)
-        self.label_4.setObjectName(u"label_4")
-        sizePolicy1.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy1)
-
-        self.verticalLayout_19.addWidget(self.label_4)
-
-        self.comboBox = QComboBox(self.layoutWidget3)
+        self.groupBox_22 = QGroupBox(self.layoutWidget3)
+        self.groupBox_22.setObjectName(u"groupBox_22")
+        self.comboBox = QComboBox(self.groupBox_22)
         self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setGeometry(QRect(10, 30, 1011, 26))
         sizePolicy2.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
         self.comboBox.setSizePolicy(sizePolicy2)
         self.comboBox.setEditable(True)
 
-        self.verticalLayout_19.addWidget(self.comboBox)
+        self.verticalLayout_19.addWidget(self.groupBox_22)
 
         self.layoutWidget4 = QWidget(self.tab_tg_1)
         self.layoutWidget4.setObjectName(u"layoutWidget4")
@@ -224,6 +239,8 @@ class Ui_Dialog(object):
         self.verticalLayout_20.setContentsMargins(0, 0, 0, 0)
         self.groupBox_14 = QGroupBox(self.layoutWidget4)
         self.groupBox_14.setObjectName(u"groupBox_14")
+        sizePolicy1.setHeightForWidth(self.groupBox_14.sizePolicy().hasHeightForWidth())
+        self.groupBox_14.setSizePolicy(sizePolicy1)
         self.layoutWidget_4 = QWidget(self.groupBox_14)
         self.layoutWidget_4.setObjectName(u"layoutWidget_4")
         self.layoutWidget_4.setGeometry(QRect(370, 10, 289, 26))
@@ -251,6 +268,8 @@ class Ui_Dialog(object):
 
         self.gSlogin_4 = QGroupBox(self.layoutWidget4)
         self.gSlogin_4.setObjectName(u"gSlogin_4")
+        sizePolicy1.setHeightForWidth(self.gSlogin_4.sizePolicy().hasHeightForWidth())
+        self.gSlogin_4.setSizePolicy(sizePolicy1)
         self.gSlogin_4.setMinimumSize(QSize(1038, 48))
         self.gSlogin_4.setMaximumSize(QSize(1038, 48))
         self.gSlogin_4.setFlat(True)
@@ -283,116 +302,242 @@ class Ui_Dialog(object):
         self.tab_tg_2.setObjectName(u"tab_tg_2")
         self.layoutWidget5 = QWidget(self.tab_tg_2)
         self.layoutWidget5.setObjectName(u"layoutWidget5")
-        self.layoutWidget5.setGeometry(QRect(20, 10, 1031, 110))
-        self.verticalLayout_9 = QVBoxLayout(self.layoutWidget5)
+        self.layoutWidget5.setGeometry(QRect(10, 8, 1041, 231))
+        self.verticalLayout_26 = QVBoxLayout(self.layoutWidget5)
+        self.verticalLayout_26.setObjectName(u"verticalLayout_26")
+        self.verticalLayout_26.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_9 = QVBoxLayout()
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.label_6 = QLabel(self.layoutWidget5)
-        self.label_6.setObjectName(u"label_6")
-
-        self.verticalLayout_9.addWidget(self.label_6)
-
-        self.cmdMemCategory2 = QComboBox(self.layoutWidget5)
+        self.groupBox_17 = QGroupBox(self.layoutWidget5)
+        self.groupBox_17.setObjectName(u"groupBox_17")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.groupBox_17.sizePolicy().hasHeightForWidth())
+        self.groupBox_17.setSizePolicy(sizePolicy3)
+        self.cmdMemCategory2 = QComboBox(self.groupBox_17)
         self.cmdMemCategory2.setObjectName(u"cmdMemCategory2")
+        self.cmdMemCategory2.setGeometry(QRect(10, 30, 1021, 26))
+        sizePolicy2.setHeightForWidth(self.cmdMemCategory2.sizePolicy().hasHeightForWidth())
+        self.cmdMemCategory2.setSizePolicy(sizePolicy2)
         self.cmdMemCategory2.setEditable(True)
 
-        self.verticalLayout_9.addWidget(self.cmdMemCategory2)
+        self.verticalLayout_9.addWidget(self.groupBox_17)
 
-        self.label_7 = QLabel(self.layoutWidget5)
-        self.label_7.setObjectName(u"label_7")
-
-        self.verticalLayout_9.addWidget(self.label_7)
-
-        self.horizontalLayout_33 = QHBoxLayout()
+        self.groupBox_18 = QGroupBox(self.layoutWidget5)
+        self.groupBox_18.setObjectName(u"groupBox_18")
+        sizePolicy3.setHeightForWidth(self.groupBox_18.sizePolicy().hasHeightForWidth())
+        self.groupBox_18.setSizePolicy(sizePolicy3)
+        self.layoutWidget6 = QWidget(self.groupBox_18)
+        self.layoutWidget6.setObjectName(u"layoutWidget6")
+        self.layoutWidget6.setGeometry(QRect(10, 30, 1021, 28))
+        self.horizontalLayout_33 = QHBoxLayout(self.layoutWidget6)
         self.horizontalLayout_33.setObjectName(u"horizontalLayout_33")
-        self.txtListOfGroup2 = QLineEdit(self.layoutWidget5)
+        self.horizontalLayout_33.setContentsMargins(0, 0, 0, 0)
+        self.txtListOfGroup2 = QLineEdit(self.layoutWidget6)
         self.txtListOfGroup2.setObjectName(u"txtListOfGroup2")
+        self.txtListOfGroup2.setClearButtonEnabled(True)
 
         self.horizontalLayout_33.addWidget(self.txtListOfGroup2)
 
-        self.btnBrowser2 = QToolButton(self.layoutWidget5)
+        self.btnBrowser2 = QToolButton(self.layoutWidget6)
         self.btnBrowser2.setObjectName(u"btnBrowser2")
+        self.btnBrowser2.setIcon(icon)
 
         self.horizontalLayout_33.addWidget(self.btnBrowser2)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout_33)
+        self.verticalLayout_9.addWidget(self.groupBox_18)
+
+
+        self.verticalLayout_26.addLayout(self.verticalLayout_9)
+
+        self.label_6 = QLabel(self.layoutWidget5)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_26.addWidget(self.label_6)
 
         self.tabTelegram.addTab(self.tab_tg_2, "")
         self.tab_tg_3 = QWidget()
         self.tab_tg_3.setObjectName(u"tab_tg_3")
-        self.layoutWidget6 = QWidget(self.tab_tg_3)
-        self.layoutWidget6.setObjectName(u"layoutWidget6")
-        self.layoutWidget6.setGeometry(QRect(10, 10, 1041, 371))
-        self.verticalLayout_23 = QVBoxLayout(self.layoutWidget6)
+        self.groupBox_23 = QGroupBox(self.tab_tg_3)
+        self.groupBox_23.setObjectName(u"groupBox_23")
+        self.groupBox_23.setGeometry(QRect(10, 420, 1031, 241))
+        sizePolicy1.setHeightForWidth(self.groupBox_23.sizePolicy().hasHeightForWidth())
+        self.groupBox_23.setSizePolicy(sizePolicy1)
+        self.widget = QWidget(self.groupBox_23)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(11, 31, 1011, 201))
+        self.horizontalLayout_41 = QHBoxLayout(self.widget)
+        self.horizontalLayout_41.setObjectName(u"horizontalLayout_41")
+        self.horizontalLayout_41.setContentsMargins(0, 0, 0, 0)
+        self.label_4 = QLabel(self.widget)
+        self.label_4.setObjectName(u"label_4")
+
+        self.horizontalLayout_41.addWidget(self.label_4)
+
+        self.verticalLayout_23 = QVBoxLayout()
         self.verticalLayout_23.setObjectName(u"verticalLayout_23")
-        self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
-        self.label_8 = QLabel(self.layoutWidget6)
+        self.listWFrom = QListWidget(self.widget)
+        self.listWFrom.setObjectName(u"listWFrom")
+        self.listWFrom.setEditTriggers(QAbstractItemView.EditTrigger.DoubleClicked|QAbstractItemView.EditTrigger.EditKeyPressed|QAbstractItemView.EditTrigger.SelectedClicked)
+        self.listWFrom.setDragEnabled(False)
+        self.listWFrom.setDragDropOverwriteMode(False)
+        self.listWFrom.setDragDropMode(QAbstractItemView.DragDropMode.NoDragDrop)
+        self.listWFrom.setAlternatingRowColors(False)
+        self.listWFrom.setMovement(QListView.Movement.Free)
+        self.listWFrom.setProperty(u"isWrapping", True)
+        self.listWFrom.setUniformItemSizes(False)
+        self.listWFrom.setWordWrap(True)
+        self.listWFrom.setSelectionRectVisible(False)
+        self.listWFrom.setSortingEnabled(True)
+
+        self.verticalLayout_23.addWidget(self.listWFrom)
+
+        self.txtfromlist = QLineEdit(self.widget)
+        self.txtfromlist.setObjectName(u"txtfromlist")
+        self.txtfromlist.setClearButtonEnabled(True)
+
+        self.verticalLayout_23.addWidget(self.txtfromlist)
+
+
+        self.horizontalLayout_41.addLayout(self.verticalLayout_23)
+
+        self.label_7 = QLabel(self.widget)
+        self.label_7.setObjectName(u"label_7")
+
+        self.horizontalLayout_41.addWidget(self.label_7)
+
+        self.verticalLayout_27 = QVBoxLayout()
+        self.verticalLayout_27.setObjectName(u"verticalLayout_27")
+        self.listWTo = QListWidget(self.widget)
+        self.listWTo.setObjectName(u"listWTo")
+        self.listWTo.setEditTriggers(QAbstractItemView.EditTrigger.DoubleClicked|QAbstractItemView.EditTrigger.EditKeyPressed|QAbstractItemView.EditTrigger.SelectedClicked)
+        self.listWTo.setDragEnabled(False)
+        self.listWTo.setDragDropOverwriteMode(False)
+        self.listWTo.setDragDropMode(QAbstractItemView.DragDropMode.NoDragDrop)
+        self.listWTo.setAlternatingRowColors(True)
+        self.listWTo.setMovement(QListView.Movement.Free)
+        self.listWTo.setProperty(u"isWrapping", True)
+        self.listWTo.setUniformItemSizes(False)
+        self.listWTo.setWordWrap(True)
+        self.listWTo.setSelectionRectVisible(False)
+        self.listWTo.setSortingEnabled(True)
+
+        self.verticalLayout_27.addWidget(self.listWTo)
+
+        self.txtTolist = QLineEdit(self.widget)
+        self.txtTolist.setObjectName(u"txtTolist")
+        self.txtTolist.setClearButtonEnabled(True)
+
+        self.verticalLayout_27.addWidget(self.txtTolist)
+
+
+        self.horizontalLayout_41.addLayout(self.verticalLayout_27)
+
+        self.label_11 = QLabel(self.widget)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setWordWrap(True)
+
+        self.horizontalLayout_41.addWidget(self.label_11)
+
+        self.widget1 = QWidget(self.tab_tg_3)
+        self.widget1.setObjectName(u"widget1")
+        self.widget1.setGeometry(QRect(10, 10, 1031, 411))
+        self.verticalLayout_22 = QVBoxLayout(self.widget1)
+        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
+        self.verticalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_44 = QHBoxLayout()
+        self.horizontalLayout_44.setObjectName(u"horizontalLayout_44")
+        self.label_8 = QLabel(self.widget1)
         self.label_8.setObjectName(u"label_8")
 
-        self.verticalLayout_23.addWidget(self.label_8)
+        self.horizontalLayout_44.addWidget(self.label_8)
 
-        self.cmbCpyFrom = QComboBox(self.layoutWidget6)
+        self.cmbCpyFrom = QComboBox(self.widget1)
         self.cmbCpyFrom.setObjectName(u"cmbCpyFrom")
         sizePolicy2.setHeightForWidth(self.cmbCpyFrom.sizePolicy().hasHeightForWidth())
         self.cmbCpyFrom.setSizePolicy(sizePolicy2)
+        self.cmbCpyFrom.setEditable(True)
 
-        self.verticalLayout_23.addWidget(self.cmbCpyFrom)
+        self.horizontalLayout_44.addWidget(self.cmbCpyFrom)
 
-        self.label_9 = QLabel(self.layoutWidget6)
+
+        self.verticalLayout_22.addLayout(self.horizontalLayout_44)
+
+        self.horizontalLayout_43 = QHBoxLayout()
+        self.horizontalLayout_43.setObjectName(u"horizontalLayout_43")
+        self.label_9 = QLabel(self.widget1)
         self.label_9.setObjectName(u"label_9")
 
-        self.verticalLayout_23.addWidget(self.label_9)
+        self.horizontalLayout_43.addWidget(self.label_9)
 
-        self.txtCpyTo = QLineEdit(self.layoutWidget6)
+        self.txtCpyTo = QLineEdit(self.widget1)
         self.txtCpyTo.setObjectName(u"txtCpyTo")
+        self.txtCpyTo.setClearButtonEnabled(True)
 
-        self.verticalLayout_23.addWidget(self.txtCpyTo)
+        self.horizontalLayout_43.addWidget(self.txtCpyTo)
 
-        self.label_10 = QLabel(self.layoutWidget6)
+
+        self.verticalLayout_22.addLayout(self.horizontalLayout_43)
+
+        self.horizontalLayout_42 = QHBoxLayout()
+        self.horizontalLayout_42.setObjectName(u"horizontalLayout_42")
+        self.rdOld = QRadioButton(self.widget1)
+        self.rdOld.setObjectName(u"rdOld")
+
+        self.horizontalLayout_42.addWidget(self.rdOld)
+
+        self.rdNew = QRadioButton(self.widget1)
+        self.rdNew.setObjectName(u"rdNew")
+        self.rdNew.setChecked(True)
+
+        self.horizontalLayout_42.addWidget(self.rdNew)
+
+
+        self.verticalLayout_22.addLayout(self.horizontalLayout_42)
+
+        self.label_10 = QLabel(self.widget1)
         self.label_10.setObjectName(u"label_10")
 
-        self.verticalLayout_23.addWidget(self.label_10)
+        self.verticalLayout_22.addWidget(self.label_10)
 
-        self.dateMax = QCalendarWidget(self.layoutWidget6)
+        self.dateMax = QCalendarWidget(self.widget1)
         self.dateMax.setObjectName(u"dateMax")
         sizePolicy1.setHeightForWidth(self.dateMax.sizePolicy().hasHeightForWidth())
         self.dateMax.setSizePolicy(sizePolicy1)
         self.dateMax.setGridVisible(False)
 
-        self.verticalLayout_23.addWidget(self.dateMax)
+        self.verticalLayout_22.addWidget(self.dateMax)
 
         self.tabTelegram.addTab(self.tab_tg_3, "")
         self.tab_tg_4 = QWidget()
         self.tab_tg_4.setObjectName(u"tab_tg_4")
         self.layoutWidget7 = QWidget(self.tab_tg_4)
         self.layoutWidget7.setObjectName(u"layoutWidget7")
-        self.layoutWidget7.setGeometry(QRect(10, 10, 1041, 238))
+        self.layoutWidget7.setGeometry(QRect(10, 10, 1041, 341))
         self.verticalLayout_24 = QVBoxLayout(self.layoutWidget7)
         self.verticalLayout_24.setObjectName(u"verticalLayout_24")
-        self.verticalLayout_24.setContentsMargins(0, 0, 0, 0)
-        self.label_11 = QLabel(self.layoutWidget7)
-        self.label_11.setObjectName(u"label_11")
-
-        self.verticalLayout_24.addWidget(self.label_11)
-
-        self.txtGroupName4 = QLineEdit(self.layoutWidget7)
+        self.verticalLayout_24.setContentsMargins(7, 0, 7, 6)
+        self.groupBox_19 = QGroupBox(self.layoutWidget7)
+        self.groupBox_19.setObjectName(u"groupBox_19")
+        self.txtGroupName4 = QLineEdit(self.groupBox_19)
         self.txtGroupName4.setObjectName(u"txtGroupName4")
+        self.txtGroupName4.setGeometry(QRect(10, 30, 1001, 26))
+        self.txtGroupName4.setClearButtonEnabled(True)
 
-        self.verticalLayout_24.addWidget(self.txtGroupName4)
+        self.verticalLayout_24.addWidget(self.groupBox_19)
 
-        self.label_12 = QLabel(self.layoutWidget7)
-        self.label_12.setObjectName(u"label_12")
-
-        self.verticalLayout_24.addWidget(self.label_12)
-
-        self.cmdMemCategory4 = QComboBox(self.layoutWidget7)
+        self.groupBox_20 = QGroupBox(self.layoutWidget7)
+        self.groupBox_20.setObjectName(u"groupBox_20")
+        self.cmdMemCategory4 = QComboBox(self.groupBox_20)
         self.cmdMemCategory4.setObjectName(u"cmdMemCategory4")
+        self.cmdMemCategory4.setGeometry(QRect(10, 30, 1001, 26))
         sizePolicy2.setHeightForWidth(self.cmdMemCategory4.sizePolicy().hasHeightForWidth())
         self.cmdMemCategory4.setSizePolicy(sizePolicy2)
         self.cmdMemCategory4.setEditable(True)
 
-        self.verticalLayout_24.addWidget(self.cmdMemCategory4)
+        self.verticalLayout_24.addWidget(self.groupBox_20)
 
         self.groupBox_16 = QGroupBox(self.layoutWidget7)
         self.groupBox_16.setObjectName(u"groupBox_16")
@@ -430,16 +575,23 @@ class Ui_Dialog(object):
         self.horizontalLayout_34.setContentsMargins(0, 0, 0, 0)
         self.lineEdit_7 = QLineEdit(self.layoutWidget9)
         self.lineEdit_7.setObjectName(u"lineEdit_7")
+        self.lineEdit_7.setClearButtonEnabled(True)
 
         self.horizontalLayout_34.addWidget(self.lineEdit_7)
 
         self.toolButton_5 = QToolButton(self.layoutWidget9)
         self.toolButton_5.setObjectName(u"toolButton_5")
+        self.toolButton_5.setIcon(icon)
 
         self.horizontalLayout_34.addWidget(self.toolButton_5)
 
 
         self.verticalLayout_24.addWidget(self.groupBox_16)
+
+        self.label_12 = QLabel(self.layoutWidget7)
+        self.label_12.setObjectName(u"label_12")
+
+        self.verticalLayout_24.addWidget(self.label_12)
 
         self.tabTelegram.addTab(self.tab_tg_4, "")
         self.tabWhatsApp = QTabWidget(Dialog)
@@ -759,11 +911,11 @@ class Ui_Dialog(object):
         self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.pushButton = QPushButton(self.layoutWidget16)
         self.pushButton.setObjectName(u"pushButton")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy3)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy4)
         self.pushButton.setMinimumSize(QSize(0, 100))
 
         self.verticalLayout_14.addWidget(self.pushButton)
@@ -872,14 +1024,14 @@ class Ui_Dialog(object):
         self.tab_fb_1.setObjectName(u"tab_fb_1")
         self.layoutWidget20 = QWidget(self.tab_fb_1)
         self.layoutWidget20.setObjectName(u"layoutWidget20")
-        self.layoutWidget20.setGeometry(QRect(10, 0, 1050, 452))
-        self.verticalLayout_22 = QVBoxLayout(self.layoutWidget20)
-        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
-        self.verticalLayout_22.setContentsMargins(5, 0, 5, 0)
-        self.verticalLayout_21 = QVBoxLayout()
+        self.layoutWidget20.setGeometry(QRect(10, 7, 1040, 530))
+        self.verticalLayout_21 = QVBoxLayout(self.layoutWidget20)
         self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.groupBox_2 = QGroupBox(self.layoutWidget20)
         self.groupBox_2.setObjectName(u"groupBox_2")
+        self.groupBox_2.setMinimumSize(QSize(0, 50))
+        self.groupBox_2.setMaximumSize(QSize(16777215, 50))
         self.layoutWidget21 = QWidget(self.groupBox_2)
         self.layoutWidget21.setObjectName(u"layoutWidget21")
         self.layoutWidget21.setGeometry(QRect(330, 10, 289, 26))
@@ -909,12 +1061,12 @@ class Ui_Dialog(object):
         self.gSlogin.setObjectName(u"gSlogin")
         sizePolicy1.setHeightForWidth(self.gSlogin.sizePolicy().hasHeightForWidth())
         self.gSlogin.setSizePolicy(sizePolicy1)
-        self.gSlogin.setMinimumSize(QSize(1038, 48))
+        self.gSlogin.setMinimumSize(QSize(1038, 75))
         self.gSlogin.setMaximumSize(QSize(1038, 48))
         self.gSlogin.setFlat(True)
         self.layoutWidget22 = QWidget(self.gSlogin)
         self.layoutWidget22.setObjectName(u"layoutWidget22")
-        self.layoutWidget22.setGeometry(QRect(11, 10, 1021, 28))
+        self.layoutWidget22.setGeometry(QRect(11, 10, 1021, 52))
         self.horizontalLayout = QHBoxLayout(self.layoutWidget22)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -934,14 +1086,11 @@ class Ui_Dialog(object):
 
         self.verticalLayout_21.addWidget(self.gSlogin)
 
-
-        self.verticalLayout_22.addLayout(self.verticalLayout_21)
-
         self.groupBox_3 = QGroupBox(self.layoutWidget20)
         self.groupBox_3.setObjectName(u"groupBox_3")
         sizePolicy1.setHeightForWidth(self.groupBox_3.sizePolicy().hasHeightForWidth())
         self.groupBox_3.setSizePolicy(sizePolicy1)
-        self.groupBox_3.setMinimumSize(QSize(0, 280))
+        self.groupBox_3.setMinimumSize(QSize(0, 303))
         self.textEdit_3 = QTextEdit(self.groupBox_3)
         self.textEdit_3.setObjectName(u"textEdit_3")
         self.textEdit_3.setGeometry(QRect(80, 25, 951, 121))
@@ -953,7 +1102,7 @@ class Ui_Dialog(object):
         self.label_25.setGeometry(QRect(11, 31, 59, 18))
         self.layoutWidget23 = QWidget(self.groupBox_3)
         self.layoutWidget23.setObjectName(u"layoutWidget23")
-        self.layoutWidget23.setGeometry(QRect(0, 189, 1031, 81))
+        self.layoutWidget23.setGeometry(QRect(5, 210, 1031, 81))
         self.horizontalLayout_2 = QHBoxLayout(self.layoutWidget23)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -1020,7 +1169,7 @@ class Ui_Dialog(object):
 
         self.layoutWidget24 = QWidget(self.groupBox_3)
         self.layoutWidget24.setObjectName(u"layoutWidget24")
-        self.layoutWidget24.setGeometry(QRect(10, 150, 1021, 28))
+        self.layoutWidget24.setGeometry(QRect(10, 150, 1021, 52))
         self.horizontalLayout_36 = QHBoxLayout(self.layoutWidget24)
         self.horizontalLayout_36.setObjectName(u"horizontalLayout_36")
         self.horizontalLayout_36.setContentsMargins(0, 0, 0, 0)
@@ -1036,26 +1185,21 @@ class Ui_Dialog(object):
         self.horizontalLayout_36.addWidget(self.lineEdit_5)
 
         self.comboBox_3 = QComboBox(self.layoutWidget24)
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
         self.comboBox_3.setObjectName(u"comboBox_3")
         self.comboBox_3.setMinimumSize(QSize(197, 0))
 
         self.horizontalLayout_36.addWidget(self.comboBox_3)
 
 
-        self.verticalLayout_22.addWidget(self.groupBox_3)
+        self.verticalLayout_21.addWidget(self.groupBox_3)
 
-        self.verticalLayout = QVBoxLayout()
+        self.groupBox_21 = QGroupBox(self.layoutWidget20)
+        self.groupBox_21.setObjectName(u"groupBox_21")
+        self.verticalLayout = QVBoxLayout(self.groupBox_21)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label_24 = QLabel(self.layoutWidget20)
-        self.label_24.setObjectName(u"label_24")
-        self.label_24.setMinimumSize(QSize(135, 18))
-        self.label_24.setMaximumSize(QSize(135, 18))
-        self.label_24.setSizeIncrement(QSize(135, 18))
-        self.label_24.setBaseSize(QSize(135, 18))
-
-        self.verticalLayout.addWidget(self.label_24)
-
-        self.comboBox_7 = QComboBox(self.layoutWidget20)
+        self.comboBox_7 = QComboBox(self.groupBox_21)
         self.comboBox_7.setObjectName(u"comboBox_7")
         sizePolicy2.setHeightForWidth(self.comboBox_7.sizePolicy().hasHeightForWidth())
         self.comboBox_7.setSizePolicy(sizePolicy2)
@@ -1066,117 +1210,57 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.comboBox_7)
 
 
-        self.verticalLayout_22.addLayout(self.verticalLayout)
+        self.verticalLayout_21.addWidget(self.groupBox_21)
 
         self.tabFacebook.addTab(self.tab_fb_1, "")
         self.tab_fb_2 = QWidget()
         self.tab_fb_2.setObjectName(u"tab_fb_2")
-        self.groupBox = QGroupBox(self.tab_fb_2)
-        self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(10, 0, 1039, 51))
-        self.groupBox.setMinimumSize(QSize(0, 0))
-        self.groupBox.setMaximumSize(QSize(16777215, 16777215))
-        font = QFont()
-        font.setBold(False)
-        font.setKerning(True)
-        font.setStyleStrategy(QFont.PreferDefault)
-        self.groupBox.setFont(font)
-        self.layoutWidget25 = QWidget(self.groupBox)
-        self.layoutWidget25.setObjectName(u"layoutWidget25")
-        self.layoutWidget25.setGeometry(QRect(330, 10, 289, 26))
-        self.horizontalLayout_11 = QHBoxLayout(self.layoutWidget25)
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
-        self.useFPAI_2 = QRadioButton(self.layoutWidget25)
-        self.useFPAI_2.setObjectName(u"useFPAI_2")
-        self.useFPAI_2.setMaximumSize(QSize(70, 16777215))
-
-        self.horizontalLayout_11.addWidget(self.useFPAI_2)
-
-        self.useCompan_2 = QRadioButton(self.layoutWidget25)
-        self.useCompan_2.setObjectName(u"useCompan_2")
-        self.useCompan_2.setMaximumSize(QSize(130, 16777215))
-
-        self.horizontalLayout_11.addWidget(self.useCompan_2)
-
-        self.useFP_Nothing_2 = QRadioButton(self.layoutWidget25)
-        self.useFP_Nothing_2.setObjectName(u"useFP_Nothing_2")
-        self.useFP_Nothing_2.setMaximumSize(QSize(86, 16777215))
-        self.useFP_Nothing_2.setChecked(True)
-
-        self.horizontalLayout_11.addWidget(self.useFP_Nothing_2)
-
-        self.gSlogin_2 = QGroupBox(self.tab_fb_2)
-        self.gSlogin_2.setObjectName(u"gSlogin_2")
-        self.gSlogin_2.setGeometry(QRect(10, 40, 1039, 51))
-        sizePolicy1.setHeightForWidth(self.gSlogin_2.sizePolicy().hasHeightForWidth())
-        self.gSlogin_2.setSizePolicy(sizePolicy1)
-        self.gSlogin_2.setFlat(True)
-        self.layoutWidget26 = QWidget(self.gSlogin_2)
-        self.layoutWidget26.setObjectName(u"layoutWidget26")
-        self.layoutWidget26.setGeometry(QRect(11, 10, 1021, 28))
-        self.horizontalLayout_5 = QHBoxLayout(self.layoutWidget26)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.label_38 = QLabel(self.layoutWidget26)
-        self.label_38.setObjectName(u"label_38")
-        self.label_38.setMinimumSize(QSize(42, 0))
-        self.label_38.setMaximumSize(QSize(111, 16777215))
-
-        self.horizontalLayout_5.addWidget(self.label_38)
-
-        self.txtCompName2 = QComboBox(self.layoutWidget26)
-        self.txtCompName2.setObjectName(u"txtCompName2")
-        self.txtCompName2.setEditable(True)
-
-        self.horizontalLayout_5.addWidget(self.txtCompName2)
-
         self.groupBox_4 = QGroupBox(self.tab_fb_2)
         self.groupBox_4.setObjectName(u"groupBox_4")
-        self.groupBox_4.setGeometry(QRect(10, 90, 1039, 261))
+        self.groupBox_4.setGeometry(QRect(10, 110, 1039, 261))
         sizePolicy1.setHeightForWidth(self.groupBox_4.sizePolicy().hasHeightForWidth())
         self.groupBox_4.setSizePolicy(sizePolicy1)
-        self.layoutWidget27 = QWidget(self.groupBox_4)
-        self.layoutWidget27.setObjectName(u"layoutWidget27")
-        self.layoutWidget27.setGeometry(QRect(10, 30, 1021, 128))
-        self.horizontalLayout_7 = QHBoxLayout(self.layoutWidget27)
+        self.layoutWidget25 = QWidget(self.groupBox_4)
+        self.layoutWidget25.setObjectName(u"layoutWidget25")
+        self.layoutWidget25.setGeometry(QRect(10, 30, 1021, 128))
+        self.horizontalLayout_7 = QHBoxLayout(self.layoutWidget25)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.label_27 = QLabel(self.layoutWidget27)
+        self.label_27 = QLabel(self.layoutWidget25)
         self.label_27.setObjectName(u"label_27")
         self.label_27.setMinimumSize(QSize(0, 20))
         self.label_27.setMaximumSize(QSize(16777215, 20))
 
         self.horizontalLayout_7.addWidget(self.label_27)
 
-        self.textEdit_4 = QTextEdit(self.layoutWidget27)
+        self.textEdit_4 = QTextEdit(self.layoutWidget25)
         self.textEdit_4.setObjectName(u"textEdit_4")
         self.textEdit_4.setMinimumSize(QSize(0, 126))
         self.textEdit_4.setMaximumSize(QSize(16777215, 126))
 
         self.horizontalLayout_7.addWidget(self.textEdit_4)
 
-        self.layoutWidget28 = QWidget(self.groupBox_4)
-        self.layoutWidget28.setObjectName(u"layoutWidget28")
-        self.layoutWidget28.setGeometry(QRect(10, 189, 1021, 61))
-        self.horizontalLayout_10 = QHBoxLayout(self.layoutWidget28)
+        self.layoutWidget26 = QWidget(self.groupBox_4)
+        self.layoutWidget26.setObjectName(u"layoutWidget26")
+        self.layoutWidget26.setGeometry(QRect(10, 189, 1021, 61))
+        self.horizontalLayout_10 = QHBoxLayout(self.layoutWidget26)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.label_29 = QLabel(self.layoutWidget28)
+        self.label_29 = QLabel(self.layoutWidget26)
         self.label_29.setObjectName(u"label_29")
 
         self.verticalLayout_7.addWidget(self.label_29)
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.lineEdit_16 = QLineEdit(self.layoutWidget28)
+        self.lineEdit_16 = QLineEdit(self.layoutWidget26)
         self.lineEdit_16.setObjectName(u"lineEdit_16")
 
         self.horizontalLayout_8.addWidget(self.lineEdit_16)
 
-        self.toolButton_15 = QToolButton(self.layoutWidget28)
+        self.toolButton_15 = QToolButton(self.layoutWidget26)
         self.toolButton_15.setObjectName(u"toolButton_15")
 
         self.horizontalLayout_8.addWidget(self.toolButton_15)
@@ -1189,19 +1273,19 @@ class Ui_Dialog(object):
 
         self.verticalLayout_8 = QVBoxLayout()
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.label_39 = QLabel(self.layoutWidget28)
+        self.label_39 = QLabel(self.layoutWidget26)
         self.label_39.setObjectName(u"label_39")
 
         self.verticalLayout_8.addWidget(self.label_39)
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.lineEdit_19 = QLineEdit(self.layoutWidget28)
+        self.lineEdit_19 = QLineEdit(self.layoutWidget26)
         self.lineEdit_19.setObjectName(u"lineEdit_19")
 
         self.horizontalLayout_9.addWidget(self.lineEdit_19)
 
-        self.toolButton_12 = QToolButton(self.layoutWidget28)
+        self.toolButton_12 = QToolButton(self.layoutWidget26)
         self.toolButton_12.setObjectName(u"toolButton_12")
 
         self.horizontalLayout_9.addWidget(self.toolButton_12)
@@ -1212,7 +1296,7 @@ class Ui_Dialog(object):
 
         self.horizontalLayout_10.addLayout(self.verticalLayout_8)
 
-        self.checkBox_2 = QCheckBox(self.layoutWidget28)
+        self.checkBox_2 = QCheckBox(self.layoutWidget26)
         self.checkBox_2.setObjectName(u"checkBox_2")
 
         self.horizontalLayout_10.addWidget(self.checkBox_2)
@@ -1235,24 +1319,26 @@ class Ui_Dialog(object):
         self.horizontalLayout_38.addWidget(self.lineEdit_13)
 
         self.comboBox_10 = QComboBox(self.layoutWidget_6)
+        self.comboBox_10.addItem("")
+        self.comboBox_10.addItem("")
         self.comboBox_10.setObjectName(u"comboBox_10")
         self.comboBox_10.setMinimumSize(QSize(197, 0))
 
         self.horizontalLayout_38.addWidget(self.comboBox_10)
 
-        self.layoutWidget29 = QWidget(self.tab_fb_2)
-        self.layoutWidget29.setObjectName(u"layoutWidget29")
-        self.layoutWidget29.setGeometry(QRect(10, 350, 1041, 71))
-        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget29)
+        self.layoutWidget27 = QWidget(self.tab_fb_2)
+        self.layoutWidget27.setObjectName(u"layoutWidget27")
+        self.layoutWidget27.setGeometry(QRect(10, 370, 1041, 71))
+        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget27)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.label_28 = QLabel(self.layoutWidget29)
+        self.label_28 = QLabel(self.layoutWidget27)
         self.label_28.setObjectName(u"label_28")
         self.label_28.setMaximumSize(QSize(108, 16777215))
 
         self.verticalLayout_6.addWidget(self.label_28)
 
-        self.comboBox_8 = QComboBox(self.layoutWidget29)
+        self.comboBox_8 = QComboBox(self.layoutWidget27)
         self.comboBox_8.setObjectName(u"comboBox_8")
         sizePolicy2.setHeightForWidth(self.comboBox_8.sizePolicy().hasHeightForWidth())
         self.comboBox_8.setSizePolicy(sizePolicy2)
@@ -1264,7 +1350,7 @@ class Ui_Dialog(object):
 
         self.groupBox_6 = QGroupBox(self.tab_fb_2)
         self.groupBox_6.setObjectName(u"groupBox_6")
-        self.groupBox_6.setGeometry(QRect(40, 430, 961, 61))
+        self.groupBox_6.setGeometry(QRect(10, 450, 961, 61))
         sizePolicy1.setHeightForWidth(self.groupBox_6.sizePolicy().hasHeightForWidth())
         self.groupBox_6.setSizePolicy(sizePolicy1)
         self.groupBox_5 = QGroupBox(self.groupBox_6)
@@ -1273,18 +1359,18 @@ class Ui_Dialog(object):
         self.groupBox_5.setMaximumSize(QSize(600, 16777215))
         self.lineEdit_4 = QLineEdit(self.groupBox_5)
         self.lineEdit_4.setObjectName(u"lineEdit_4")
-        self.lineEdit_4.setGeometry(QRect(13, 9, 500, 26))
+        self.lineEdit_4.setGeometry(QRect(13, 9, 491, 26))
         self.lineEdit_4.setMaximumSize(QSize(500, 16777215))
         self.toolButton_13 = QToolButton(self.groupBox_5)
         self.toolButton_13.setObjectName(u"toolButton_13")
         self.toolButton_13.setGeometry(QRect(510, 10, 26, 25))
-        self.layoutWidget30 = QWidget(self.groupBox_6)
-        self.layoutWidget30.setObjectName(u"layoutWidget30")
-        self.layoutWidget30.setGeometry(QRect(10, 30, 371, 26))
-        self.horizontalLayout_37 = QHBoxLayout(self.layoutWidget30)
+        self.layoutWidget28 = QWidget(self.groupBox_6)
+        self.layoutWidget28.setObjectName(u"layoutWidget28")
+        self.layoutWidget28.setGeometry(QRect(10, 30, 371, 26))
+        self.horizontalLayout_37 = QHBoxLayout(self.layoutWidget28)
         self.horizontalLayout_37.setObjectName(u"horizontalLayout_37")
         self.horizontalLayout_37.setContentsMargins(0, 0, 0, 0)
-        self.radioButton_11 = QRadioButton(self.layoutWidget30)
+        self.radioButton_11 = QRadioButton(self.layoutWidget28)
         self.radioButton_11.setObjectName(u"radioButton_11")
         self.radioButton_11.setMinimumSize(QSize(91, 0))
         self.radioButton_11.setMaximumSize(QSize(16777215, 16777215))
@@ -1292,28 +1378,98 @@ class Ui_Dialog(object):
 
         self.horizontalLayout_37.addWidget(self.radioButton_11)
 
-        self.radioButton_12 = QRadioButton(self.layoutWidget30)
+        self.radioButton_12 = QRadioButton(self.layoutWidget28)
         self.radioButton_12.setObjectName(u"radioButton_12")
         self.radioButton_12.setMinimumSize(QSize(80, 0))
         self.radioButton_12.setMaximumSize(QSize(16777215, 16777215))
 
         self.horizontalLayout_37.addWidget(self.radioButton_12)
 
+        self.layoutWidget29 = QWidget(self.tab_fb_2)
+        self.layoutWidget29.setObjectName(u"layoutWidget29")
+        self.layoutWidget29.setGeometry(QRect(10, 0, 1041, 111))
+        self.verticalLayout_25 = QVBoxLayout(self.layoutWidget29)
+        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.verticalLayout_25.setContentsMargins(0, 0, 0, 0)
+        self.groupBox = QGroupBox(self.layoutWidget29)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setMinimumSize(QSize(0, 0))
+        self.groupBox.setMaximumSize(QSize(16777215, 16777215))
+        font = QFont()
+        font.setBold(False)
+        font.setKerning(True)
+        font.setStyleStrategy(QFont.PreferDefault)
+        self.groupBox.setFont(font)
+        self.layoutWidget30 = QWidget(self.groupBox)
+        self.layoutWidget30.setObjectName(u"layoutWidget30")
+        self.layoutWidget30.setGeometry(QRect(330, 10, 289, 26))
+        self.horizontalLayout_11 = QHBoxLayout(self.layoutWidget30)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.useFPAI_2 = QRadioButton(self.layoutWidget30)
+        self.useFPAI_2.setObjectName(u"useFPAI_2")
+        self.useFPAI_2.setMaximumSize(QSize(70, 16777215))
+
+        self.horizontalLayout_11.addWidget(self.useFPAI_2)
+
+        self.useCompan_2 = QRadioButton(self.layoutWidget30)
+        self.useCompan_2.setObjectName(u"useCompan_2")
+        self.useCompan_2.setMaximumSize(QSize(130, 16777215))
+
+        self.horizontalLayout_11.addWidget(self.useCompan_2)
+
+        self.useFP_Nothing_2 = QRadioButton(self.layoutWidget30)
+        self.useFP_Nothing_2.setObjectName(u"useFP_Nothing_2")
+        self.useFP_Nothing_2.setMaximumSize(QSize(86, 16777215))
+        self.useFP_Nothing_2.setChecked(True)
+
+        self.horizontalLayout_11.addWidget(self.useFP_Nothing_2)
+
+
+        self.verticalLayout_25.addWidget(self.groupBox)
+
+        self.gSlogin_2 = QGroupBox(self.layoutWidget29)
+        self.gSlogin_2.setObjectName(u"gSlogin_2")
+        sizePolicy1.setHeightForWidth(self.gSlogin_2.sizePolicy().hasHeightForWidth())
+        self.gSlogin_2.setSizePolicy(sizePolicy1)
+        self.gSlogin_2.setFlat(True)
+        self.layoutWidget31 = QWidget(self.gSlogin_2)
+        self.layoutWidget31.setObjectName(u"layoutWidget31")
+        self.layoutWidget31.setGeometry(QRect(11, 10, 1021, 28))
+        self.horizontalLayout_5 = QHBoxLayout(self.layoutWidget31)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.label_38 = QLabel(self.layoutWidget31)
+        self.label_38.setObjectName(u"label_38")
+        self.label_38.setMinimumSize(QSize(42, 0))
+        self.label_38.setMaximumSize(QSize(111, 16777215))
+
+        self.horizontalLayout_5.addWidget(self.label_38)
+
+        self.txtCompName2 = QComboBox(self.layoutWidget31)
+        self.txtCompName2.setObjectName(u"txtCompName2")
+        self.txtCompName2.setEditable(True)
+
+        self.horizontalLayout_5.addWidget(self.txtCompName2)
+
+
+        self.verticalLayout_25.addWidget(self.gSlogin_2)
+
         self.tabFacebook.addTab(self.tab_fb_2, "")
         self.tab_fb_3 = QWidget()
         self.tab_fb_3.setObjectName(u"tab_fb_3")
-        self.layoutWidget31 = QWidget(self.tab_fb_3)
-        self.layoutWidget31.setObjectName(u"layoutWidget31")
-        self.layoutWidget31.setGeometry(QRect(10, 10, 1031, 52))
-        self.verticalLayout_5 = QVBoxLayout(self.layoutWidget31)
+        self.layoutWidget32 = QWidget(self.tab_fb_3)
+        self.layoutWidget32.setObjectName(u"layoutWidget32")
+        self.layoutWidget32.setGeometry(QRect(10, 10, 1031, 52))
+        self.verticalLayout_5 = QVBoxLayout(self.layoutWidget32)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.label_31 = QLabel(self.layoutWidget31)
+        self.label_31 = QLabel(self.layoutWidget32)
         self.label_31.setObjectName(u"label_31")
 
         self.verticalLayout_5.addWidget(self.label_31)
 
-        self.comboBox_2 = QComboBox(self.layoutWidget31)
+        self.comboBox_2 = QComboBox(self.layoutWidget32)
         self.comboBox_2.setObjectName(u"comboBox_2")
         sizePolicy2.setHeightForWidth(self.comboBox_2.sizePolicy().hasHeightForWidth())
         self.comboBox_2.setSizePolicy(sizePolicy2)
@@ -1321,18 +1477,18 @@ class Ui_Dialog(object):
 
         self.verticalLayout_5.addWidget(self.comboBox_2)
 
-        self.layoutWidget32 = QWidget(self.tab_fb_3)
-        self.layoutWidget32.setObjectName(u"layoutWidget32")
-        self.layoutWidget32.setGeometry(QRect(10, 80, 1031, 52))
-        self.verticalLayout_11 = QVBoxLayout(self.layoutWidget32)
+        self.layoutWidget33 = QWidget(self.tab_fb_3)
+        self.layoutWidget33.setObjectName(u"layoutWidget33")
+        self.layoutWidget33.setGeometry(QRect(10, 80, 1031, 52))
+        self.verticalLayout_11 = QVBoxLayout(self.layoutWidget33)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
-        self.label_32 = QLabel(self.layoutWidget32)
+        self.label_32 = QLabel(self.layoutWidget33)
         self.label_32.setObjectName(u"label_32")
 
         self.verticalLayout_11.addWidget(self.label_32)
 
-        self.comboBox_9 = QComboBox(self.layoutWidget32)
+        self.comboBox_9 = QComboBox(self.layoutWidget33)
         self.comboBox_9.setObjectName(u"comboBox_9")
         sizePolicy2.setHeightForWidth(self.comboBox_9.sizePolicy().hasHeightForWidth())
         self.comboBox_9.setSizePolicy(sizePolicy2)
@@ -1347,33 +1503,33 @@ class Ui_Dialog(object):
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setGeometry(QRect(300, 30, 721, 52))
         self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
-        self.layoutWidget33 = QWidget(self.frame_3)
-        self.layoutWidget33.setObjectName(u"layoutWidget33")
-        self.layoutWidget33.setGeometry(QRect(10, 10, 701, 28))
-        self.horizontalLayout_13 = QHBoxLayout(self.layoutWidget33)
+        self.layoutWidget34 = QWidget(self.frame_3)
+        self.layoutWidget34.setObjectName(u"layoutWidget34")
+        self.layoutWidget34.setGeometry(QRect(10, 10, 701, 28))
+        self.horizontalLayout_13 = QHBoxLayout(self.layoutWidget34)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.lineEdit_18 = QLineEdit(self.layoutWidget33)
+        self.lineEdit_18 = QLineEdit(self.layoutWidget34)
         self.lineEdit_18.setObjectName(u"lineEdit_18")
         self.lineEdit_18.setMinimumSize(QSize(40, 0))
         self.lineEdit_18.setMaximumSize(QSize(664, 16777215))
 
         self.horizontalLayout_13.addWidget(self.lineEdit_18)
 
-        self.toolButton_14 = QToolButton(self.layoutWidget33)
+        self.toolButton_14 = QToolButton(self.layoutWidget34)
         self.toolButton_14.setObjectName(u"toolButton_14")
 
         self.horizontalLayout_13.addWidget(self.toolButton_14)
 
         self.toolButton_14.raise_()
         self.lineEdit_18.raise_()
-        self.layoutWidget34 = QWidget(self.groupBox_15)
-        self.layoutWidget34.setObjectName(u"layoutWidget34")
-        self.layoutWidget34.setGeometry(QRect(10, 40, 301, 26))
-        self.horizontalLayout_15 = QHBoxLayout(self.layoutWidget34)
+        self.layoutWidget35 = QWidget(self.groupBox_15)
+        self.layoutWidget35.setObjectName(u"layoutWidget35")
+        self.layoutWidget35.setGeometry(QRect(10, 40, 301, 26))
+        self.horizontalLayout_15 = QHBoxLayout(self.layoutWidget35)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
-        self.radioButton_13 = QRadioButton(self.layoutWidget34)
+        self.radioButton_13 = QRadioButton(self.layoutWidget35)
         self.radioButton_13.setObjectName(u"radioButton_13")
         self.radioButton_13.setMinimumSize(QSize(92, 0))
         self.radioButton_13.setMaximumSize(QSize(16777215, 16777215))
@@ -1381,7 +1537,7 @@ class Ui_Dialog(object):
 
         self.horizontalLayout_15.addWidget(self.radioButton_13)
 
-        self.radioButton_14 = QRadioButton(self.layoutWidget34)
+        self.radioButton_14 = QRadioButton(self.layoutWidget35)
         self.radioButton_14.setObjectName(u"radioButton_14")
         self.radioButton_14.setMaximumSize(QSize(16777215, 16777215))
 
@@ -1392,17 +1548,17 @@ class Ui_Dialog(object):
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setGeometry(QRect(890, 710, 166, 26))
         self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
-        self.layoutWidget35 = QWidget(Dialog)
-        self.layoutWidget35.setObjectName(u"layoutWidget35")
-        self.layoutWidget35.setGeometry(QRect(0, 0, 2, 2))
-        self.horizontalLayout_23 = QHBoxLayout(self.layoutWidget35)
+        self.layoutWidget36 = QWidget(Dialog)
+        self.layoutWidget36.setObjectName(u"layoutWidget36")
+        self.layoutWidget36.setGeometry(QRect(0, 0, 2, 2))
+        self.horizontalLayout_23 = QHBoxLayout(self.layoutWidget36)
         self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
         self.tabWhatsApp.raise_()
-        self.tabTelegram.raise_()
-        self.layoutWidget29.raise_()
+        self.layoutWidget22.raise_()
         self.buttonBox.raise_()
         self.tabFacebook.raise_()
+        self.tabTelegram.raise_()
         QWidget.setTabOrder(self.textEdit_2, self.textEdit_4)
         QWidget.setTabOrder(self.textEdit_4, self.lineEdit_16)
         QWidget.setTabOrder(self.lineEdit_16, self.toolButton_15)
@@ -1414,15 +1570,11 @@ class Ui_Dialog(object):
         QWidget.setTabOrder(self.lineEdit_4, self.toolButton_13)
         QWidget.setTabOrder(self.toolButton_13, self.useFPAI_2)
         QWidget.setTabOrder(self.useFPAI_2, self.lineEdit_3)
-        QWidget.setTabOrder(self.lineEdit_3, self.cmdMemCategory2)
-        QWidget.setTabOrder(self.cmdMemCategory2, self.txtListOfGroup2)
-        QWidget.setTabOrder(self.txtListOfGroup2, self.btnBrowser2)
+        QWidget.setTabOrder(self.lineEdit_3, self.btnBrowser2)
         QWidget.setTabOrder(self.btnBrowser2, self.cmbCpyFrom)
         QWidget.setTabOrder(self.cmbCpyFrom, self.txtCpyTo)
         QWidget.setTabOrder(self.txtCpyTo, self.dateMax)
-        QWidget.setTabOrder(self.dateMax, self.txtGroupName4)
-        QWidget.setTabOrder(self.txtGroupName4, self.cmdMemCategory4)
-        QWidget.setTabOrder(self.cmdMemCategory4, self.radDatabase4)
+        QWidget.setTabOrder(self.dateMax, self.radDatabase4)
         QWidget.setTabOrder(self.radDatabase4, self.radFileList4)
         QWidget.setTabOrder(self.radFileList4, self.lineEdit_7)
         QWidget.setTabOrder(self.lineEdit_7, self.toolButton_5)
@@ -1472,19 +1624,20 @@ class Ui_Dialog(object):
         QWidget.setTabOrder(self.lineEdit_18, self.txtCompName1)
         QWidget.setTabOrder(self.txtCompName1, self.txtCompName2)
         QWidget.setTabOrder(self.txtCompName2, self.toolButton_2)
-        QWidget.setTabOrder(self.toolButton_2, self.comboBox)
-        QWidget.setTabOrder(self.comboBox, self.radDatabase1)
+        QWidget.setTabOrder(self.toolButton_2, self.radDatabase1)
         QWidget.setTabOrder(self.radDatabase1, self.radFileList1)
 
         self.retranslateUi(Dialog)
 
         self.tabTelegram.setCurrentIndex(0)
         self.comboBox_11.setCurrentIndex(-1)
+        self.listWFrom.setCurrentRow(-1)
+        self.listWTo.setCurrentRow(-1)
         self.tabWhatsApp.setCurrentIndex(0)
         self.comboBox_12.setCurrentIndex(-1)
         self.tabFacebook.setCurrentIndex(0)
-        self.comboBox_3.setCurrentIndex(-1)
-        self.comboBox_10.setCurrentIndex(-1)
+        self.comboBox_3.setCurrentIndex(0)
+        self.comboBox_10.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(Dialog)
@@ -1498,12 +1651,14 @@ class Ui_Dialog(object):
         self.radFileList1.setText(QCoreApplication.translate("Dialog", u"File List", None))
         self.groupBox_13.setTitle(QCoreApplication.translate("Dialog", u"Message Aria", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Message", None))
+        self.chkTranslat.setText(QCoreApplication.translate("Dialog", u"Translation My Message", None))
         self.label_2.setText(QCoreApplication.translate("Dialog", u"Or Path To Message", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Or File To Send", None))
         self.toolButton.setText(QCoreApplication.translate("Dialog", u"...", None))
         self.toolButton_2.setText(QCoreApplication.translate("Dialog", u"...", None))
+        self.BothcheckBox.setText(QCoreApplication.translate("Dialog", u"Both", None))
         self.label_20.setText(QCoreApplication.translate("Dialog", u"Slogin", None))
-        self.label_4.setText(QCoreApplication.translate("Dialog", u"Members Category", None))
+        self.groupBox_22.setTitle(QCoreApplication.translate("Dialog", u"Member Category", None))
         self.groupBox_14.setTitle("")
         self.useTGAI.setText(QCoreApplication.translate("Dialog", u"Use AI", None))
         self.useTGCompan.setText(QCoreApplication.translate("Dialog", u"Use Compan ID", None))
@@ -1511,20 +1666,32 @@ class Ui_Dialog(object):
         self.gSlogin_4.setTitle("")
         self.label_36.setText(QCoreApplication.translate("Dialog", u"Compan Name", None))
         self.tabTelegram.setTabText(self.tabTelegram.indexOf(self.tab_tg_1), QCoreApplication.translate("Dialog", u"Send Message To Members", None))
-        self.label_6.setText(QCoreApplication.translate("Dialog", u"Members Category", None))
-        self.label_7.setText(QCoreApplication.translate("Dialog", u"Group File List", None))
+        self.groupBox_17.setTitle(QCoreApplication.translate("Dialog", u"Members Category", None))
+        self.groupBox_18.setTitle(QCoreApplication.translate("Dialog", u"Group File List", None))
         self.btnBrowser2.setText(QCoreApplication.translate("Dialog", u"...", None))
+        self.label_6.setText(QCoreApplication.translate("Dialog", u"If from Excel , so the Group name = Name and write this Group Category for Save it on your database", None))
         self.tabTelegram.setTabText(self.tabTelegram.indexOf(self.tab_tg_2), QCoreApplication.translate("Dialog", u"Get Members From Groups", None))
+        self.groupBox_23.setTitle(QCoreApplication.translate("Dialog", u"Replacing", None))
+        self.label_4.setText(QCoreApplication.translate("Dialog", u"From", None))
+        self.txtfromlist.setInputMask("")
+        self.txtfromlist.setPlaceholderText(QCoreApplication.translate("Dialog", u"Replace From", None))
+        self.label_7.setText(QCoreApplication.translate("Dialog", u"To", None))
+        self.txtTolist.setInputMask("")
+        self.txtTolist.setPlaceholderText(QCoreApplication.translate("Dialog", u"Replace To", None))
+        self.label_11.setText(QCoreApplication.translate("Dialog", u"Dub-Click on the text and Drop It for New Item", None))
         self.label_8.setText(QCoreApplication.translate("Dialog", u"From :", None))
         self.label_9.setText(QCoreApplication.translate("Dialog", u"To :", None))
-        self.label_10.setText(QCoreApplication.translate("Dialog", u"Only Message Befour this Date", None))
+        self.rdOld.setText(QCoreApplication.translate("Dialog", u"Old Messages", None))
+        self.rdNew.setText(QCoreApplication.translate("Dialog", u"New Messages", None))
+        self.label_10.setText(QCoreApplication.translate("Dialog", u"Stop in this Date", None))
         self.tabTelegram.setTabText(self.tabTelegram.indexOf(self.tab_tg_3), QCoreApplication.translate("Dialog", u"Copy Message to Channel", None))
-        self.label_11.setText(QCoreApplication.translate("Dialog", u"Group Name", None))
-        self.label_12.setText(QCoreApplication.translate("Dialog", u"Member Category", None))
+        self.groupBox_19.setTitle(QCoreApplication.translate("Dialog", u"Group Name", None))
+        self.groupBox_20.setTitle(QCoreApplication.translate("Dialog", u"Member Category", None))
         self.groupBox_16.setTitle(QCoreApplication.translate("Dialog", u"Data Source", None))
         self.radDatabase4.setText(QCoreApplication.translate("Dialog", u"Database", None))
         self.radFileList4.setText(QCoreApplication.translate("Dialog", u"File List", None))
         self.toolButton_5.setText(QCoreApplication.translate("Dialog", u"...", None))
+        self.label_12.setText(QCoreApplication.translate("Dialog", u"If you want to select users from Excel must important set account ID as a [Account] ", None))
         self.tabTelegram.setTabText(self.tabTelegram.indexOf(self.tab_tg_4), QCoreApplication.translate("Dialog", u"Add Member to Chanel", None))
         self.groupBox_10.setTitle("")
         self.useWPAI_1.setText(QCoreApplication.translate("Dialog", u"Use AI", None))
@@ -1577,14 +1744,11 @@ class Ui_Dialog(object):
         self.toolButton_11.setText(QCoreApplication.translate("Dialog", u"...", None))
         self.ckBoth1.setText(QCoreApplication.translate("Dialog", u"Both", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u"Slogin", None))
-        self.label_24.setText(QCoreApplication.translate("Dialog", u"Members Category", None))
+        self.comboBox_3.setItemText(0, QCoreApplication.translate("Dialog", u"Befour Text", None))
+        self.comboBox_3.setItemText(1, QCoreApplication.translate("Dialog", u"After Text", None))
+
+        self.groupBox_21.setTitle(QCoreApplication.translate("Dialog", u"Members Category", None))
         self.tabFacebook.setTabText(self.tabFacebook.indexOf(self.tab_fb_1), QCoreApplication.translate("Dialog", u"Send To Members", None))
-        self.groupBox.setTitle("")
-        self.useFPAI_2.setText(QCoreApplication.translate("Dialog", u"Use AI", None))
-        self.useCompan_2.setText(QCoreApplication.translate("Dialog", u"Use Compan ID", None))
-        self.useFP_Nothing_2.setText(QCoreApplication.translate("Dialog", u"Nothing", None))
-        self.gSlogin_2.setTitle("")
-        self.label_38.setText(QCoreApplication.translate("Dialog", u"Compan Name", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("Dialog", u"Message Aria", None))
         self.label_27.setText(QCoreApplication.translate("Dialog", u"Message", None))
         self.label_29.setText(QCoreApplication.translate("Dialog", u"Or Path To Message", None))
@@ -1593,12 +1757,21 @@ class Ui_Dialog(object):
         self.toolButton_12.setText(QCoreApplication.translate("Dialog", u"...", None))
         self.checkBox_2.setText(QCoreApplication.translate("Dialog", u"Both", None))
         self.label_15.setText(QCoreApplication.translate("Dialog", u"Slogin", None))
+        self.comboBox_10.setItemText(0, QCoreApplication.translate("Dialog", u"Befour Text", None))
+        self.comboBox_10.setItemText(1, QCoreApplication.translate("Dialog", u"After Text", None))
+
         self.label_28.setText(QCoreApplication.translate("Dialog", u"Group Category", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("Dialog", u"Data Source", None))
         self.groupBox_5.setTitle("")
         self.toolButton_13.setText(QCoreApplication.translate("Dialog", u"...", None))
         self.radioButton_11.setText(QCoreApplication.translate("Dialog", u"Database", None))
         self.radioButton_12.setText(QCoreApplication.translate("Dialog", u"File List", None))
+        self.groupBox.setTitle("")
+        self.useFPAI_2.setText(QCoreApplication.translate("Dialog", u"Use AI", None))
+        self.useCompan_2.setText(QCoreApplication.translate("Dialog", u"Use Compan ID", None))
+        self.useFP_Nothing_2.setText(QCoreApplication.translate("Dialog", u"Nothing", None))
+        self.gSlogin_2.setTitle("")
+        self.label_38.setText(QCoreApplication.translate("Dialog", u"Compan Name", None))
         self.tabFacebook.setTabText(self.tabFacebook.indexOf(self.tab_fb_2), QCoreApplication.translate("Dialog", u"Post to Groups", None))
         self.label_31.setText(QCoreApplication.translate("Dialog", u"Group Name", None))
         self.label_32.setText(QCoreApplication.translate("Dialog", u"Member Category", None))

@@ -1,8 +1,5 @@
-import requests, argparse
-
-# from rich import print
 from MailTMClient import MailTMClient
-import sys, pickle, json
+import json
 TOKEN_FILE = "token.json"
 TOKEN = None
 

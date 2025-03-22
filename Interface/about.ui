@@ -199,12 +199,12 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>280</y>
-     <width>469</width>
+     <width>541</width>
      <height>46</height>
     </rect>
    </property>
@@ -278,6 +278,22 @@
        <widget class="QLabel" name="label_23">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/g6uu40&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Technical Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="openExternalLinks">
+         <bool>true</bool>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextInteractionFlag::TextBrowserInteraction</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Seif-Abaza/MarketMiner/issues&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
         </property>
         <property name="openExternalLinks">
          <bool>true</bool>

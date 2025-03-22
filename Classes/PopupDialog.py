@@ -1,29 +1,32 @@
 import asyncio
+import inspect
 import logging
 import os
 import sys
 import traceback
 import uuid
-from utils.PhoneParsing import PhoneParsing
 
-from PySide6.QtCore import QThread, Signal
+from PySide6.QtCore import QThread, Signal, Slot
 from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QFileDialog,
     QLineEdit,
     QListView,
+    QListWidget,
     QMessageBox,
     QProgressDialog,
 )
 
-from Interface.tab_media_ui import Ui_Dialog
-from Classes.ExcelTable import ExcelTable as ET
 from Classes.ComboBoxDialog import ComboBoxDialog as InputComboBox
+from Classes.ExcelTable import ExcelTable as ET
+from Interface.tab_media_ui import Ui_Dialog
 from marketing import marketing
 from utils.helper import AI_Window, AiWorker, helper
+from utils.PhoneParsing import PhoneParsing
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 
 class Worker(QThread):
     progress = Signal(str, bool)
@@ -43,12 +46,21 @@ class Worker(QThread):
                     match self.action:
                         case 0:
                             if self.kwargs["SettingCanSend"]:
-                                self.kwargs["marketing"].parse_telegram_send_to_member(
-                                    message=self.kwargs["message"],
-                                    file=self.kwargs["file_send"],
-                                    file_list=self.kwargs["file_list"],
-                                    category=self.kwargs["category_send"],
-                                    use_AI=self.kwargs["Group_AI"],
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs[
+                                            "marketing"
+                                        ].parse_telegram_send_to_member(
+                                            message=self.kwargs["message"],
+                                            file_send=self.kwargs["file_send"],
+                                            file_list=self.kwargs["file_list"],
+                                            category=self.kwargs["category"],
+                                            slogin=self.kwargs["slogin"],
+                                            msg_img=self.kwargs["msg_img"],
+                                            compan=self.kwargs["compan"],
+                                            translat=self.kwargs["translat"],
+                                        )
+                                    )
                                 )
                                 self.progress.emit(
                                     "Telegram : Send Message is Done", True
@@ -59,9 +71,13 @@ class Worker(QThread):
                                 )
                         case 1:
                             if self.kwargs["SettingCanScrip"]:
+                                FileList = self.kwargs["filelist"]
+                                Category = self.kwargs["category"]
                                 asyncio.run(
-                                    self.kwargs["marketing"].parse_telegram_group(
-                                        self.kwargs["group"], self.kwargs["category"]
+                                    self.run_async_task(
+                                        self.kwargs["marketing"].parse_telegram_group(
+                                            pathfile=FileList, category=Category
+                                        )
                                     )
                                 )
                                 self.progress.emit(
@@ -71,18 +87,27 @@ class Worker(QThread):
                                 self.progress.emit(
                                     "Telegram : you can't use this function", False
                                 )
-
                         case 2:
                             if self.kwargs["SettingCanSend"]:
-                                main_group = self.kwargs["main"]
-                                target_group = self.kwargs["target"]
+                                main_group = self.kwargs["main_group"]
+                                target_group = self.kwargs["target_group"]
                                 max_data = self.kwargs["max_date"]
-                                msgs_type = "New"
-                                self.kwargs["marketing"].parse_telegram_message_group(
-                                    mode=msgs_type,
-                                    max_date=max_data,
-                                    target_channel=target_group,
-                                    main_channel=main_group,
+                                list1 = self.kwargs["list1"]
+                                list2 = self.kwargs["list2"]
+                                msgs_type = self.kwargs["mode"]
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs[
+                                            "marketing"
+                                        ].parse_telegram_message_group(
+                                            mode=msgs_type,
+                                            max_date=max_data,
+                                            target_channel=target_group,
+                                            main_channel=main_group,
+                                            list1=list1,
+                                            list2=list2,
+                                        )
+                                    )
                                 )
                                 self.progress.emit(
                                     "Telegram : Parsing Messages in the Groups and Copy it is Done",
@@ -92,20 +117,23 @@ class Worker(QThread):
                                 self.progress.emit(
                                     "Telegram : you can't use this function", False
                                 )
-
                         case 3:
                             if self.kwargs["SettingCanSend"]:
-                                GroupName = self.kwargs["group_add"]
-                                Category = self.kwargs["category_add"]
-                                if self.kwargs["listfile_add"]:
-                                    PathListFile = self.kwargs["listfile_add"] or None
-                                    self.kwargs[
-                                        "marketing"
-                                    ].parse_add_members_to_channel(
-                                        channel_name=GroupName,
-                                        category=Category,
-                                        member_list=PathListFile,
+                                GroupName = self.kwargs["target_group"]
+                                Category = self.kwargs["category"]
+                                ListGroup = self.kwargs["list_group"]
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs[
+                                            "marketing"
+                                        ].parse_add_members_to_channel(
+                                            channel_name=GroupName,
+                                            category=Category,
+                                            member_list=ListGroup,
+                                        )
                                     )
+                                )
+
                                 self.progress.emit(
                                     f"Telegram : Add new members to {GroupName} is Done.",
                                     True,
@@ -128,16 +156,22 @@ class Worker(QThread):
                                 list_file = self.kwargs["list_file"]
                                 comoan_name = self.kwargs["compan"]
                                 translation = self.kwargs["translation"]
-                                self.kwargs["marketing"].send_message_to_whatsapp(
-                                    message=message,
-                                    slogin=slogin,
-                                    category=category,
-                                    file_send=file_send,
-                                    country=country,
-                                    timezone=timezone,
-                                    list_file=list_file,
-                                    compan=comoan_name,
-                                    translation=translation
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs[
+                                            "marketing"
+                                        ].send_message_to_whatsapp(
+                                            message=message,
+                                            slogin=slogin,
+                                            category=category,
+                                            file_send=file_send,
+                                            country=country,
+                                            timezone=timezone,
+                                            list_file=list_file,
+                                            compan=comoan_name,
+                                            translation=translation,
+                                        )
+                                    )
                                 )
                                 self.progress.emit(
                                     f"WhatsApp : Send Message is Done", True
@@ -150,8 +184,12 @@ class Worker(QThread):
                         case 1:
                             if self.kwargs["SettingCanScrip"]:
                                 Category = self.kwargs["Category"]
-                                self.kwargs["marketing"].parse_whatsapp_contact(
-                                    category=Category
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs["marketing"].parse_whatsapp_contact(
+                                            category=Category
+                                        )
+                                    )
                                 )
                                 self.progress.emit(
                                     "WhatsApp : Get your Contact is Done.", True
@@ -165,9 +203,13 @@ class Worker(QThread):
                             if self.kwargs["SettingCanScrip"]:
                                 Group_Category = self.kwargs["Group_Category"]
                                 Group_Name = self.kwargs["Group_Name"]
-                                self.kwargs["marketing"].parse_whatsapp_group(
-                                    group_name=Group_Name, 
-                                    category=Group_Category
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs["marketing"].parse_whatsapp_group(
+                                            group_name=Group_Name,
+                                            category=Group_Category,
+                                        )
+                                    )
                                 )
                                 if len(Group_Name) > 0:
                                     self.progress.emit(
@@ -193,12 +235,20 @@ class Worker(QThread):
                                 Mem_Categorys = self.kwargs["Mem_Categorys"]
                                 Mem_AI = self.kwargs["Mem_AI"]
                                 Mem_CompanID = self.kwargs["CompanName"]
-                                self.kwargs["marketing"].send_message_to_memebers(
-                                    message=Mem_Message,
-                                    filePath=Mem_FilePath,
-                                    category=Mem_Categorys,
-                                    use_AI=Mem_AI,
-                                    CompanName=Mem_CompanID,
+                                Mem_Slogin = self.kwargs["Mem_Slogin"]
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs[
+                                            "marketing"
+                                        ].send_message_to_memebers(
+                                            message=Mem_Message,
+                                            filePath=Mem_FilePath,
+                                            category=Mem_Categorys,
+                                            use_AI=Mem_AI,
+                                            CompanName=Mem_CompanID,
+                                            Slogin=Mem_Slogin,
+                                        )
+                                    )
                                 )
                                 self.progress.emit(
                                     f"Facebook : Send To facebook is Done", True
@@ -207,7 +257,6 @@ class Worker(QThread):
                                 self.progress.emit(
                                     f"Facebook : you can't use this function", False
                                 )
-
                         case 1:
                             if self.kwargs["SettingCanSend"]:
                                 Group_Message = self.kwargs["Group_Message"]
@@ -215,6 +264,7 @@ class Worker(QThread):
                                 Group_FileGroupPath = self.kwargs["Group_FileGroupPath"]
                                 Group_AI = self.kwargs["Group_AI"]
                                 Group_CompanID = self.kwargs["CompanName"]
+                                Group_Slogin = self.kwargs["Group_Slogin"]
                                 asyncio.run(
                                     self.run_async_task(
                                         self.kwargs["marketing"].post_facebook_group,
@@ -223,6 +273,7 @@ class Worker(QThread):
                                         group_list=Group_FileGroupPath,
                                         use_AI=Group_AI,
                                         CompanName=Group_CompanID,
+                                        Slogin=Group_Slogin,
                                     )
                                 )
                                 self.progress.emit(
@@ -232,14 +283,19 @@ class Worker(QThread):
                                 self.progress.emit(
                                     f"Facebook : you can't use this function", False
                                 )
-
                         case 2:
                             if self.kwargs["SettingCanScrip"]:
                                 Group_Name = self.kwargs["Group_Name"]
                                 Member_Category = self.kwargs["Member_Category"]
-                                self.kwargs["marketing"].get_members_facebook_group(
-                                    category=Member_Category,
-                                    group_name=Group_Name,
+                                asyncio.run(
+                                    self.run_async_task(
+                                        self.kwargs[
+                                            "marketing"
+                                        ].get_members_facebook_group(
+                                            category=Member_Category,
+                                            group_name=Group_Name,
+                                        )
+                                    )
                                 )
                                 self.progress.emit(
                                     f"Facebook : Send To facebook groups is Done", True
@@ -249,8 +305,10 @@ class Worker(QThread):
                                     f"Facebook : you can't use this function", False
                                 )
 
+            self.progress.emit("Init and Run Proccessing", False)
+
         except Exception:
-            logging.error(traceback.format_exc())
+            logging.error("Popup Error : \n" + traceback.format_exc())
             self.progress.emit("Error occurred in Proccessing", False)
             return None
 
@@ -258,12 +316,19 @@ class Worker(QThread):
         """Runs an async function inside the Worker thread."""
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        await func(*args, **kwargs)
+        if inspect.iscoroutinefunction(func):
+            await func(*args, **kwargs)  # إذا كانت دالة غير متزامنة
+        elif inspect.iscoroutine(func):
+            await func  # إذا كان كائن coroutine
+        else:
+            func(*args, **kwargs)
+
         loop.close()
 
 
 class PopupDialog(Ui_Dialog, QDialog):
     progress_signal = Signal(str, bool)
+    TABLE_IMPORT = "import_data"
 
     def __init__(
         self,
@@ -345,25 +410,27 @@ class PopupDialog(Ui_Dialog, QDialog):
     def init_facebook(self):
         self.radioButton_12.toggled.connect(self._FacebookFrames_2)
         self.radioButton_14.toggled.connect(self._FacebookFrames_3)
-        
-        #Facebook Options
-        self.useFPAI_1.clicked.connect(lambda: self.on_compan("FP1", self.txtCompName1,Source="facebook"))
+
+        # Facebook Options
+        self.useFPAI_1.clicked.connect(
+            lambda: self.on_compan("FP1", self.txtCompName1, Source="facebook")
+        )
         self.useCompan_1.clicked.connect(
-            lambda: self.on_compan("FPComp1", self.txtCompName1,Source="facebook")
+            lambda: self.on_compan("FPComp1", self.txtCompName1, Source="facebook")
         )
         self.useFP_Nothing_1.clicked.connect(
-            lambda: self.on_compan("FPNone2", self.txtCompName1,Source="facebook")
+            lambda: self.on_compan("FPNone2", self.txtCompName1, Source="facebook")
         )
 
-        self.useFPAI_2.clicked.connect(lambda: self.on_compan("FP2", self.txtCompName2))
+        self.useFPAI_2.clicked.connect(
+            lambda: self.on_compan("FP2", self.txtCompName2, Source="facebook")
+        )
         self.useCompan_2.clicked.connect(
-            lambda: self.on_compan("FPComp2", self.txtCompName2)
+            lambda: self.on_compan("FPComp2", self.txtCompName2, Source="facebook")
         )
         self.useFP_Nothing_2.clicked.connect(
             lambda: self.on_compan("FPNone2", self.txtCompName2)
         )
-        
-        
 
         self.gSlogin.setEnabled(False)
         self.gSlogin_2.setEnabled(False)
@@ -385,46 +452,81 @@ class PopupDialog(Ui_Dialog, QDialog):
         self.radioButton_6.toggled.connect(self._WhatsAppFrames_1)
         self.radioButton_7.toggled.connect(self._WhatsAppFrames_3)
         self.pushButton_2.clicked.connect(self.getExceData)
-        #WhatsApp Options
-        self.useWPAI_1.clicked.connect(lambda: self.on_compan("WP", self.txtWPCompName_1,Source="whatsapp"))
+        # WhatsApp Options
+        self.useWPAI_1.clicked.connect(
+            lambda: self.on_compan("WP", self.txtWPCompName_1, Source="whatsapp")
+        )
         self.useWPCompan_1.clicked.connect(
-            lambda: self.on_compan("WPComp1", self.txtWPCompName_1,Source="whatsapp")
+            lambda: self.on_compan("WPComp1", self.txtWPCompName_1, Source="whatsapp")
         )
         self.useFP_Nothing_3.clicked.connect(
-            lambda: self.on_compan("WPNone", self.txtWPCompName_1,Source="whatsapp")
+            lambda: self.on_compan("WPNone", self.txtWPCompName_1, Source="whatsapp")
         )
-        self.comboBox_12.addItems([
-            'Before Text',
-            'After Text'
-        ])
-        
+        self.comboBox_12.addItems(["Before Text", "After Text"])
+
         self.toolButton_6.clicked.connect(lambda: self.on_file_open(self.lineEdit_8))
         self.toolButton_8.clicked.connect(lambda: self.on_file_open(self.lineEdit_10))
-        self.toolButton_7.clicked.connect(lambda: self.on_file_open(self.lineEdit_9,True))
-        self.toolButton_9.clicked.connect(lambda: self.on_file_open(self.lineEdit_11,True))
+        self.toolButton_7.clicked.connect(
+            lambda: self.on_file_open(self.lineEdit_9, True)
+        )
+        self.toolButton_9.clicked.connect(
+            lambda: self.on_file_open(self.lineEdit_11, True)
+        )
 
         self.pushButton.clicked.connect(self.ok_clicked)
 
         self.populate_combo_boxes_whatsapp()
-    
+
     def init_telegram(self):
         self.radFileList1.toggled.connect(self._TelegramFrames_1)
         self.radFileList4.toggled.connect(self._TelegramFrames_4)
 
-        self.toolButton_3.clicked.connect(lambda: self.on_file_open(self.lineEdit_3))
-        self.toolButton_5.clicked.connect(lambda: self.on_file_open(self.lineEdit_7))
+        self.useTGAI.clicked.connect(
+            lambda: self.on_compan("TG", self.txtCompName1_2, Source="telegram")
+        )
+        self.useTGCompan.clicked.connect(
+            lambda: self.on_compan("TGComp", self.txtCompName1_2, Source="telegram")
+        )
+        self.useFP_Nothing_4.clicked.connect(
+            lambda: self.on_compan("WPNone", self.txtCompName1_2, Source="telegram")
+        )
+        self.comboBox_11.addItems(["Before Text", "After Text"])
+
+        self.toolButton_3.clicked.connect(
+            lambda: self.on_file_open(self.lineEdit_3, True)
+        )
+        self.toolButton_5.clicked.connect(
+            lambda: self.on_file_open(self.lineEdit_7, True)
+        )
+
+        self.txtfromlist.returnPressed.connect(
+            lambda: self.add_to_list(self.txtfromlist, self.listWFrom)
+        )
+        self.txtTolist.returnPressed.connect(
+            lambda: self.add_to_list(self.txtTolist, self.listWTo)
+        )
+
         self.toolButton.clicked.connect(lambda: self.on_file_open(self.lineEdit))
         self.toolButton_2.clicked.connect(lambda: self.on_file_open(self.lineEdit_2))
         self.btnBrowser2.clicked.connect(
-            lambda: self.on_file_open(self.txtListOfGroup2)
+            lambda: self.on_file_open(self.txtListOfGroup2, True)
         )
 
         self.populate_combo_boxes_telegram()
-    
+
     def populate_combo_boxes_telegram(self):
         """Fetch categories and channels from database"""
         ListOfCategorysMember = self.database.select_column("Telegram", "category")
+        ListOfCategorysMemberExternal = self.database.select_column(
+            self.TABLE_IMPORT, "category", {"source": "telegram"}
+        )
+        ListOfCategorysMember.extend(ListOfCategorysMemberExternal)
+
         ListOfChannels = self.database.select_column("channel", "title")
+        ListOfChannelsExternal = self.database.select_column(
+            self.TABLE_IMPORT, "title", {"source": "telegram"}
+        )
+        ListOfChannels.extend(ListOfChannelsExternal)
 
         ListOfCategorysMember.sort()
         ListOfChannels.sort()
@@ -451,6 +553,11 @@ class PopupDialog(Ui_Dialog, QDialog):
     def populate_combo_boxes_facebook(self):
         Categorys = self.database.select_column("facebook", "category")
         Group_Categorys = self.database.select_column("facebook_groups", "category")
+        if len(Group_Categorys) == 0:
+            Group_Categorys = self.database.select_column(
+                "facebook_group_message_sended", "category"
+            )
+
         Groups = self.database.select_column("facebook_groups", "group_name")
         Categorys.sort()
         Group_Categorys.sort()
@@ -491,7 +598,14 @@ class PopupDialog(Ui_Dialog, QDialog):
         self.lineEdit_18.setText("")
         self.frame_3.setVisible(rbt.isChecked())
 
-    def on_compan(self, Name: str, ObjectText: QComboBox,Source):
+    @Slot()
+    def add_to_list(self, qtext: QLineEdit, qlist: QListWidget):
+        text = qtext.text().strip()
+        if text and text not in [qlist.item(i).text() for i in range(qlist.count())]:
+            qlist.addItem(text)
+            qtext.clear()
+
+    def on_compan(self, Name: str, ObjectText: QComboBox, Source):
         CompanName = self.database.select_column(
             "message_history", "name", {"source": Source}
         )
@@ -531,6 +645,17 @@ class PopupDialog(Ui_Dialog, QDialog):
                 ObjectText.setEditable(False)
                 self.gSlogin_3.setEnabled(True)
                 ObjectText.addItems(CompanName)
+            case "TG":
+                ObjectText.clear()
+                ObjectText.setEnabled(True)
+                ObjectText.setEditable(True)
+                self.gSlogin_4.setEnabled(True)
+                ObjectText.addItems(CompanName)
+            case "TGComp":
+                ObjectText.setEnabled(True)
+                ObjectText.setEditable(False)
+                self.gSlogin_4.setEnabled(True)
+                ObjectText.addItems(CompanName)
             case _:
                 ObjectText.clear()
                 ObjectText.setEnabled(False)
@@ -539,14 +664,14 @@ class PopupDialog(Ui_Dialog, QDialog):
                 self.gSlogin_3.setEnabled(False)
                 self.gSlogin_4.setEnabled(False)
 
-    def on_file_open(self, ObjectText: QLineEdit,haveExcel=False):
+    def on_file_open(self, ObjectText: QLineEdit, haveExcel=False):
         if haveExcel:
             file_filter = "Text Files (*.txt);;Excel Files (*.xls *.xlsx)"
         else:
             file_filter = "Text Files (*.txt)"
         path, _ = QFileDialog.getOpenFileName(
-            self, "Select file", os.path.dirname(__file__)
-        ,file_filter)
+            self, "Select file", os.path.dirname(__file__), file_filter
+        )
         if path:
             ObjectText.setText(path)
 
@@ -559,58 +684,356 @@ class PopupDialog(Ui_Dialog, QDialog):
         try:
             self.threads.clear()
             thread = None
-            
-            #Telegram
-            #=================
+
+            # Telegram
+            # =================
             if self.tabTelegram.isVisible():
-                MaxDate = self.dateMax.selectedDate().toString("dd/MM/yyyy")
-                Send_Message = self.textEdit.toPlainText()
-                if Send_Message == "":
-                    Send_Message = self.lineEdit.text().strip()
+                match self.tabTelegram.currentIndex():
+                    case 0:
+                        UseAI = self.useTGAI.isChecked()
+                        isCompan = self.useTGCompan.isChecked()
+                        comoan_name = self.txtCompName1_2.currentText()
+                        send_message = self.textEdit.toPlainText()
+                        slogin = self.lineEdit_17.text()
+                        slogin_position = self.comboBox_11.currentIndex()
+                        message_path = self.lineEdit.text()
+                        message_files = self.lineEdit_2.text()
+                        message_and_file = self.BothcheckBox.isChecked()
+                        categorys = self.comboBox.currentText()
+                        ds_from_database = self.radDatabase1.isChecked()
+                        ds_from_filelist = self.radFileList1.isChecked()
+                        users_datalist = self.lineEdit_3.text()
+                        translat = self.chkTranslat.isChecked()
 
-                if Send_Message == "":
-                    self._ShowError(lablel="Error", Message="Must set Message for send")
-                    return
+                        if slogin != "":
+                            slogin = f"{slogin_position}|{slogin}"
+                        if send_message == "":
+                            if message_path != "":
+                                filetype = self.helper.get_file_type(message_path)
+                                if filetype == "text/plain":
+                                    send_message = self.helper.read_file_as_text(
+                                        message_path
+                                    )
+                                else:
+                                    self._ShowError(
+                                        lablel="Error",
+                                        Message="Your message file must be [Text File].",
+                                    )
+                                    return
+                            else:
+                                if isCompan and comoan_name != "":
+                                    send_message = None
+                                else:
+                                    self._ShowError(
+                                        lablel="Error",
+                                        Message="You must set a Message for Members",
+                                    )
+                                    return
 
-                FileSend = self.lineEdit_2.text().strip() or None
-                if self.radDatabase1.isChecked():
-                    FileList = None
-                elif self.radFileList1.isChecked():
-                    FileList = self.lineEdit_3.text().strip()
+                        if ds_from_database:
+                            users_datalist = None
+                        elif ds_from_filelist:
+                            file_type = self.helper.get_file_type(
+                                users_datalist.strip()
+                            )
+                            match file_type:
+                                case "text/plain":
+                                    users_datalist = self.helper.readlist_file(
+                                        users_datalist.strip()
+                                    )
+                                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=categorys,
+                                        Source="telegram",
+                                    )
+                                    if ExTable.read_excel_file(users_datalist.strip()):
+                                        if self.received_data:
+                                            users_datalist = [
+                                                entry.get("account")
+                                                for entry in self.received_data
+                                                if str(entry.get("account")).isdigit()
+                                                is not None
+                                            ]
+                                case "application/vnd.ms-excel":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=categorys,
+                                        Source="telegram",
+                                    )
+                                    if ExTable.read_excel_file(users_datalist.strip()):
+                                        if self.received_data:
+                                            users_datalist = [
+                                                entry.get("account")
+                                                for entry in self.received_data
+                                                if str(entry.get("account")).isdigit()
+                                                is not None
+                                            ]
+                                case _:
+                                    QMessageBox.warning(
+                                        self,
+                                        "File Not Support",
+                                        "This File is Not Supported",
+                                        QMessageBox.StandardButton.Ok,
+                                    )
+                                    self.buttonBox.setEnabled(True)
+                                    return
 
-                if self.radDatabase4.isChecked():
-                    FileList4 = None
-                elif self.radFileList4.isChecked():
-                    FileList4 = self.lineEdit_7.text().strip()
-                Group_AI = self.useTGAI.isChecked()
-                thread = Worker(
-                    "Telegram",
-                    SettingCanScrip=SettingCanScrip,
-                    SettingCanSend=SettingCanSend,
-                    marketing=self.marketing,
-                    action=self.tabTelegram.currentIndex(),
-                    message=Send_Message,
-                    file_send=FileSend,
-                    file_list=FileList,
-                    category_send=self.comboBox.currentText(),
-                    group=self.txtListOfGroup2.text(),
-                    category=self.cmdMemCategory2.currentText(),
-                    main=self.cmbCpyFrom.currentText(),
-                    target=self.txtCpyTo.text(),
-                    max_date=MaxDate,
-                    group_add=self.txtGroupName4.text(),
-                    category_add=self.cmdMemCategory4.currentText(),
-                    listfile_add=FileList4,
-                    Group_AI=Group_AI,
-                )
+                        if (
+                            not isinstance(users_datalist, list)
+                            and ds_from_database == False
+                        ):
+                            QMessageBox.warning(
+                                self,
+                                "Datasource",
+                                "There is No List for sending",
+                                QMessageBox.StandardButton.Ok,
+                            )
+                            self.buttonBox.setEnabled(True)
+                            return
+                        else:
+                            users_datalist = None
+
+                        if UseAI:
+                            self.SetAI(comoan_name, send_message, "telegram")
+                        elif isCompan:
+                            UseAI = False
+                            send_message = None
+                        else:
+                            UseAI = False
+                            CompanID = ""
+                        thread = Worker(
+                            "Telegram",
+                            SettingCanScrip=SettingCanScrip,
+                            SettingCanSend=SettingCanSend,
+                            marketing=self.marketing,
+                            action=self.tabTelegram.currentIndex(),
+                            message=send_message,
+                            file_send=message_files,
+                            msg_img=message_and_file,
+                            file_list=users_datalist,
+                            slogin=slogin,
+                            category=categorys,
+                            compan=comoan_name,
+                            translat=translat,
+                        )
+                    case 1:
+                        Member_Category = self.cmdMemCategory2.currentText()
+                        group_file_list = self.txtListOfGroup2.text()
+
+                        file_type = self.helper.get_file_type(group_file_list.strip())
+                        match file_type:
+                            case "text/plain":
+                                group_file_list = self.helper.readlist_file(
+                                    group_file_list.strip()
+                                )
+                            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                ExTable = ET(
+                                    self,
+                                    database=self.database,
+                                    Category=Mem_Categorys,
+                                    Source="telegram",
+                                )
+                                if ExTable.read_excel_file(group_file_list.strip()):
+                                    if self.received_data:
+                                        group_file_list = [
+                                            entry.get("name")
+                                            for entry in self.received_data
+                                            if str(entry.get("name")) is not None
+                                        ]
+                            case "application/vnd.ms-excel":
+                                ExTable = ET(
+                                    self,
+                                    database=self.database,
+                                    Category=Mem_Categorys,
+                                    Source="telegram",
+                                )
+                                if ExTable.read_excel_file(group_file_list.strip()):
+                                    if self.received_data:
+                                        group_file_list = [
+                                            entry.get("name")
+                                            for entry in self.received_data
+                                            if str(entry.get("name")) is not None
+                                        ]
+                            case _:
+                                QMessageBox.warning(
+                                    self,
+                                    "File Not Support",
+                                    "This File is Not Supported",
+                                    QMessageBox.StandardButton.Ok,
+                                )
+                                self.buttonBox.setEnabled(True)
+                                return
+
+                        if not isinstance(group_file_list, list):
+                            QMessageBox.warning(
+                                self,
+                                "Datasource",
+                                "There is No List for sending",
+                                QMessageBox.StandardButton.Ok,
+                            )
+                            self.buttonBox.setEnabled(True)
+                            return
+
+                        thread = Worker(
+                            "Telegram",
+                            SettingCanScrip=SettingCanScrip,
+                            SettingCanSend=SettingCanSend,
+                            marketing=self.marketing,
+                            action=self.tabTelegram.currentIndex(),
+                            filelist=group_file_list,
+                            category=Member_Category,
+                        )
+                    case 2:
+                        List_From = List_To = []
+                        MaxDate = self.dateMax.selectedDate().toString("dd/MM/yyyy")
+                        GroupFrom = self.cmbCpyFrom.currentText()
+                        ToGroup = self.txtCpyTo.text()
+                        if self.rdNew.isChecked():
+                            Mood = "new"
+                        elif self.rdOld.isChecked():
+                            Mood = "old"
+                        if ToGroup == "":
+                            QMessageBox.warning(
+                                self,
+                                "Error",
+                                "Can't keep your target Empty",
+                                QMessageBox.StandardButton.Ok,
+                            )
+                            return
+                        if self.listWFrom.count() > self.listWTo.count():
+                            QMessageBox.warning(
+                                self,
+                                "Replacing",
+                                "Can't make From List Bigger than To List",
+                                QMessageBox.StandardButton.Ok,
+                            )
+                            return
+                        elif self.listWFrom.count() < self.listWTo.count():
+                            QMessageBox.warning(
+                                self,
+                                "Replacing",
+                                "Can't make From List Smaller than To List",
+                                QMessageBox.StandardButton.Ok,
+                            )
+                            return
+                        elif self.listWFrom.count() == self.listWTo.count():
+                            if self.listWFrom.count() > 0:
+                                List_From = [
+                                    self.listWFrom.item(i).text()
+                                    for i in range(self.listWFrom.count())
+                                ]
+                            if self.listWTo.count() > 0:
+                                List_To = [
+                                    self.listWTo.item(i).text()
+                                    for i in range(self.listWTo.count())
+                                ]
+                        thread = Worker(
+                            "Telegram",
+                            SettingCanScrip=SettingCanScrip,
+                            SettingCanSend=SettingCanSend,
+                            marketing=self.marketing,
+                            action=self.tabTelegram.currentIndex(),
+                            main_group=GroupFrom,
+                            target_group=ToGroup,
+                            max_date=MaxDate,
+                            list1=List_From,
+                            list2=List_To,
+                            mode=Mood,
+                        )
+                    case 3:
+                        AddToGroup = self.txtGroupName4.text()
+                        if AddToGroup == "":
+                            QMessageBox.warning(
+                                self,
+                                "Error",
+                                "Target can't be empty.",
+                                QMessageBox.StandardButton.Ok,
+                            )
+                            return
+                        Category = self.cmdMemCategory4.currentText()
+                        group_file_list = self.lineEdit_7.text()
+                        getFromDatabase = self.radDatabase4.isChecked()
+                        if getFromDatabase == False:
+                            file_type = self.helper.get_file_type(
+                                group_file_list.strip()
+                            )
+                            match file_type:
+                                case "text/plain":
+                                    group_file_list = self.helper.readlist_file(
+                                        group_file_list.strip()
+                                    )
+                                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=Category,
+                                        Source="telegram",
+                                    )
+                                    if ExTable.read_excel_file(group_file_list.strip()):
+                                        if self.received_data:
+                                            group_file_list = [
+                                                entry
+                                                for entry in self.received_data
+                                                if str(entry.get("account")) is not None
+                                            ]
+                                case "application/vnd.ms-excel":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=Category,
+                                        Source="telegram",
+                                    )
+                                    if ExTable.read_excel_file(group_file_list.strip()):
+                                        if self.received_data:
+                                            group_file_list = [
+                                                entry
+                                                for entry in self.received_data
+                                                if str(entry.get("account")) is not None
+                                            ]
+                                case _:
+                                    QMessageBox.warning(
+                                        self,
+                                        "File Not Support",
+                                        "This File is Not Supported",
+                                        QMessageBox.StandardButton.Ok,
+                                    )
+                                    self.buttonBox.setEnabled(True)
+                                    return
+
+                            if not isinstance(group_file_list, list):
+                                QMessageBox.warning(
+                                    self,
+                                    "Datasource",
+                                    "There is No List for sending",
+                                    QMessageBox.StandardButton.Ok,
+                                )
+                                self.buttonBox.setEnabled(True)
+                                return
+                        else:
+                            group_file_list = None
+
+                        thread = Worker(
+                            "Telegram",
+                            SettingCanScrip=SettingCanScrip,
+                            SettingCanSend=SettingCanSend,
+                            marketing=self.marketing,
+                            action=self.tabTelegram.currentIndex(),
+                            target_group=AddToGroup,
+                            category=Category,
+                            list_group=group_file_list,
+                        )
+
                 thread.progress.connect(self.update_output)
                 self.threads.append(thread)
 
-            #WhatsApp
-            #=================
+            # WhatsApp
+            # =================
             if self.tabWhatsApp.isVisible():
                 match self.tabWhatsApp.currentIndex():
-                    case 0: #Tab1
+                    case 0:  # Tab1
                         UseAI = self.useWPAI_1.isChecked()
                         isCompan = self.useWPCompan_1.isChecked()
                         comoan_name = self.txtWPCompName_1.currentText()
@@ -626,54 +1049,114 @@ class PopupDialog(Ui_Dialog, QDialog):
                         ds_from_database = self.radioButton_5.isChecked()
                         ds_from_filelist = self.radioButton_6.isChecked()
                         users_datalist = self.lineEdit_9.text()
-                        
-                        if slogin != '':
-                            slogin = f'{slogin_position}:{slogin}'
-                        if send_message == '':
-                            if message_path != '':
+
+                        if slogin != "":
+                            slogin = f"{slogin_position}|{slogin}"
+                        if send_message == "":
+                            if message_path != "":
                                 filetype = self.helper.get_file_type(message_path)
-                                if filetype == 'text/plain':
-                                    send_message = self.helper.read_file_as_text(message_path)
+                                if filetype == "text/plain":
+                                    send_message = self.helper.read_file_as_text(
+                                        message_path
+                                    )
                                 else:
-                                    self._ShowError(lablel='Error',Message='Your message file must be [Text File].')
+                                    self._ShowError(
+                                        lablel="Error",
+                                        Message="Your message file must be [Text File].",
+                                    )
                                     return
                             else:
                                 if isCompan:
-                                    #Get Messages from Database
+                                    # Get Messages from Database
                                     send_message = None
                                 else:
-                                    self._ShowError(lablel="Error",Message="You must set a Message for Members")
+                                    self._ShowError(
+                                        lablel="Error",
+                                        Message="You must set a Message for Members",
+                                    )
                                     return
                         if message_and_file:
-                            message_files = f'msg:{message_files}'
-                        
+                            message_files = f"msg:{message_files}"
+
                         if ds_from_database:
                             users_datalist = None
                         elif ds_from_filelist:
-                            file_type = self.helper.get_file_type(users_datalist.strip())
+                            file_type = self.helper.get_file_type(
+                                users_datalist.strip()
+                            )
                             match file_type:
-                                case 'text/plain':
-                                    users_datalist = self.helper.readlist_file(users_datalist.strip())
-                                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                                    ExTable = ET(self,self.database)
+                                case "text/plain":
+                                    users_datalist = self.helper.readlist_file(
+                                        users_datalist.strip()
+                                    )
+                                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=categorys,
+                                        Source="whatsapp",
+                                    )
                                     if ExTable.read_excel_file(users_datalist.strip()):
-                                        users_datalist = [ppNumber.clean_phone_number(entry.get('number')) for entry in self.received_data if ppNumber.clean_phone_number(entry.get('number')) is not None]
-                                        users_datalist = [phone for phone in users_datalist if phone is not None]
-                                case 'application/vnd.ms-excel':
-                                    ExTable = ET(self,self.database)
+                                        if self.received_data:
+                                            users_datalist = [
+                                                ppNumber.clean_phone_number(
+                                                    entry.get("number")
+                                                )
+                                                for entry in self.received_data
+                                                if ppNumber.clean_phone_number(
+                                                    entry.get("number")
+                                                )
+                                                is not None
+                                            ]
+                                            users_datalist = [
+                                                phone
+                                                for phone in users_datalist
+                                                if phone is not None
+                                            ]
+                                case "application/vnd.ms-excel":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=categorys,
+                                        Source="whatsapp",
+                                    )
                                     if ExTable.read_excel_file(users_datalist.strip()):
-                                        users_datalist = [ppNumber.clean_phone_number(entry.get('number')) for entry in self.received_data if ppNumber.clean_phone_number(entry.get('number')) is not None]
-                                        users_datalist = [phone for phone in users_datalist if phone is not None]
+                                        if self.received_data:
+                                            users_datalist = [
+                                                ppNumber.clean_phone_number(
+                                                    entry.get("number")
+                                                )
+                                                for entry in self.received_data
+                                                if ppNumber.clean_phone_number(
+                                                    entry.get("number")
+                                                )
+                                                is not None
+                                            ]
+                                            users_datalist = [
+                                                phone
+                                                for phone in users_datalist
+                                                if phone is not None
+                                            ]
                                 case _:
-                                    QMessageBox.warning(self,'File Not Support','This File is Not Supported',QMessageBox.StandardButton.Ok)
+                                    QMessageBox.warning(
+                                        self,
+                                        "File Not Support",
+                                        "This File is Not Supported",
+                                        QMessageBox.StandardButton.Ok,
+                                    )
                                     self.buttonBox.setEnabled(True)
                                     return
-                                
-                        if not isinstance(users_datalist,list):
-                            QMessageBox.warning(self, "Datasource", "There is No List for sending", QMessageBox.StandardButton.Ok)
+
+                        if not isinstance(users_datalist, list):
+                            QMessageBox.warning(
+                                self,
+                                "Datasource",
+                                "There is No List for sending",
+                                QMessageBox.StandardButton.Ok,
+                            )
                             self.buttonBox.setEnabled(True)
                             return
-                        
+
                         if UseAI:
                             self.SetAI(comoan_name, send_message, "whatsapp")
                         elif isCompan:
@@ -696,44 +1179,81 @@ class PopupDialog(Ui_Dialog, QDialog):
                             timezone=timezone,
                             list_file=users_datalist,
                             compan=comoan_name,
-                            translation=self.ckTranslat.isChecked()
+                            translation=self.ckTranslat.isChecked(),
                         )
-                    case 1: #Tab2
-                        Category=self.comContactCategory.currentText()
+                    case 1:  # Tab2
+                        Category = self.comContactCategory.currentText()
                         thread = Worker(
                             "WhatsApp",
                             SettingCanScrip=SettingCanScrip,
                             SettingCanSend=SettingCanSend,
                             marketing=self.marketing,
                             action=self.tabWhatsApp.currentIndex(),
-                            Category=Category
+                            Category=Category,
                         )
-                    case 2: #Tab3
-                        if self.lineEdit_11.text() != '':
+                    case 2:  # Tab3
+                        Group_Category = self.comboBox_6.currentText()
+                        if self.lineEdit_11.text() != "":
                             groupname = self.lineEdit_11.text()
                             file_type = self.helper.get_file_type(groupname.strip())
                             match file_type:
-                                case 'text/plain':
-                                    Group_Name = self.helper.readlist_file(users_datalist.strip())
-                                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                                    ExTable = ET(self,self.database)
+                                case "text/plain":
+                                    Group_Name = self.helper.readlist_file(
+                                        users_datalist.strip()
+                                    )
+                                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=Group_Category,
+                                        Source="whatsapp",
+                                    )
                                     if ExTable.read_excel_file(users_datalist.strip()):
-                                        users_datalist = [str(entry.get('name')).strip() for entry in self.received_data if str(entry.get('name')).strip() is not None]
-                                        Group_Name = [gName for gName in users_datalist if gName is not None]
-                                case 'application/vnd.ms-excel':
-                                    ExTable = ET(self,self.database)
+                                        if self.received_data:
+                                            users_datalist = [
+                                                str(entry.get("name")).strip()
+                                                for entry in self.received_data
+                                                if str(entry.get("name")).strip()
+                                                is not None
+                                            ]
+                                            Group_Name = [
+                                                gName
+                                                for gName in users_datalist
+                                                if gName is not None
+                                            ]
+                                case "application/vnd.ms-excel":
+                                    ExTable = ET(
+                                        self,
+                                        database=self.database,
+                                        Category=Group_Category,
+                                        Source="whatsapp",
+                                    )
                                     if ExTable.read_excel_file(users_datalist.strip()):
-                                        users_datalist = [str(entry.get('name')).strip() for entry in self.received_data if str(entry.get('name')).strip() is not None]
-                                        Group_Name = [gName for gName in users_datalist if gName is not None]
-                                        
+                                        if self.received_data:
+                                            users_datalist = [
+                                                str(entry.get("name")).strip()
+                                                for entry in self.received_data
+                                                if str(entry.get("name")).strip()
+                                                is not None
+                                            ]
+                                            Group_Name = [
+                                                gName
+                                                for gName in users_datalist
+                                                if gName is not None
+                                            ]
+
                                 case _:
-                                    QMessageBox.warning(self,'File Not Support','This File is Not Supported',QMessageBox.StandardButton.Ok)
+                                    QMessageBox.warning(
+                                        self,
+                                        "File Not Support",
+                                        "This File is Not Supported",
+                                        QMessageBox.StandardButton.Ok,
+                                    )
                                     self.buttonBox.setEnabled(True)
                                     return
                         else:
                             Group_Name = self.lineEdit_12.text()
-                            
-                        Group_Category=self.comboBox_6.currentText()
+
                         thread = Worker(
                             "WhatsApp",
                             SettingCanScrip=SettingCanScrip,
@@ -746,8 +1266,8 @@ class PopupDialog(Ui_Dialog, QDialog):
                 thread.progress.connect(self.update_output)
                 self.threads.append(thread)
 
-            #Facebook
-            #=================
+            # Facebook
+            # =================
             if self.tabFacebook.isVisible():
                 match self.tabFacebook.currentIndex():
                     case 0:
@@ -759,13 +1279,21 @@ class PopupDialog(Ui_Dialog, QDialog):
                             )
                         if Mem_Message == "":
                             if self.useCompan_1.isChecked() == False:
-                                self._ShowError(lablel="Error",Message="You must set a Message for Members")
+                                self._ShowError(
+                                    lablel="Error",
+                                    Message="You must set a Message for Members",
+                                )
                                 return
                             else:
                                 if self.lineEdit_15.text() == "":
                                     Mem_Message = None
                                 else:
                                     Mem_Image = self.lineEdit_15.text()
+
+                        if self.lineEdit_5.text() != "":
+                            Mem_Slogin = f"{self.comboBox_3.currentIndex()}|{self.lineEdit_5.text()}"
+                        else:
+                            Mem_Slogin = None
 
                         if self.useFPAI_1.isChecked():
                             UseAI = True
@@ -791,6 +1319,7 @@ class PopupDialog(Ui_Dialog, QDialog):
                             Mem_Categorys=Mem_Categorys,
                             Mem_AI=UseAI,
                             CompanName=CompanID,
+                            Mem_Slogin=Mem_Slogin,
                         )
                     case 1:
                         # Tab2
@@ -801,7 +1330,10 @@ class PopupDialog(Ui_Dialog, QDialog):
                             )
                             if Group_Message == "":
                                 if self.useCompan_2.isChecked() == False:
-                                    self._ShowError(lablel="Error",Message="You must set a Message for Groups")
+                                    self._ShowError(
+                                        lablel="Error",
+                                        Message="You must set a Message for Groups",
+                                    )
                                     return
                                 else:
                                     if self.lineEdit_19.text() == "":
@@ -809,6 +1341,10 @@ class PopupDialog(Ui_Dialog, QDialog):
                                     else:
                                         Group_Image = self.lineEdit_19.text()
 
+                        if self.lineEdit_13.text() != "":
+                            Group_Slogin = f"{self.comboBox_10.currentIndex()}|{self.lineEdit_13.text()}"
+                        else:
+                            Group_Slogin = None
                         if self.useFPAI_2.isChecked():
                             Group_AI = True
                             CompanID = self.txtCompName2.currentText()
@@ -825,23 +1361,57 @@ class PopupDialog(Ui_Dialog, QDialog):
                         if self.radioButton_12.isChecked():
                             Group_FileGroupPath = self.lineEdit_4.text()
                             if Group_FileGroupPath == "":
-                                self._ShowError(lablel="Error",Message="You must set a List for Source Groups")
+                                self._ShowError(
+                                    lablel="Error",
+                                    Message="You must set a List for Source Groups",
+                                )
                                 return
                             else:
-                                file_type = self.helper.get_file_type(Group_FileGroupPath.strip())
+                                file_type = self.helper.get_file_type(
+                                    Group_FileGroupPath.strip()
+                                )
                                 match file_type:
-                                    case 'text/plain':
-                                        Group_FileGroupPath = self.helper.readlist_file(Group_FileGroupPath.strip())
-                                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                                        ExTable = ET(self,self.database)
-                                        if ExTable.read_excel_file(Group_FileGroupPath.strip()):
-                                            Group_FileGroupPath = [entry for entry in self.received_data]
-                                    case 'application/vnd.ms-excel':
-                                        ExTable = ET(self,self.database)
-                                        if ExTable.read_excel_file(Group_FileGroupPath.strip()):
-                                            Group_FileGroupPath = [entry for entry in self.received_data]
+                                    case "text/plain":
+                                        Group_FileGroupPath = self.helper.readlist_file(
+                                            Group_FileGroupPath.strip()
+                                        )
+                                    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                        ExTable = ET(
+                                            self,
+                                            database=self.database,
+                                            Category=Group_Category,
+                                            Source="facebook",
+                                        )
+                                        if ExTable.read_excel_file(
+                                            Group_FileGroupPath.strip()
+                                        ):
+                                            if self.received_data:
+                                                Group_FileGroupPath = [
+                                                    entry
+                                                    for entry in self.received_data
+                                                ]
+                                    case "application/vnd.ms-excel":
+                                        ExTable = ET(
+                                            self,
+                                            database=self.database,
+                                            Category=Group_Category,
+                                            Source="facebook",
+                                        )
+                                        if ExTable.read_excel_file(
+                                            Group_FileGroupPath.strip()
+                                        ):
+                                            if self.received_data:
+                                                Group_FileGroupPath = [
+                                                    entry
+                                                    for entry in self.received_data
+                                                ]
                                     case _:
-                                        QMessageBox.warning(self,'File Not Support','This File is Not Supported',QMessageBox.OK)
+                                        QMessageBox.warning(
+                                            self,
+                                            "File Not Support",
+                                            "This File is Not Supported",
+                                            QMessageBox.OK,
+                                        )
                                         return
                         thread = Worker(
                             "Facebook",
@@ -854,6 +1424,7 @@ class PopupDialog(Ui_Dialog, QDialog):
                             Group_FileGroupPath=Group_FileGroupPath,
                             Group_AI=Group_AI,
                             CompanName=CompanID,
+                            Group_Slogin=Group_Slogin,
                         )
                     case 2:
                         Group_Name = self.comboBox_2.currentText() or ""
@@ -868,25 +1439,57 @@ class PopupDialog(Ui_Dialog, QDialog):
                         if self.radioButton_14.isChecked():
                             List_Group_Name = self.lineEdit_18.text()
                             if List_Group_Name == "":
-                                self._ShowError(lablel="Error",
-                                    Message="You must select Source of Group or keep it in Database"
+                                self._ShowError(
+                                    lablel="Error",
+                                    Message="You must select Source of Group or keep it in Database",
                                 )
                                 return
                             else:
-                                file_type = self.helper.get_file_type(List_Group_Name.strip())
+                                file_type = self.helper.get_file_type(
+                                    List_Group_Name.strip()
+                                )
                                 match file_type:
-                                    case 'text/plain':
-                                        List_Group_Name = self.helper.readlist_file(List_Group_Name.strip())
-                                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                                        ExTable = ET(self,self.database)
-                                        if ExTable.read_excel_file(List_Group_Name.strip()):
-                                            List_Group_Name = [entry for entry in self.received_data]
-                                    case 'application/vnd.ms-excel':
-                                        ExTable = ET(self,self.database)
-                                        if ExTable.read_excel_file(List_Group_Name.strip()):
-                                            List_Group_Name = [entry for entry in self.received_data]
+                                    case "text/plain":
+                                        List_Group_Name = self.helper.readlist_file(
+                                            List_Group_Name.strip()
+                                        )
+                                    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                                        ExTable = ET(
+                                            self,
+                                            database=self.database,
+                                            Category=Member_Category,
+                                            Source="facebook",
+                                        )
+                                        if ExTable.read_excel_file(
+                                            List_Group_Name.strip()
+                                        ):
+                                            if self.received_data:
+                                                List_Group_Name = [
+                                                    entry
+                                                    for entry in self.received_data
+                                                ]
+                                    case "application/vnd.ms-excel":
+                                        ExTable = ET(
+                                            self,
+                                            database=self.database,
+                                            Category=Member_Category,
+                                            Source="facebook",
+                                        )
+                                        if ExTable.read_excel_file(
+                                            List_Group_Name.strip()
+                                        ):
+                                            if self.received_data:
+                                                List_Group_Name = [
+                                                    entry
+                                                    for entry in self.received_data
+                                                ]
                                     case _:
-                                        QMessageBox.warning(self,'File Not Support','This File is Not Supported',QMessageBox.OK)
+                                        QMessageBox.warning(
+                                            self,
+                                            "File Not Support",
+                                            "This File is Not Supported",
+                                            QMessageBox.OK,
+                                        )
                                         return
                                 Group_Name = List_Group_Name
 
@@ -905,13 +1508,16 @@ class PopupDialog(Ui_Dialog, QDialog):
 
             for thread in self.threads:
                 thread.start()
-                
+
             self.buttonBox.setEnabled(True)
             self.accept()
         except Exception as e:
             print(e)
             logging.error(traceback.format_exc())
-            self._ShowError(lablel="Error",Message="There is Error , Please re-Check all your inputs")
+            self._ShowError(
+                lablel="Error",
+                Message="There is Error , Please re-Check all your inputs",
+            )
             self.buttonBox.setEnabled(True)
 
     def SetAI(self, CompanName, message, Source):
@@ -926,7 +1532,7 @@ class PopupDialog(Ui_Dialog, QDialog):
         )
         self.progress.setWindowTitle("Please Wait")
         self.progress.setModal(True)
-        self.progress.setCancelButton(None)  # تعطيل زر الإلغاء
+        self.progress.setCancelButton(None)
         self.progress.show()
         self.run_ai_thread(message)
 
@@ -953,43 +1559,45 @@ class PopupDialog(Ui_Dialog, QDialog):
     def getExceData(self):
         file_filter = "Excel Files (*.xls *.xlsx)"
         path, _ = QFileDialog.getOpenFileName(
-            self, "Select file", os.path.dirname(__file__)
-        ,file_filter)
+            self, "Select file", os.path.dirname(__file__), file_filter
+        )
         if path:
             users_datalist = path
-            file_name = path.split("/")[-1] 
-        # Category = self.database.select_column("phone_numbers", "category")
-        # Category.sort()
-        # Compo = InputComboBox(self,Category)
-        # if Compo.exec():
-            # select_category = Compo.get_selected_text()
+            file_name = path.split("/")[-1]
         select_category = self.comContactCategory.currentText()
         print(select_category)
-        ExTable = ET(self,self.database)
+        ExTable = ET(self, self.database)
         if ExTable.read_excel_file(users_datalist.strip()):
-            users_datalist = [str(entry).strip() for entry in self.received_data if str(entry).strip() is not None]
-            DataItem = [gName for gName in users_datalist if gName is not None]
+            DataItem = []
+            if self.received_data:
+                users_datalist = [
+                    str(entry).strip()
+                    for entry in self.received_data
+                    if str(entry).strip() is not None
+                ]
+                DataItem = [gName for gName in users_datalist if gName is not None]
             for phone_number in DataItem:
-                if not self.database.search_by_column("phone_numbers", 'number', phone_number.get('number')):
+                if not self.database.search_by_column(
+                    "phone_numbers", "number", phone_number.get("number")
+                ):
                     ContryPhone = PhoneParsing().get_phone_number_and_get_country(
-                        phone_number.get('number')
+                        phone_number.get("number")
                     )
                     TimeZone = PhoneParsing().get_time_zone_from_number(phone_number)
                     DataSave = {
-                            "number": phone_number.get('number'),
-                            "country": ContryPhone,
-                            "timezone": TimeZone,
-                            "category": select_category,
-                            "group_name": file_name,
-                        }
+                        "number": phone_number.get("number"),
+                        "country": ContryPhone,
+                        "timezone": TimeZone,
+                        "category": select_category,
+                        "group_name": file_name,
+                    }
                     DataSave.update(phone_number)
-                    self.database.write_to_database(
-                        "phone_numbers",
-                        DataSave
-                    )
-                self.helper.UpDateOutput(f"Add {phone_number.get('number')} from {ContryPhone} to your Database")
-    
-    def _ShowError(self, lablel:str = None, Message: str = None):
+                    self.database.write_to_database("phone_numbers", DataSave)
+                self.helper.UpDateOutput(
+                    f"Add {phone_number.get('number')} from {ContryPhone} to your Database"
+                )
+
+    def _ShowError(self, lablel: str = None, Message: str = None):
         dlg = QMessageBox(self)
         if lablel is None:
             dlg.setWindowTitle("There is Error!")
@@ -1001,6 +1609,7 @@ class PopupDialog(Ui_Dialog, QDialog):
         dlg.setIcon(QMessageBox.Critical)
         button = dlg.exec()
         if button == QMessageBox.Ok:
+            self.buttonBox.setEnabled(True)
             dlg.close()
             return True
 

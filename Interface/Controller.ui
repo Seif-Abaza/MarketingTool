@@ -75,7 +75,7 @@
         <property name="title">
          <string>Basic Informations</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -175,7 +175,7 @@
         <property name="title">
          <string>Options</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -193,6 +193,9 @@
                <string>Can Get Phone Number</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox"/>
             </item>
             <item>
              <widget class="QCheckBox" name="checkBox_3">
