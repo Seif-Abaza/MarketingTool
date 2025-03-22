@@ -1,38 +1,30 @@
+import asyncio
 import logging
 import os
 import random
 import re
+import shutil
 import sys
 import traceback
+from datetime import datetime
+from random import randrange
 from time import sleep
 
-from datetime import datetime
-
 import urllib3
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.webdriver.support.expected_conditions import number_of_windows_to_be
+from googletrans import Translator
+from PySide6.QtWidgets import QListView, QMessageBox
 
 from utils.PhoneParsing import PhoneParsing
-from random import randrange
-from PySide6.QtWidgets import QMessageBox, QListView
-import shutil
-import asyncio
-from googletrans import Translator
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from googlesearch import search
-from rich import print
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium_stealth import stealth
-from utils.helper import helper
-from playwright.async_api import async_playwright , TimeoutError as PlaywrightTimeoutError
+from playwright.async_api import TimeoutError as PlaywrightTimeoutError
+from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
+
+from utils.helper import helper
+
+
 class WhatsApp:
 
     MESSAGES = "wp_message"
@@ -77,8 +69,8 @@ class WhatsApp:
         settings,
         database,
         run_browser=True,
-        output: QListView=None,
-        headless:bool=True
+        output: QListView = None,
+        headless: bool = True,
     ):
         self.settings = settings
         self.database = database
@@ -87,9 +79,9 @@ class WhatsApp:
         self.database.create_table(self.MESSAGES)
         self.database.create_table(self.PHONE)
         self.database.create_table(self.GROUPS)
-        
+
         self.helper = helper(output)
-        self.helper.UpDateOutput('Starting WhatsApp...')
+        self.helper.UpDateOutput("Starting WhatsApp...")
         if not os.path.isdir(f"{self.helper.CHROME_USER_DATA}/whatsapp"):
             with sync_playwright() as p:
                 # logger.info("Launching browser...")
@@ -97,37 +89,41 @@ class WhatsApp:
                     user_data_dir=f"{self.helper.CHROME_USER_DATA}/whatsapp",
                     headless=False,
                     args=[
-                        '--no-sandbox',
-                        '--disable-blink-features=AutomationControlled',
-                        '--disable-features=IsolateOrigins,site-per-process',
-                        '--disable-web-security',
-                        '--disable-gpu',
-                        '--disable-dev-shm-usage'
+                        "--no-sandbox",
+                        "--disable-blink-features=AutomationControlled",
+                        "--disable-features=IsolateOrigins,site-per-process",
+                        "--disable-web-security",
+                        "--disable-gpu",
+                        "--disable-dev-shm-usage",
                     ],
-                    slow_mo=500
+                    slow_mo=500,
                 )
                 page = browser.pages[0] if browser.pages else browser.new_page()
-                
+
                 user_agents = [
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
                 ]
                 page.set_extra_http_headers({"User-Agent": random.choice(user_agents)})
-                page.goto(self.helper.WHATSAPP_WEB,timeout=10000)
+                page.goto(self.helper.WHATSAPP_WEB, timeout=10000)
                 page.wait_for_load_state("networkidle")
-                self.helper.UpDateOutput('Start WhatsApp')
-                page.wait_for_selector('//canvas[@aria-label="Scan this QR code to link a device!" and @role="img"]', timeout=500000)
+                self.helper.UpDateOutput("Start WhatsApp")
+                page.wait_for_selector(
+                    '//canvas[@aria-label="Scan this QR code to link a device!" and @role="img"]',
+                    timeout=500000,
+                )
                 msg_box = QMessageBox()
                 msg_box.setWindowTitle("Confirmation")
-                msg_box.setText("This is First time only, did you scanned your QR Code ?")
+                msg_box.setText(
+                    "This is First time only, did you scanned your QR Code ?"
+                )
                 msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
                 response = msg_box.exec()
                 if response == QMessageBox.No:
                     self.driver.close()
-        
 
-    async def search(self,page, text_search: str):
+    async def search(self, page, text_search: str):
         try:
             # Wait for the search box to be visible
             search_box = await page.wait_for_selector(
@@ -146,33 +142,38 @@ class WhatsApp:
         except Exception as e:
             logging.error("Error:\n" + traceback.format_exc())
             return False
-    
+
     def reLogin(self):
         if os.path.exists(self.helper.CHROME_USER_DATA + "/whatsapp"):
-            shutil.rmtree(self.helper.CHROME_USER_DATA + "/whatsapp",ignore_errors=True)
+            shutil.rmtree(
+                self.helper.CHROME_USER_DATA + "/whatsapp", ignore_errors=True
+            )
         with sync_playwright() as p:
             browser = p.chromium.launch_persistent_context(
                 user_data_dir=self.helper.CHROME_USER_DATA + "/whatsapp",
                 headless=False,
                 args=[
                     "--no-sandbox",
-                    '--disable-blink-features=AutomationControlled',
-                    '--disable-features=IsolateOrigins,site-per-process',
-                    '--disable-web-security'
-                ]
+                    "--disable-blink-features=AutomationControlled",
+                    "--disable-features=IsolateOrigins,site-per-process",
+                    "--disable-web-security",
+                ],
             )
             page = browser.pages[0] if browser.pages else browser.new_page()
             user_agents = [
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
             ]
-            
+
             page.set_extra_http_headers({"User-Agent": random.choice(user_agents)})
-            page.goto(self.helper.WHATSAPP_WEB,timeout=100000)
+            page.goto(self.helper.WHATSAPP_WEB, timeout=100000)
             page.wait_for_load_state("networkidle")
-            self.helper.UpDateOutput('Start WhatsApp')
-            page.wait_for_selector('//canvas[@aria-label="Scan this QR code to link a device!" and @role="img"]', timeout=500000)
+            self.helper.UpDateOutput("Start WhatsApp")
+            page.wait_for_selector(
+                '//canvas[@aria-label="Scan this QR code to link a device!" and @role="img"]',
+                timeout=500000,
+            )
             msg_box = QMessageBox()
             msg_box.setWindowTitle("Confirmation")
             msg_box.setText("This is First time only, did you scanned your QR Code ?")
@@ -183,7 +184,7 @@ class WhatsApp:
                 return False
             else:
                 return True
-        
+
     async def send_message(self, phone_number, message: str):
         try:
             url = f"https://web.whatsapp.com/send?phone={phone_number}&text={message}"
@@ -193,39 +194,52 @@ class WhatsApp:
                     headless=True,
                     args=[
                         "--no-sandbox",
-                        '--disable-blink-features=AutomationControlled',
-                        '--disable-features=IsolateOrigins,site-per-process',
-                        '--disable-web-security'
-                    ]
+                        "--disable-blink-features=AutomationControlled",
+                        "--disable-features=IsolateOrigins,site-per-process",
+                        "--disable-web-security",
+                    ],
                 )
                 page = browser.pages[0] if browser.pages else await browser.new_page()
                 user_agents = [
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
                 ]
-                
+
                 selected_user_agent = random.choice(user_agents)
                 await page.set_extra_http_headers({"User-Agent": selected_user_agent})
                 await page.set_viewport_size({"width": 830, "height": 930})
                 await page.goto(url, timeout=120000)
-                await page.wait_for_selector('//button[@aria-label="Send"]', timeout=15000)  # 15 seconds timeout
+                await page.wait_for_selector(
+                    '//button[@aria-label="Send"]', timeout=15000
+                )  # 15 seconds timeout
                 await page.locator('//button[@aria-label="Send"]').click(force=True)
                 self.database.save_msg_or_post(
                     user=phone_number, message=message, source="WhatsApp"
                 )
                 await browser.close()
-                
+
             return True
         except PlaywrightTimeoutError:
-            self.helper.UpDateOutput('Please Re-Login to WhatsApp')
+            self.helper.UpDateOutput("Please Re-Login to WhatsApp")
             return self.reLogin()
         except NoSuchElementException:
             logging.error("Error : \n" + traceback.format_exc())
             return False
 
-    async def send_message_to_members(self,message: str=None,slogin:str=None,category:str=None,file_send: str=None,country: str=None,timezone: str=None,list_file: str=None,compan:str=None,translation: bool=False):
-        self.helper.UpDateOutput('Init Send Message Module')
+    async def send_message_to_members(
+        self,
+        message: str = None,
+        slogin: str = None,
+        category: str = None,
+        file_send: str = None,
+        country: str = None,
+        timezone: str = None,
+        list_file: str = None,
+        compan: str = None,
+        translation: bool = False,
+    ):
+        self.helper.UpDateOutput("Init Send Message Module")
         ppPhone = PhoneParsing()
         if list_file:
             members = list_file
@@ -237,9 +251,9 @@ class WhatsApp:
                 if value is not None and len(value) > 0
             }
             members = self.database.read_from_database("phone_numbers", filtered_data)
-        
+
         if compan:
-            self.helper.UpDateOutput('Waitnig AI Results')
+            self.helper.UpDateOutput("Waitnig AI Results")
             loop_time = 0
             message_list = []
             while len(message_list) == 0:
@@ -252,54 +266,63 @@ class WhatsApp:
                 await asyncio.sleep(randrange(4, 10))
         else:
             send_message = message
-        
+
         NumberOfUsers = 1
-        
+
         try:
             for member in members:
-                if isinstance(member,str):
+                if isinstance(member, str):
                     PhoneNumber = member
                 else:
-                    PhoneNumber = member['number']
-                
+                    PhoneNumber = member["number"]
+
                 Information = ppPhone.get_information_from_phone(PhoneNumber)
                 if not Information is None:
-                    self.helper.UpDateOutput(f'Number {PhoneNumber} from {Information["Country"]} and there Language is {Information["Language"]}')
+                    self.helper.UpDateOutput(
+                        f'Number {PhoneNumber} from {Information["Country"]} and there Language is {Information["Language"]}'
+                    )
                 else:
-                    self.helper.UpDateOutput(f'Number {PhoneNumber}')
-                #Hold for Un-Block
+                    self.helper.UpDateOutput(f"Number {PhoneNumber}")
+                # Hold for Un-Block
                 if NumberOfUsers >= 25:
                     NumberOfUsers = 1
-                    self.helper.UpDateOutput('Holding....')
-                    asyncio.sleep(randrange(25,30))
+                    self.helper.UpDateOutput("Holding....")
+                    asyncio.sleep(randrange(25, 30))
                     continue
-                
-                #Get Message from AI or Direct
+
+                # Get Message from AI or Direct
                 if len(message_list) > 0:
-                    send_message = message_list[randrange(0, len(message_list))]['message']
+                    send_message = message_list[randrange(0, len(message_list))][
+                        "message"
+                    ]
                 else:
                     send_message = message
                 if translation:
                     if not Information is None:
-                        self.helper.UpDateOutput(f'Translation to {list(Information["Language"])[0]} ({list(Information["Language"])[0].lower()[:2]})')
+                        self.helper.UpDateOutput(
+                            f'Translation to {list(Information["Language"])[0]} ({list(Information["Language"])[0].lower()[:2]})'
+                        )
                         async with Translator(timeout=20000) as translator:
-                            result = await translator.translate(send_message,dest=list(Information["Language"])[0].lower()[:2])
+                            result = await translator.translate(
+                                send_message,
+                                dest=list(Information["Language"])[0].lower()[:2],
+                            )
                             send_message = result.text
                     else:
-                        self.helper.UpDateOutput('There is issue in number...')
-                
-                #Set Slogin if Exist
+                        self.helper.UpDateOutput("There is issue in number...")
+
+                # Set Slogin if Exist
                 if not slogin is None:
-                    sloginText = slogin.split(':')
+                    sloginText = slogin.split(":")
                     if int(sloginText[0]) == 0:
                         send_message = f"{sloginText[1]}\n\n{send_message}"
                     else:
                         send_message = f"{send_message}\n\n{sloginText[1]}"
-                
-                #Send Message
+
+                # Send Message
                 self.helper.UpDateOutput(f"Message: {send_message}")
                 if await self.send_message(PhoneNumber, message=send_message):
-                    self.helper.UpDateOutput(f'Send to {PhoneNumber} is Done')
+                    self.helper.UpDateOutput(f"Send to {PhoneNumber} is Done")
                     NumberOfUsers += 1
                     sleep(randrange(5, 15))
                 else:
@@ -311,9 +334,9 @@ class WhatsApp:
             self.helper.UpDateOutput(e)
             logging.error(traceback.format_exc())
 
-    def _add_phone_number(self, phone_number: str, source: str, category:str) -> bool:
+    def _add_phone_number(self, phone_number: str, source: str, category: str) -> bool:
         if phone_number.startswith("+"):
-            if not self.database.search_by_column(self.PHONE, 'number', phone_number):
+            if not self.database.search_by_column(self.PHONE, "number", phone_number):
                 ContryPhone = PhoneParsing().get_phone_number_and_get_country(
                     phone_number
                 )
@@ -326,9 +349,11 @@ class WhatsApp:
                         "timezone": TimeZone,
                         "category": category,
                         "group_name": source,
-                    }
+                    },
                 )
-                self.helper.UpDateOutput(f"Add {phone_number} from {ContryPhone} to your Database")
+                self.helper.UpDateOutput(
+                    f"Add {phone_number} from {ContryPhone} to your Database"
+                )
                 return True
         return False
 
@@ -352,34 +377,45 @@ class WhatsApp:
                     headless=True,
                     args=[
                         "--no-sandbox",
-                        '--disable-blink-features=AutomationControlled',
-                        '--disable-features=IsolateOrigins,site-per-process',
-                        '--disable-web-security'
-                    ]
+                        "--disable-blink-features=AutomationControlled",
+                        "--disable-features=IsolateOrigins,site-per-process",
+                        "--disable-web-security",
+                    ],
                 )
                 page = browser.pages[0] if browser.pages else await browser.new_page()
                 user_agents = [
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
                 ]
-                
+
                 selected_user_agent = random.choice(user_agents)
                 await page.set_extra_http_headers({"User-Agent": selected_user_agent})
                 await page.set_viewport_size({"width": 830, "height": 930})
-                await page.goto(self.helper.WHATSAPP_WEB,timeout=100000)
+                await page.goto(self.helper.WHATSAPP_WEB, timeout=100000)
                 await page.wait_for_load_state("networkidle")
-                self.helper.UpDateOutput('Start WhatsApp')
+                self.helper.UpDateOutput("Start WhatsApp")
                 self.helper.UpDateOutput("Waiting for chats to load...")
-                await page.wait_for_selector('//div[@id="pane-side"]//span[@title]', timeout=20000)
-                chat_list = await page.locator('//div[@id="pane-side"]//span[@title]').all()
+                await page.wait_for_selector(
+                    '//div[@id="pane-side"]//span[@title]', timeout=20000
+                )
+                chat_list = await page.locator(
+                    '//div[@id="pane-side"]//span[@title]'
+                ).all()
                 # Iterate through the chat list and extract contact numbers
                 self.helper.UpDateOutput("Scan contact numbers...")
                 for idx, chat in enumerate(chat_list, start=1):
-                    contact_number =  await chat.get_attribute("title")
+                    contact_number = await chat.get_attribute("title")
                     if contact_number:
-                        contact_number = contact_number.replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
-                    if not self._add_phone_number(contact_number, source="Contact", category=category):
+                        contact_number = (
+                            contact_number.replace(" ", "")
+                            .replace("-", "")
+                            .replace("(", "")
+                            .replace(")", "")
+                        )
+                    if not self._add_phone_number(
+                        contact_number, source="Contact", category=category
+                    ):
                         self.helper.UpDateOutput(
                             f"Contact {idx}: {contact_number} is not added."
                         )
@@ -438,7 +474,9 @@ class WhatsApp:
                         if not phone_in_chat is None:
                             for ptnumber in phone_in_chat:
                                 self._add_phone_number(
-                                    ptnumber["number"], source=chat_name, category=category
+                                    ptnumber["number"],
+                                    source=chat_name,
+                                    category=category,
                                 )
 
                         self.database.write_to_database(
@@ -466,14 +504,16 @@ class WhatsApp:
             logging.error("Error : \n" + traceback.format_exc())
             return False
 
-    async def get_group_members(self, group_name=None, category:str=None):
+    async def get_group_members(self, group_name=None, category: str = None):
         try:
-            if isinstance(group_name,list):
+            if isinstance(group_name, list):
                 for group in group_name:
                     await self._get_group_members(group, category)
             elif len(group_name) > 1:
                 await self._get_group_members(group_name, category)
-            elif group_name is None or len(group_name) == 0:  # It's not List of Group Name
+            elif (
+                group_name is None or len(group_name) == 0
+            ):  # It's not List of Group Name
                 await self.get_groups(category)
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
@@ -490,16 +530,22 @@ class WhatsApp:
         try:
             groups = await self.page.locator("//div[@role='gridcell']").all()
             group_names = [
-                await group.inner_text() for group in groups if (await group.inner_text()).strip()
+                await group.inner_text()
+                for group in groups
+                if (await group.inner_text()).strip()
             ]
-            
+
             cleaned_groups = [
-                re.sub(r"\n.*", "", group) for group in group_names if not group.isnumeric()
+                re.sub(r"\n.*", "", group)
+                for group in group_names
+                if not group.isnumeric()
             ]
 
             for group_name in cleaned_groups:
                 self.helper.UpDateOutput(f" Get Members in Group {group_name}")
-                await self._get_group_members(group_name, category)  # Ensure _get_group_members is async
+                await self._get_group_members(
+                    group_name, category
+                )  # Ensure _get_group_members is async
                 self.helper.UpDateOutput(f"Members in group {group_name} is Done")
 
         except Exception as e:
@@ -515,31 +561,32 @@ class WhatsApp:
                     headless=True,
                     args=[
                         "--no-sandbox",
-                        '--disable-blink-features=AutomationControlled',
-                        '--disable-features=IsolateOrigins,site-per-process',
-                        '--disable-web-security'
-                    ]
+                        "--disable-blink-features=AutomationControlled",
+                        "--disable-features=IsolateOrigins,site-per-process",
+                        "--disable-web-security",
+                    ],
                 )
                 page = browser.pages[0] if browser.pages else await browser.new_page()
                 user_agents = [
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
                 ]
-                
+
                 selected_user_agent = random.choice(user_agents)
                 await page.set_extra_http_headers({"User-Agent": selected_user_agent})
                 await page.set_viewport_size({"width": 830, "height": 930})
-                await page.goto(self.helper.WHATSAPP_WEB,timeout=100000)
+                await page.goto(self.helper.WHATSAPP_WEB, timeout=100000)
                 await page.wait_for_load_state("networkidle")
-                sleep(randrange(2,10))
+                sleep(randrange(2, 10))
                 # Click on the chat
                 self.helper.UpDateOutput("Selecting the Group...")
-                await self.search(page,group_name)
+                await self.search(page, group_name)
                 # await page.screenshot(path="debug_search.png")
                 sleep(randrange(2, 5))  # Wait for chat to load
                 text_element = await page.wait_for_selector(
-                    '//span[contains(@class, "_ao3e") and contains(@class, "selectable-text") and contains(@class, "copyable-text")]', timeout=10000
+                    '//span[contains(@class, "_ao3e") and contains(@class, "selectable-text") and contains(@class, "copyable-text")]',
+                    timeout=10000,
                 )
                 # self._get_group_members(group_name)
                 text = await text_element.inner_text()
@@ -561,7 +608,9 @@ class WhatsApp:
     async def reset_whatsapp(self, page):
         try:
             self.helper.UpDateOutput("Returning to the home screen...")
-            contenteditable_element = page.locator('[aria-label="Search input textbox"][contenteditable="true"]')
+            contenteditable_element = page.locator(
+                '[aria-label="Search input textbox"][contenteditable="true"]'
+            )
             # Click inside the input box
             await contenteditable_element.click()
             # Select all text (Ctrl + A or Command + A) and delete

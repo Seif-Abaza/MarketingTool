@@ -1,15 +1,17 @@
 import datetime
 import json
 import logging
-import traceback
-import sys
 import os
+import sys
+import traceback
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-import pymongo
 import time
 import uuid
+
+import pymongo
+
 from utils.systeminfo import hash_computer
 
 
@@ -24,8 +26,8 @@ class DBManager:
         self,
         host="localhost",
         port=27017,
-        database_name: str="Marketing",
-        settings: str=None,
+        database_name: str = "Marketing",
+        settings: str = None,
         isServer=False,
         isDebug=False,
     ):
@@ -119,25 +121,28 @@ class DBManager:
             print(f"Error writing to database: {e} , Data : {data}")
             return False
 
-    def get_count_of_table(self, table_name, byDate: bool=False, Source: str=None):
+    def get_count_of_table(self, table_name, byDate: bool = False, Source: str = None):
         """
         Read documents from the collection.
         :param table_name: Name of the collection to read from.
         :param query: Optional query to filter documents.
         :return: List of documents.
         """
-        query = {}
-        query.update({"user": self.username})
-        if byDate:
-            DateNow = str(datetime.date.today().strftime("%d/%m/%Y"))
-            query.update({"date": DateNow})
+        try:
+            query = {}
+            query.update({"user": self.username})
+            if byDate:
+                DateNow = str(datetime.date.today().strftime("%d/%m/%Y"))
+                query.update({"date": DateNow})
 
-        if not Source is None:
-            query.update({"source": Source})
+            if not Source is None:
+                query.update({"source": Source})
 
-        collection = self.db[table_name]
-        documents = list(collection.find(query))
-        return len(documents)
+            collection = self.db[table_name]
+            documents = list(collection.find(query))
+            return len(documents)
+        except TimeoutError:
+            return 0
 
     def read_from_database(self, table_name, query=None):
         """
@@ -177,7 +182,7 @@ class DBManager:
         value1,
         column2=None,
         value2=None,
-        operation: str="and",
+        operation: str = "and",
     ):
         """
         Search for documents where two specific columns match given values.
@@ -233,9 +238,23 @@ class DBManager:
         collection = self.db[table_name]
         # Select only the "column_name" field (excluding _id)
         if where is None:
-            result = collection.find({}, {column: 1, "_id": 0, "user": self.username, })
+            result = collection.find(
+                {},
+                {
+                    column: 1,
+                    "_id": 0,
+                    "user": self.username,
+                },
+            )
         else:
-            result = collection.find(where, {column: 1, "_id": 0, "user": self.username, })
+            result = collection.find(
+                where,
+                {
+                    column: 1,
+                    "_id": 0,
+                    "user": self.username,
+                },
+            )
         # result = collection.find({}, {column: 1, "_id": 0, "user": self.username,})
         listColument = []
         for doc in result:
@@ -255,27 +274,33 @@ class DBManager:
         return True
 
     def get_max_message_id_of_chat(self, chat_id):
-        result = self.db["message"].aggregate(
-            [
-                {"user": self.username},
-                {"$match": {"chat_id": chat_id}},
-                {"$group": {"_id": None, "m": {"$max": "$message_id"}}},
-            ]
-        )
-        # Extract the max message_id
-        return next(result, {}).get("m", None)
+        try:
+            result = self.db["message"].aggregate(
+                [
+                    {"user": self.username},
+                    {"$match": {"chat_id": chat_id}},
+                    {"$group": {"_id": None, "m": {"$max": "$message_id"}}},
+                ]
+            )
+            # Extract the max message_id
+            return next(result, {}).get("m", None)
+        except:
+            return 0
 
     def get_min_message_id_of_chat(self, chat_id):
         # Run aggregation query to find the minimum message_id
-        result = self.db["message"].saggregate(
-            [
-                {"user": self.username},
-                {"$match": {"chat_id": chat_id}},
-                {"$group": {"_id": None, "m": {"$min": "$message_id"}}},
-            ]
-        )
-        # Extract the min message_id
-        return next(result, {}).get("m", None)
+        try:
+            result = self.db["message"].saggregate(
+                [
+                    {"user": self.username},
+                    {"$match": {"chat_id": chat_id}},
+                    {"$group": {"_id": None, "m": {"$min": "$message_id"}}},
+                ]
+            )
+            # Extract the min message_id
+            return next(result, {}).get("m", None)
+        except:
+            return 2147483647
 
     def process_value(self, value):
         """Process values before inserting into MongoDB."""
@@ -393,6 +418,7 @@ class DBManager:
                 self.update_message(item)
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
+
 
 # Example usage
 # if __name__ == "__main__":

@@ -1,58 +1,69 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('./marketing.py', 'MarketTools'), ('./requirements.txt', 'MarketTools'), ('./Classes', 'MarketTools/Classes'), ('./Facebook', 'MarketTools/Facebook'), ('./Interface', 'MarketTools/Interface'), ('./locat', 'MarketTools/locat'), ('./Telegram', 'MarketTools/Telegram'), ('./utils', 'MarketTools/utils'), ('./WhatsApp', 'MarketTools/WhatsApp'), ('./Sessions', 'MarketTools/Sessions'), ('./Log', 'MarketTools/Log')]
-binaries = []
-hiddenimports = []
-tmp_ret = collect_all('PySide6')
-datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+datas = [
+    ('requirements.txt', '.'),
+    ('Resource/countries.json', '.'),
+    ('locat/*.qm', 'locat'),
+    ('images/MM_Logo.ico', 'images')
+]
 
+binaries = []
+hiddenimports = [
+    'beautifulsoup4', 'cryptography', 'Flask', 'flask_limiter', 'googletrans',
+    'langcodes', 'langdetect', 'MailTMClient', 'PyNaCl', 'openpyxl',
+    'phonenumbers', 'Pillow', 'playwright', 'psutil', 'pymongo', 'pyperclip',
+    'pyqrcode', 'PySide6', 'python_magic', 'pytz', 'qrcode', 'requests',
+    'rich', 'selenium', 'selenium_stealth', 'smsactivate', 'telethon',
+    'torch', 'transformers', 'urllib3', 'numpy'
+]
+
+tmp_ret = collect_all('PySide6'); datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+tmp_ret = collect_all('PyNaCl'); datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+tmp_ret = collect_all('playwright'); datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+tmp_ret = collect_all('openpyxl'); datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+tmp_ret = collect_all('numpy'); datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 a = Analysis(
     ['main.py'],
-    pathex=[],
+    pathex=['.'],
     binaries=binaries,
     datas=datas,
     hiddenimports=hiddenimports,
-    hookspath=[],
+    hookspath=['./hooks'],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['tkinter', 'unittest', 'numpy.testing'],
     noarchive=False,
-    optimize=0,
+    optimize=2,
 )
+
 pyz = PYZ(a.pure)
-splash = Splash(
-    './images/8596d749-a292-4389-9bd9-bc6795a4c7de.png',
-    binaries=a.binaries,
-    datas=a.datas,
-    text_pos=None,
-    text_size=12,
-    minify_script=True,
-    always_on_top=True,
-)
 
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
-    splash,
-    splash.binaries,
     [],
+    exclude_binaries=True,
     name='MarketMiner',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
     console=False,
     disable_windowed_traceback=True,
     argv_emulation=False,
-    target_arch='x86_64',
-    codesign_identity=None,
-    entitlements_file=None,
+    target_arch=None,
     icon=['images/MM_Logo.ico'],
     hide_console='hide-early',
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='MarketMiner'
 )

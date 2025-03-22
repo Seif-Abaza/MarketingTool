@@ -1,32 +1,48 @@
-import sys
-from Interface.import_ui import Ui_Dialog as ExcelTB
-from PySide6.QtWidgets import QApplication,QDialog, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QMenu
-from PySide6.QtGui import QAction
-from PySide6.QtCore import Qt
-from openpyxl import load_workbook
 import os
+import sys
+import threading
+
+from openpyxl import load_workbook
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QDialog, QMenu, QProgressDialog, QTableWidgetItem
+
+from Interface.import_ui import Ui_Dialog as ExcelTB
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-TABLE_COLLECTION = 'import_data'
-class ExcelTable(ExcelTB,QDialog):
+TABLE_COLLECTION = "import_data"
+
+
+class ExcelTable(ExcelTB, QDialog):
     ColInformation = []
-    def __init__(self,parent=None,database=None):
+
+    def __init__(
+        self, parent=None, database=None, Category: str = None, Source: str = None
+    ):
         super().__init__(parent)
         self.setupUi(self)
         self.database = database
+        self.category = Category
+        self.source = Source
+        self.FileName = None
         if not self.database is None:
             self.database.create_table(TABLE_COLLECTION)
-        
+
         self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tableWidget.customContextMenuRequested.connect(self.show_context_menu)
         self.tableWidget.verticalHeader().setContextMenuPolicy(Qt.CustomContextMenu)
-        self.tableWidget.verticalHeader().customContextMenuRequested.connect(self.show_row_menu)
+        self.tableWidget.verticalHeader().customContextMenuRequested.connect(
+            self.show_row_menu
+        )
         self.tableWidget.horizontalHeader().setContextMenuPolicy(Qt.CustomContextMenu)
-        self.tableWidget.horizontalHeader().customContextMenuRequested.connect(self.show_column_menu)
-        
+        self.tableWidget.horizontalHeader().customContextMenuRequested.connect(
+            self.show_column_menu
+        )
+        self.AddToDB = threading.Thread(target=self.save_to_mongodb)
+
         self.btnUse.clicked.connect(self.just_use_it)
-        self.btnSaveUse.clicked.connect(self.save_to_mongodb)
-    
-    
+        self.btnSaveUse.clicked.connect(self.thread_save_to_mongodb)
+
     def show_context_menu(self, pos):
         item = self.tableWidget.itemAt(pos)
         if item:  # التأكد من أن هناك عنصرًا في المكان المضغوط عليه
@@ -53,14 +69,16 @@ class ExcelTable(ExcelTB,QDialog):
 
             action_edit.triggered.connect(lambda: self.edit_cell(row, col))
             action_delete.triggered.connect(lambda: self.delete_cell(row, col))
-            action_name.triggered.connect(lambda: self.set_info(row, col,'Name'))
-            action_phone.triggered.connect(lambda: self.set_info(row, col,'Number'))
-            action_account.triggered.connect(lambda: self.set_info(row, col,'Account'))
-            action_username.triggered.connect(lambda: self.set_info(row, col,'Username'))
-            action_notes.triggered.connect(lambda: self.set_info(row, col,'Notes'))
-            action_address.triggered.connect(lambda: self.set_info(row, col,'Address'))
-            action_country.triggered.connect(lambda: self.set_info(row, col,'Country'))
-            action_city.triggered.connect(lambda: self.set_info(row, col,'City'))
+            action_name.triggered.connect(lambda: self.set_info(row, col, "Name"))
+            action_phone.triggered.connect(lambda: self.set_info(row, col, "Number"))
+            action_account.triggered.connect(lambda: self.set_info(row, col, "Account"))
+            action_username.triggered.connect(
+                lambda: self.set_info(row, col, "Username")
+            )
+            action_notes.triggered.connect(lambda: self.set_info(row, col, "Notes"))
+            action_address.triggered.connect(lambda: self.set_info(row, col, "Address"))
+            action_country.triggered.connect(lambda: self.set_info(row, col, "Country"))
+            action_city.triggered.connect(lambda: self.set_info(row, col, "City"))
 
             menu.addAction(action_name)
             menu.addAction(action_phone)
@@ -105,20 +123,18 @@ class ExcelTable(ExcelTB,QDialog):
             action_delete_col.triggered.connect(lambda: self.delete_column(col))
             menu.addAction(action_delete_col)
             menu.exec(self.tableWidget.mapToGlobal(pos))
-    
+
     def delete_row(self, row):
-        """ حذف صف كامل """
         self.tableWidget.removeRow(row)
 
     def delete_column(self, col):
-        """ حذف عمود كامل """
         self.tableWidget.removeColumn(col)
-    
+
     def set_info(self, row: int, col: int, forCol: str):
         forCol = forCol.lower()
         isBreak = False
         for entry in self.ColInformation:
-            for key,value in entry.items():
+            for key, value in entry.items():
                 if key == col and value != forCol:
                     entry[col] = forCol.lower()
                     isBreak = True
@@ -130,8 +146,8 @@ class ExcelTable(ExcelTB,QDialog):
             data = {col: forCol}
             self.ColInformation.append(data)
         # Update the info text
-        self.txtInfo.setText(f'{forCol} is Col Number {col}')
-        
+        self.txtInfo.setText(f"{forCol} is Col Number {col}")
+
     def just_use_it(self):
         data_list = []
         for row in range(self.tableWidget.rowCount()):
@@ -151,12 +167,23 @@ class ExcelTable(ExcelTB,QDialog):
             self.parent().received_data = data_list
         else:
             return None
-    
-    def _getColName(self,col):
+
+    def _getColName(self, col):
         for entry in self.ColInformation:
-            for key,value in entry.items():
+            for key, value in entry.items():
                 if key == col:
                     return value
+
+    def thread_save_to_mongodb(self):
+        self.progress = QProgressDialog(
+            "Waiting for Save all your data in Database", "Cancel", 0, 0, self
+        )
+        self.progress.setWindowTitle("Please Wait")
+        self.progress.setModal(True)
+        self.progress.setCancelButton(None)
+        self.progress.show()
+        self.AddToDB.start()
+
     def save_to_mongodb(self):
         data_list = []
         for row in range(self.tableWidget.rowCount()):
@@ -164,31 +191,39 @@ class ExcelTable(ExcelTB,QDialog):
             for col in range(self.tableWidget.columnCount()):
                 ColumName = self._getColName(col)
                 item = self.tableWidget.item(row, col)
-                if item and item.text().strip():  # تجاهل القيم الفارغة
+                if item and item.text().strip():
                     if not item is None or not item or len(item) > 1:
                         row_data[ColumName] = item.text().strip()
             if row_data:
+                row_data.update(
+                    {
+                        "filename": self.FileName,
+                        "category": self.category,
+                        "source": self.source,
+                    }
+                )
                 data_list.append(row_data)
 
         if data_list:
             for rec in data_list:
-                self.database.write_to_database(TABLE_COLLECTION,rec)
+                self.database.write_to_database(TABLE_COLLECTION, rec)
             self.setResult(1)
             self.done(1)
             self.parent().received_data = data_list
         else:
             return None
 
-    def read_excel_file(self,filename):
+    def read_excel_file(self, filename):
         try:
+            FileName = filename.split("/")[-1]
+            self.FileName = FileName.replace(" ", "_").replace(".", "_")
+            self.setWindowTitle(self.FileName)
             wb = load_workbook(filename)
             sheet = wb.active  # تحديد الورقة النشطة
 
-            # قراءة عدد الصفوف والأعمدة
             rows = sheet.max_row
             cols = sheet.max_column
 
-            # إعداد الجدول بناءً على حجم البيانات
             self.tableWidget.setRowCount(rows)
             self.tableWidget.setColumnCount(cols)
 
@@ -196,8 +231,10 @@ class ExcelTable(ExcelTB,QDialog):
             for row in range(1, rows + 1):
                 for col in range(1, cols + 1):
                     cell_value = sheet.cell(row=row, column=col).value
-                    if not cell_value is None or cell_value != '' or not cell_value:
-                        self.tableWidget.setItem(row - 1, col - 1, QTableWidgetItem(str(cell_value)))
+                    if not cell_value is None or cell_value != "" or not cell_value:
+                        self.tableWidget.setItem(
+                            row - 1, col - 1, QTableWidgetItem(str(cell_value))
+                        )
             self.show()
             return self.exec()
         except Exception as e:

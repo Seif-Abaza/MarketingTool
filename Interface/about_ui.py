@@ -114,43 +114,43 @@ class Ui_Dialog(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.widget = QWidget(Dialog)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 280, 469, 46))
-        self.verticalLayout_2 = QVBoxLayout(self.widget)
+        self.layoutWidget1 = QWidget(Dialog)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 280, 541, 46))
+        self.verticalLayout_2 = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.label_21 = QLabel(self.widget)
+        self.label_21 = QLabel(self.layoutWidget1)
         self.label_21.setObjectName(u"label_21")
         self.label_21.setOpenExternalLinks(True)
         self.label_21.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
 
         self.horizontalLayout_3.addWidget(self.label_21)
 
-        self.line = QFrame(self.widget)
+        self.line = QFrame(self.layoutWidget1)
         self.line.setObjectName(u"line")
         self.line.setFrameShape(QFrame.Shape.VLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
 
         self.horizontalLayout_3.addWidget(self.line)
 
-        self.label_22 = QLabel(self.widget)
+        self.label_22 = QLabel(self.layoutWidget1)
         self.label_22.setObjectName(u"label_22")
         self.label_22.setOpenExternalLinks(True)
         self.label_22.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
 
         self.horizontalLayout_3.addWidget(self.label_22)
 
-        self.line_3 = QFrame(self.widget)
+        self.line_3 = QFrame(self.layoutWidget1)
         self.line_3.setObjectName(u"line_3")
         self.line_3.setFrameShape(QFrame.Shape.VLine)
         self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
 
         self.horizontalLayout_3.addWidget(self.line_3)
 
-        self.label_5 = QLabel(self.widget)
+        self.label_5 = QLabel(self.layoutWidget1)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.label_5.setOpenExternalLinks(True)
@@ -158,24 +158,32 @@ class Ui_Dialog(object):
 
         self.horizontalLayout_3.addWidget(self.label_5)
 
-        self.line_2 = QFrame(self.widget)
+        self.line_2 = QFrame(self.layoutWidget1)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.Shape.VLine)
         self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
 
         self.horizontalLayout_3.addWidget(self.line_2)
 
-        self.label_23 = QLabel(self.widget)
+        self.label_23 = QLabel(self.layoutWidget1)
         self.label_23.setObjectName(u"label_23")
         self.label_23.setOpenExternalLinks(True)
         self.label_23.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
 
         self.horizontalLayout_3.addWidget(self.label_23)
 
+        self.label_6 = QLabel(self.layoutWidget1)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_6.setOpenExternalLinks(True)
+        self.label_6.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
+
+        self.horizontalLayout_3.addWidget(self.label_6)
+
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
 
-        self.label = QLabel(self.widget)
+        self.label = QLabel(self.layoutWidget1)
         self.label.setObjectName(u"label")
 
         self.verticalLayout_2.addWidget(self.label)
@@ -203,6 +211,7 @@ class Ui_Dialog(object):
         self.label_22.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p><a href=\"https://www.facebook.com/people/MarketMiner/61574189555294/\"><span style=\" font-weight:700; text-decoration: underline; color:#99c1f1;\">Follow us</span></a></p></body></html>", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p><a href=\"https://t.me/marketminer25\"><span style=\" font-weight:700; text-decoration: underline; color:#99c1f1;\">Telegram</span></a></p></body></html>", None))
         self.label_23.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p><a href=\"https://wa.link/g6uu40\"><span style=\" font-weight:700; text-decoration: underline; color:#99c1f1;\">Technical Support</span></a></p></body></html>", None))
+        self.label_6.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p><a href=\"https://github.com/Seif-Abaza/MarketMiner/issues\"><span style=\" font-weight:700; text-decoration: underline; color:#99c1f1;\">Github</span></a></p></body></html>", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p><a href=\"https://usdtfreelancer.com\"><span style=\" font-weight:700; text-decoration: underline; color:#1a5fb4;\">Support By USDTFreelancer.com</span></a></p></body></html>", None))
     # retranslateUi
 

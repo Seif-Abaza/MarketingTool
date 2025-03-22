@@ -10,3 +10,8 @@ TestingScript
 update
 reg.bin
 Installer.json
+Interface/*.ui
+MarketMinerEnv
+Egypto
+build
+MarketMiner.spec

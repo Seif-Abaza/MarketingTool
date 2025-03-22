@@ -1,38 +1,40 @@
+import asyncio
 import hashlib
 import logging
-import math
 import os
 import sys
 import traceback
 import unicodedata
 from random import randrange
-from time import sleep
 
 import telethon
-from PySide6.QtCore import QDir
+from googletrans import Translator
+from langdetect import detect
 from PySide6.QtWidgets import QInputDialog, QLineEdit, QListView
 from telethon import TelegramClient, functions, types
 from telethon.errors.rpcerrorlist import UsernameInvalidError
 from telethon.tl.functions.channels import InviteToChannelRequest
-from telethon.tl.functions.messages import SendMessageRequest
-from telethon.tl.types import PeerUser, InputPeerChat
-from telethon.tl.functions.contacts import ResolveUsernameRequest
+from telethon.tl.functions.messages import SendMediaRequest, SendMessageRequest
+
 from utils.helper import helper
-from PySide6.QtWidgets import QApplication, QMessageBox
-import uuid
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 TABLE_NAME = "Telegram"
+TABLE_NAME_CHANNEL = "channel"
+TABLE_NAME_MESSAGES = "message"
+TABLE_COLLECTION = "import_data"
 
 
 class sTelegram:
 
-    def __init__(self, settings, database, category=None, output: QListView=None):
+    def __init__(self, settings, database, category=None, output: QListView = None):
         self.settings = settings
         self.helper = helper(output)
         self.database = database
         self.database.create_table(TABLE_NAME)
+        self.database.create_table(TABLE_NAME_CHANNEL)
+        self.database.create_table(TABLE_NAME_MESSAGES)
         self.category = category
         api_id, api_hash, phone_number, session_name = (
             self.settings["tg_api_id"],
@@ -102,16 +104,9 @@ class sTelegram:
             Number_Of_Group = 0
             await self.Connected()
             if self.Tg.is_connected():
-                groups = self.helper.readlist_file(filelist)
-                for group in groups:
+                for group in filelist:
                     if Number_Of_Group <= 3:
                         self.helper.UpDateOutput(f"Open Group {group}")
-                        # channel = await self.Tg(ResolveUsernameRequest(group))
-                        # channel = await self.Tg.get_input_entity(str(group))
-                        # members = await self.Tg.get_participants(str(group))
-                        # channel = await self.Tg.get_entity(str(group))
-                        # members = await self.Tg.get_participants(str(channel))
-                        # members = self.Tg.iter_participants(entity=channel)
                         members = await self.Tg.get_participants(group, aggressive=True)
                         self.helper.UpDateOutput(f"Get Members from {group}")
                         Number_Of_Group += 1
@@ -121,7 +116,7 @@ class sTelegram:
                         self.helper.UpDateOutput(
                             f"-: Hold from {seconds} seconds and Back to Work :-"
                         )
-                        sleep(seconds)
+                        asyncio.sleep(seconds)
                         continue
 
                     try:
@@ -154,18 +149,22 @@ class sTelegram:
                                     "last_active": "Unknown",
                                     "category": self.category,
                                 }
-                                if self.database.write_to_database(
-                                    TABLE_NAME, member_data
+                                if not self.database.search_by_column(
+                                    TABLE_NAME, "id", member.id
                                 ):
-                                    self.helper.UpDateOutput(
-                                        "Add to database user "
-                                        +member_data["username"]
-                                    )
+                                    if self.database.write_to_database(
+                                        TABLE_NAME, member_data
+                                    ):
+                                        self.helper.UpDateOutput(
+                                            f"Add to database user {member_data["first_name"] or member_data["username"]}"
+                                        )
+                                    else:
+                                        self.helper.UpDateOutput(
+                                            f"User Exist in Database : {member_data["first_name"] or member_data["username"]}"
+                                        )
+                                        continue
                                 else:
-                                    self.helper.UpDateOutput(
-                                        "User Exist in Database : "
-                                        +member_data["username"]
-                                    )
+                                    continue
 
                     except Exception:
                         logging.error("Error : \n" + traceback.format_exc())
@@ -175,7 +174,7 @@ class sTelegram:
                     self.helper.UpDateOutput(
                         f"Finished Group {group} and i will hold {seconds} seconds."
                     )
-                    sleep(seconds)
+                    asyncio.sleep(seconds)
                 return True
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
@@ -186,9 +185,9 @@ class sTelegram:
     async def send_to_member(
         self,
         member_id: int,
-        text_message: str=None,
-        file_send: str=None,
-        mode: str="text",
+        text_message: str = None,
+        file_send: str = None,
+        mode: str = "text",
     ):
         try:
             if self.Tg == None:
@@ -220,7 +219,7 @@ class sTelegram:
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
 
-    async def add_members_to_channel(self, channel: str, member_list: str=None):
+    async def add_members_to_channel(self, channel: str, member_list: str = None):
         """
         Adds multiple members to a channel or group.
 
@@ -230,8 +229,6 @@ class sTelegram:
         MyChannel = None
         await self.Connected()
         try:
-            # Resolve the channel entity
-            # lchannel = await self.Tg.get_entity('@' + channel)
             MyChannel = await self.Tg.get_input_entity(channel)
             self.helper.UpDateOutput(
                 f"Resolved channel: {MyChannel.title} (ID: {MyChannel.id})"
@@ -252,28 +249,86 @@ class sTelegram:
             self.helper.UpDateOutput(f"Error resolving channel: {e}")
             return
         try:
+            UserLists = []
             if member_list is None:
                 try:
                     members = self.database.read_from_database(
                         TABLE_NAME, {"category": self.category}
                     )
-                    for member in members:
-                        user = await self.Tg.get_entity(member["id"])
-                        await self.Tg(
-                            InviteToChannelRequest(channel=MyChannel, users=[user])
+                    if not members:
+                        members = self.database.read_from_database(
+                            TABLE_COLLECTION, {"category": self.category}
                         )
-                        sleep(randrange(1, 3))
+
+                    for member in members:
+                        try:
+                            if not member.get("username") is None:
+                                user = await self.Tg.get_entity(member.get("username"))
+                            else:
+                                user = await self.Tg.get_entity(
+                                    int(member.get("account"))
+                                )
+                            UserLists.append(user)
+                            self.helper.UpDateOutput(
+                                f"Add User {user.username} to {MyChannel.title}"
+                            )
+
+                            if len(UserLists) >= 20:
+                                self.helper.UpDateOutput("Send Invitations...")
+                                await self.Tg(
+                                    InviteToChannelRequest(
+                                        channel=MyChannel, users=UserLists
+                                    )
+                                )
+                                UserLists = []
+                                asyncio.sleep(randrange(10, 25))
+
+                        except ValueError:
+                            self.helper.UpDateOutput(
+                                f'Not fund {member.get("username")}'
+                            )
+                            continue
+                        except telethon.errors.rpcerrorlist.UsernameInvalidError:
+                            self.helper.UpDateOutput(
+                                f'Not fund {member.get("username")}'
+                            )
+                            continue
+                        except telethon.errors.rpcerrorlist.PeerFloodError:
+                            self.helper.UpDateOutput(
+                                f"========== We are must waiting =========="
+                            )
+                            asyncio.sleep(1800)
+                            continue
                 except Exception:
-                    pass
+                    logging.error("Error : \n" + traceback.format_exc())
+                    return False
+                finally:
+                    await self.Tg.disconnect()
             else:
-                member_lists = self.helper.readlist_file(member_list)
-                for member in member_lists:
-                    user = await self.Tg.get_entity(member)
-                    await self.Tg(
-                        InviteToChannelRequest(channel=MyChannel, users=[user])
-                    )
-                    sleep(randrange(1, 3))
+                for member in member_list:
+                    try:
+                        if not member.get("username") is None:
+                            user = await self.Tg.get_entity(member.get("username"))
+                        else:
+                            user = await self.Tg.get_entity(int(member.get("account")))
+                        UserLists.append(user)
+                        self.helper.UpDateOutput(
+                            f"Add User {user.username} to {MyChannel.title}"
+                        )
+                        if len(UserLists) >= 20:
+                            self.helper.UpDateOutput("Send Invitations...")
+                            await self.Tg(
+                                InviteToChannelRequest(
+                                    channel=MyChannel, users=UserLists
+                                )
+                            )
+                            UserLists = []
+                            asyncio.sleep(randrange(10, 25))
+                    except ValueError:
+                        self.helper.UpDateOutput(f'Not fund {member.get("username")}')
+                        continue
             return True
+
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
             return False
@@ -282,78 +337,123 @@ class sTelegram:
 
     async def fetch_all_group_message(
         self,
-        mode="new",
+        mode: str = "new",
         max_date=None,
-        main_channel: str=None,
-        target_channel: str=None,
+        main_channel: str = None,
+        target_channel: str = None,
+        list1: list = None,
+        list2: list = None,
     ):
         try:
             Peer = None
             md5Channel = ""
-            isOneChannel = False
             if self.Tg == None:
                 await self.Connected()  # Ensure connection
             if self.Tg.is_connected():
-                if main_channel == "":
-                    isOneChannel = False
-                else:
-                    md5Channel = hashlib.md5(main_channel.encode())
-                    isOneChannel = True
-
                 dialog_list = await self.Tg.get_dialogs()
+                if main_channel == "":
+                    self.helper.UpDateOutput("Build Telegram Channel Database...")
+                    for entity in dialog_list:
+                        if entity.is_channel or entity.is_group:
+                            if main_channel == "":
+                                self.helper.UpDateOutput(
+                                    f"The Main Channel is {entity.title}"
+                                )
+                                main_channel = entity.title
+                            if not self.database.search_by_column(
+                                TABLE_NAME_CHANNEL, "id", entity.id
+                            ):
+                                item = {
+                                    "id": entity.id,
+                                    "title": entity.title,
+                                    "is_group": entity.is_group,
+                                    "is_channel": entity.is_channel,
+                                    "username": unicodedata.normalize(
+                                        "NFKC",
+                                        getattr(entity, "username", "name")
+                                        or "Unknown",
+                                    ),
+                                    "access_hash": unicodedata.normalize(
+                                        "NFKC",
+                                        getattr(entity, "access_hash", "Unknown")
+                                        or "Unknown",
+                                    ),
+                                    "mega_group": unicodedata.normalize(
+                                        "NFKC",
+                                        getattr(entity, "megagroup", "false")
+                                        or "false",
+                                    ),
+                                    "giga_group": unicodedata.normalize(
+                                        "NFKC",
+                                        getattr(entity, "gigagroup", "false")
+                                        or "false",
+                                    ),
+                                    "category": self.category,
+                                }
+                                self.helper.UpDateOutput(f"Add Channel {entity.title}")
+                                self.database.write_to_database(
+                                    TABLE_NAME_CHANNEL, item
+                                )
 
                 if not target_channel is None:
                     Peer = await self.Tg.get_input_entity(target_channel)
+                    self.helper.UpDateOutput(f"Target Channel ID {Peer.channel_id}")
 
+                entity = None
                 for dialog in dialog_list:
-                    if isOneChannel:
-                        if (
-                            hashlib.md5(dialog.title.encode()).digest()
-                            != md5Channel.digest()
-                        ):
-                            continue
+                    if dialog.title == main_channel:
+                        entity = await self.Tg.get_entity(dialog.id)
 
-                    entity = await self.Tg.get_entity(dialog.id)
-                    try:
-                        if (
-                            isinstance(entity, telethon.tl.types.Channel)
-                            and dialog.is_group
-                        ):
-                            self.fetch_channel(entity, dialog.is_group)
+                try:
+                    if not entity is None and isinstance(
+                        entity, telethon.tl.types.Channel
+                    ):
+                        self.helper.UpDateOutput(f"Fetching Channel and Messages...")
+                        self.fetch_channel(entity, dialog.is_group)
+                        if mode == "new":
+                            max_message_id = (
+                                self.database.get_max_message_id_of_chat(entity.id) or 0
+                            )
+                            msg_iter = self.Tg.iter_messages(
+                                entity.id, min_id=max_message_id
+                            )
+                        elif mode == "old":
+                            min_message_id = (
+                                self.database.get_min_message_id_of_chat(entity.id)
+                                or 2147483647
+                            )
+                            msg_iter = self.Tg.iter_messages(
+                                entity.id, max_id=min_message_id
+                            )
+                        else:
+                            msg_iter = self.Tg.iter_messages(entity.id)
 
-                            if mode == "New":
-                                max_message_id = (
-                                    self.database.get_max_message_id_of_chat(entity.id)
-                                    or 0
-                                )
-                                msg_iter = self.Tg.iter_messages(
-                                    entity.id, min_id=max_message_id
-                                )
-                            elif mode == "Old":
-                                min_message_id = (
-                                    self.database.get_min_message_id_of_chat(entity.id)
-                                    or 2147483647
-                                )
-                                msg_iter = self.Tg.iter_messages(
-                                    entity.id, max_id=min_message_id
-                                )
-                            else:
-                                msg_iter = self.Tg.iter_messages(entity.id)
-
-                            async for msg in msg_iter:
-                                if not max_date is None:
-                                    maxdate = msg.date.strftime("%d/%m/%Y")
+                        async for msg in msg_iter:
+                            if not max_date is None:
+                                maxdate = msg.date.strftime("%d/%m/%Y")
+                                if mode == "new":
                                     if maxdate >= max_date:
-                                        await self.fetch_message(msg, Peer)
+                                        await self.fetch_message(
+                                            msg, Peer, list1, list2
+                                        )
                                     else:
                                         break
-                                else:
-                                    await self.fetch_message(msg, Peer)
-                            # Copy Message to Channel
-                            pass
-
-                    except Exception:
-                        logging.error("Error : \n" + traceback.format_exc())
+                                elif mode == "old":
+                                    if maxdate <= max_date:
+                                        await self.fetch_message(
+                                            msg, Peer, list1, list2
+                                        )
+                                    else:
+                                        break
+                            else:
+                                await self.fetch_message(msg, Peer, list1, list2)
+                    else:
+                        self.helper.UpDateOutput(
+                            f"Can't Parsing {entity.title}, i'll Close Telegram Module..."
+                        )
+                        return False
+                except Exception:
+                    logging.error("Error : \n" + traceback.format_exc())
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
         finally:
@@ -378,7 +478,7 @@ class sTelegram:
         self.helper.UpDateOutput(f"Channel Name : {item['title']}")
         self.database.process_channel(item)
 
-    async def fetch_message(self, msg, send_to_target=None):
+    async def fetch_message(self, msg, send_to_target=None, list1=None, list2=None):
         """
         Process and fetch a message
         :param msg:
@@ -391,7 +491,6 @@ class sTelegram:
                     msg.chat.id, msg.chat.id, msg.from_id, msg.id
                 )
             )
-            media_file = os.path.basename(media_path)
         elif (
             msg.media
             and isinstance(msg.media, telethon.tl.types.MessageMediaDocument)
@@ -403,9 +502,9 @@ class sTelegram:
                     msg.chat.id, msg.chat.id, msg.from_id, msg.id
                 )
             )
-            media_file = os.path.basename(media_path)
         else:
-            media_file = None
+            media_path = None
+
             if not msg.message:
                 return
         member = msg.sender
@@ -427,60 +526,105 @@ class sTelegram:
         self.database.write_to_database(TABLE_NAME, user)
 
         if len(msg.message) > 1:
+            Message = unicodedata.normalize("NFKC", getattr(msg, "message", ""))
+            if not list1 is None and not list2 is None and Message != "":
+                for part in list1:
+                    if part in Message:
+                        index = list1.index(part)
+                        Message = Message.replace(part, list2[index])
+
+                words = Message.split()
+                for i, word in enumerate(words):
+                    if word in list1:
+                        index = list1.index(word)
+                        if index < len(list2):
+                            words[i] = list2[index]
+                Message = " ".join(words)
+
             gitem = {
                 "id": getattr(msg, "id", 0),  # Message id of current chat
                 "chat_id": msg.chat.id,  # ID of current chat
-                "message": unicodedata.normalize(
-                    "NFKC", getattr(msg, "message", " ")
-                ),  # message content
+                "message": Message,
                 "date": msg.date.strftime("%d/%m/%Y %H:%M:%S"),
                 "from_id": member.id,  # The ID of the user who sent this message
                 "is_reply": msg.is_reply,  # True if the message is a reply to some other
                 "reply_to_msg_id": msg.reply_to_msg_id,  # The ID to which this message is replying to, if any
                 "is_channel": msg.is_channel,
                 "is_group": msg.is_group,
-                "media_file": media_file,
+                "media_file": media_path,
                 "category": self.category,
             }
 
-            self.helper.UpDateOutput("Message: " + gitem["message"])
+            self.helper.UpDateOutput(f"Message: {Message}")
             self.database.process_message(gitem)
+            try:
+                if not send_to_target is None:
+                    if not media_path is None:
+                        await self.Tg(
+                            SendMediaRequest(
+                                peer=send_to_target.channel_id,
+                                media=types.InputMediaUploadedPhoto(
+                                    file=await self.Tg.upload_file(
+                                        media_path
+                                    )  # Upload the media file
+                                ),
+                                message=Message,
+                            )
+                        )
+                    else:
+                        await self.Tg(
+                            SendMessageRequest(
+                                peer=send_to_target,
+                                message=Message,
+                            )
+                        )
+            except:
+                logging.error("Error : \n" + traceback.format_exc())
+                self.helper.UpDateOutput(f"Error can not send to your target.")
 
-            if not send_to_target is None:
-                await self.Tg(SendMessageRequest(send_to_target, gitem["message"]))
-
-    async def send_message_without_block(
+    async def telegram_send_message(
         self,
-        message: str,
-        file_send: str=None,
-        file_list: str=None,
-        use_AI: bool=False,
+        message: str = None,
+        file_send: str = None,
+        file_list: str = None,
+        slogin: str = None,
+        compan: str = None,
+        msg_img: bool = False,
+        translat: bool = False,
     ):
+        if file_send == "":
+            file_send = None
+
         if file_list:
-            members = self.helper.readlist_file(file_list)
+            members = file_list
         else:
             members = self.database.read_from_database(
                 TABLE_NAME, {"category": self.category}
             )
-        if self.helper.is_file_path(message):
+        if not message is None and self.helper.is_file_path(message):
             message = self.helper.read_file_as_text(message)
+
         try:
             if self.Tg == None:
                 await self.Connected()  # Ensure connection
             if self.Tg.is_connected():
-                if use_AI:
-                    Compan_ID = str(uuid.uuid4())
-                    self.helper.UpDateOutput(f"Compan ID {Compan_ID}")
-                    self.helper.UpDateOutput("Run AI...")
-                    user_message = self.helper.AI_Command(
-                        message=message,
-                        withCommand=True,
-                        driver=None,
-                        settings=self.settings,
-                    )
-                    for msg in user_message:
-                        msg = msg.split(":", 1)[1].strip()
-                        self.database.save_msg_history(Compan_ID, msg, "telegram")
+
+                if compan:
+                    self.helper.UpDateOutput("Waitnig AI Results")
+                    loop_time = 0
+                    message_list = []
+                    while len(message_list) == 0:
+                        if loop_time >= 50:
+                            if not message is None:
+                                send_message = message
+                            else:
+                                return False
+                            break
+                        else:
+                            loop_time += 1
+                        message_list = self.database.get_msg_history(compan)
+                        await asyncio.sleep(randrange(4, 10))
+
                 for user in members:
                     try:
                         if not user is None:
@@ -489,19 +633,43 @@ class sTelegram:
                                 # Peer = await self.Tg.get_participants(int(user['id']))
                             else:
                                 Peer = await self.Tg.get_entity(user["username"])
-                            if use_AI:
-                                user_message = self.database.get_msg_history(Compan_ID)
-                                if len(user_message) > 0:
-                                    send_message = user_message[
-                                        randrange(0, len(user_message))
-                                    ]["message"]
-                                else:
-                                    send_message = message
-                            else:
-                                send_message = message
+                            if Peer.deleted:
+                                continue
 
-                            if send_message == "":
+                            if Peer.is_self:
+                                continue
+
+                            self.helper.UpDateOutput(
+                                f"Send To: {Peer.first_name or Peer.username }"
+                            )
+
+                            if len(message_list) == 0:
                                 send_message = message
+                            else:
+                                msg = message_list[randrange(0, len(message_list))][
+                                    "message"
+                                ]
+                                if slogin:
+                                    _slogin = slogin.split("|")
+                                    if int(_slogin[0]) == 0:
+                                        send_message = f"{_slogin[1]}\n\n{msg}"
+                                    else:
+                                        send_message = f"{msg}\n\n{_slogin[1]}"
+                                else:
+                                    send_message = msg
+                            if translat:
+                                async with Translator(timeout=20000) as translator:
+                                    if Peer.lang_code:
+                                        lang = Peer.lang_code
+                                    else:
+                                        lang = detect(Peer.first_name or Peer.username)
+
+                                    result = await translator.translate(
+                                        send_message,
+                                        dest=lang,
+                                    )
+                                    send_message = result.text
+
                             self.helper.UpDateOutput(f"Message: {send_message}")
 
                             if not send_message is None and file_send is None:
@@ -512,7 +680,11 @@ class sTelegram:
                                 await self.send_to_member(
                                     Peer.id, file_send=file_send, mode="file"
                                 )
-                            elif not send_message is None and not file_send is None:
+                            elif (
+                                not send_message is None
+                                and not file_send is None
+                                and msg_img
+                            ):
                                 await self.send_to_member(
                                     Peer.id,
                                     text_message=send_message,
@@ -527,8 +699,9 @@ class sTelegram:
                                 message=send_message,
                                 source="Telegram",
                             )
-                        sleep(randrange(1, 5))
+                        await asyncio.sleep(randrange(5, 15))
                     except Exception:
+                        logging.error("Error : \n" + traceback.format_exc())
                         continue
         except Exception:
             self.helper.UpDateOutput("Error Can not Get User, Please read log message")

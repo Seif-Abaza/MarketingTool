@@ -1,9 +1,10 @@
+import os
+
 from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox
 
 from Interface.settings_ui import Ui_Dialog as SettingsDialog
 from utils.helper import helper
 from utils.Security import Security
-import os
 
 SETTINGS_KEYS_TO_ELEMENT_KEYS = [
     "default_output",
@@ -19,6 +20,7 @@ SETTINGS_KEYS_TO_ELEMENT_KEYS = [
 Language = [
     "English",  # en
     "العربية",  # ar
+    "עִברִית",  # he
     "Русский",  # ru
     "Français",  # fr
     "Español",  # es
@@ -103,12 +105,12 @@ class Settings(SettingsDialog, QDialog):
                 lang = "fa"
             case "ქართული ენა":
                 lang = "ge"
-        if lang == 'en':
+        if lang == "en":
             if os.path.exists("setup"):
                 os.remove("setup")
         else:
             helping.write_encrypted_data_to_file("setup", lang)
-        
+
         QMessageBox.information(
             self, "Language", "Language is changed, Please restart the application."
         )

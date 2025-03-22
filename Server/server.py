@@ -1,25 +1,24 @@
-import logging
 import datetime
-import time
-import json
-import os
 import hashlib
+import json
+import logging
+import os
+import sys
+import time
+
 from flask import Flask, jsonify, request, send_file
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from nacl.public import (
+from nacl.public import (  # Replace with your actual crypto library
+    Box,
     PrivateKey,
     PublicKey,
-    Box,
-)  # Replace with your actual crypto library
-import sys
-
+)
 
 # Load environment variables
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../utils/")))
 from DBManager import DBManager
-
 
 PORT = 23004
 # IP_ADDRESS = "127.0.0.1"
@@ -79,9 +78,7 @@ class MarketingToolsServer:
         self.server_public_key = self.server_private_key.public_key
 
         # Initialize the database
-        self.database = DBManager(
-            database_name="MarketingTools", isServer=True
-        )
+        self.database = DBManager(database_name="MarketingTools", isServer=True)
 
         # Initialize the Flask app
         self.app = Flask(__name__)
@@ -127,7 +124,9 @@ class MarketingToolsServer:
             "/get_sms_services", view_func=self.get_sms_services, methods=["GET"]
         )
         self.app.add_url_rule(
-            "/get_sms_name_by_code/<sms_code>", view_func=self.get_service_name_by_code, methods=["GET"]
+            "/get_sms_name_by_code/<sms_code>",
+            view_func=self.get_service_name_by_code,
+            methods=["GET"],
         )
         self.app.add_url_rule(
             "/check_update", view_func=self.check_update, methods=["GET"]
@@ -204,7 +203,9 @@ class MarketingToolsServer:
                         user_account = user_account[0]
                     else:
                         _sm_allow = ["telegram", "whatsapp", "facebook"]
-                        _sms_allow = self.get_service_code_by_name(self._internal_sms_services())
+                        _sms_allow = self.get_service_code_by_name(
+                            self._internal_sms_services()
+                        )
                         sm_allow = [str(item) for item in _sm_allow]
                         d_coma = ","
                         self.database.write_to_database(
@@ -316,7 +317,7 @@ class MarketingToolsServer:
                     "can_use_ai": user_account["can_use_ai"],
                     "can_use": user_account["can_use"],
                     "can_sms": user_account["can_sms"],
-                    "can_sms_service": user_account['can_sms_service'],
+                    "can_sms_service": user_account["can_sms_service"],
                     "can_tmp_mail": user_account["can_tmp_mail"],
                     "can_super_fast": user_account["can_super_fast"],
                     "sms_key": SMS_APIKEY,
@@ -351,7 +352,9 @@ class MarketingToolsServer:
             )
             if all_services:
                 for service in all_services:
-                    services.append({"name": service["name"], "code": service["code"]})  # Fixed variable name
+                    services.append(
+                        {"name": service["name"], "code": service["code"]}
+                    )  # Fixed variable name
                 return jsonify({"success": True, "data": services, "error": ""}), 200
             else:
                 return jsonify({"success": False, "message": "No services found"}), 500
@@ -361,17 +364,17 @@ class MarketingToolsServer:
             # Convert the exception to a string before returning it
             return jsonify({"success": False, "message": str(err)}), 500
 
-    def _get_sms_service_by_name(self,list_of_name=None):
+    def _get_sms_service_by_name(self, list_of_name=None):
         list_of_codes = []
         if not list_of_name is None:
             for item in list_of_name:
                 list_of_codes.append(
-                    self.database.search_by_column(
-                        TABLE_SMS_SERVICE, "name", item
-                    )['code']
+                    self.database.search_by_column(TABLE_SMS_SERVICE, "name", item)[
+                        "code"
+                    ]
                 )
         return list_of_codes
-    
+
     def _internal_sms_services(self):
         """Get SMS services."""
         try:
@@ -381,7 +384,9 @@ class MarketingToolsServer:
             )
             if all_services:
                 for service in all_services:
-                    services.append({"name": service["name"], "code": service["code"]})  # Fixed variable name
+                    services.append(
+                        {"name": service["name"], "code": service["code"]}
+                    )  # Fixed variable name
                 return services
             else:
                 return []
@@ -389,31 +394,27 @@ class MarketingToolsServer:
             # Log the error for debugging
             self.logger.error(f"Error in get_sms_services: {err}")
             return []
-            
-    def get_service_code_by_name(self,list_of_name=None):
+
+    def get_service_code_by_name(self, list_of_name=None):
         list_of_codes = []
         if not list_of_name is None:
             for item in list_of_name:
                 iname = self.database.search_by_column(
-                        TABLE_SMS_SERVICE, "name", item['name']
-                    )
-                if iname[0]:
-                    list_of_codes.append(
-                        iname[0]['code']
-                    )
-        return list_of_codes
-    
-    def get_service_name_by_code(self,sms_code=None):
-        if not sms_code is None:
-            iname = self.database.search_by_column(
-                    TABLE_SMS_SERVICE, "code", sms_code
+                    TABLE_SMS_SERVICE, "name", item["name"]
                 )
+                if iname[0]:
+                    list_of_codes.append(iname[0]["code"])
+        return list_of_codes
+
+    def get_service_name_by_code(self, sms_code=None):
+        if not sms_code is None:
+            iname = self.database.search_by_column(TABLE_SMS_SERVICE, "code", sms_code)
             if iname[0]:
-                name_service = iname[0]['name']
+                name_service = iname[0]["name"]
             return jsonify({"success": True, "data": name_service, "error": ""}), 200
         else:
             return jsonify({"success": False, "message": "No services found"}), 500
-    
+
     def check_update(self):
         """Check for updates."""
         os_type = request.args.get("os", "").lower()
@@ -458,7 +459,7 @@ class MarketingToolsServer:
     def run(self):
         """Run the Flask app."""
         self.logger.warning("Server is Working Now")
-        self.app.run(host='0.0.0.0', port=PORT, debug=IS_DEBUG)
+        self.app.run(host="0.0.0.0", port=PORT, debug=IS_DEBUG)
 
 
 # Main entry point

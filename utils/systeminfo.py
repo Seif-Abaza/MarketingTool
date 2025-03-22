@@ -6,7 +6,6 @@ import socket
 import uuid
 import re
 import hashlib
-import os
 
 
 def get_size(bytes, suffix="B"):

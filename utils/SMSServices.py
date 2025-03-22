@@ -1,7 +1,6 @@
 from smsactivate.api import SMSActivateAPI
-import json
 from datetime import datetime
-from pip._vendor import requests
+import requests
 
 
 

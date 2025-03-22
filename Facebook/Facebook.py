@@ -10,10 +10,10 @@ import re
 import pyperclip
 from PySide6.QtWidgets import QMessageBox, QListView , QDialog
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait
 from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
 from utils.helper import helper
@@ -119,7 +119,7 @@ class Facebook:
         except Exception:
             return False
 
-    async def post_to_groups(self, list_of_groups, category, message, useAI=False, CompanName:str=None):
+    async def post_to_groups(self, list_of_groups, category, message, useAI=False, CompanName:str=None,Slogin:str=None):
         try:
             ListOfMessages = []
             self.helper.UpDateOutput("Waiting initialization Facebook Group...")
@@ -160,53 +160,80 @@ class Facebook:
                 await page.set_viewport_size({"width": 830, "height": 930})
                 if list_of_groups is None:
                     list_of_groups = self.database.search_by_column(TABLE_NAME_GROUP, "category", category)
-                # else:
-                    # list_of_groups = self.helper.readlist_file(list_of_groups)
-
-                #Clear List and Just Get Numbers
-                OldList = list_of_groups
-                list_of_groups = []
-                for links in OldList:
-                    group_number = re.search(r"\d+$", links) 
-                    list_of_groups.append(group_number.group(0))
-                    
-                    
-                basic_group_link = "https://m.facebook.com/groups/"
+                
+                basic_group_link = "https://facebook.com/groups/"
                 countPost = 0
-
+                DateNow = str(datetime.date.today().strftime("%d/%m/%Y"))
+                
                 for group in list_of_groups:
-                    if countPost >= 30:
-                        self.helper.UpDateOutput("We will hold 30min for un-block account.")
-                        await asyncio.sleep(1800)
-                        countPost = 0
-
-                    group_id = group if isinstance(group, str) else group["group_id"]
-                    self.helper.UpDateOutput(f"Open Group {group_id}")
-                    
-                    await page.goto(basic_group_link + group_id, timeout=120000)
-                    
-                    if await self.is_logout(page):
-                        ok = QMessageBox.warning(None, "Warning", "Please login to Facebook, and Confirm it , after that Click On OK button", QMessageBox.Ok)
-                        if ok:
-                            browser.close()
-                            return
-                    
-                    self.helper.UpDateOutput("Writing Post...")
                     try:
+                        TimeNow = int(time.time())
+                        if len(group) == 0:
+                            continue
+                        
+                        group_number = re.search(r"^https:\/\/www\.facebook\.com\/groups\/([a-zA-Z0-9.-]+)", group)
+                        group = group_number.group(1)
+                        if group != '' or not group is None:
+                            if self.database.search_by_columns(TABLE_NAME_SEND_CHAT_MESSAGE,"group_id",group,"date",DateNow):
+                                self.helper.UpDateOutput(f"Skip {group} we post on it today...")
+                                continue
+                        else:
+                            continue
+                        
+                        if countPost >= 30:
+                            self.helper.UpDateOutput("We will hold 30min for un-block account.")
+                            await asyncio.sleep(1800)
+                            countPost = 0
+
+                        group_id = group if isinstance(group, str) else group["group_id"]
+                        
+                        GroupURL = f"{basic_group_link}{group_id}"
+                        
+                        self.helper.UpDateOutput(f"Open Group {GroupURL}")
+                        
+                        await page.goto(GroupURL, timeout=120000,wait_until="domcontentloaded")
+                        
+                        if await self.is_logout(page):
+                            ok = QMessageBox.warning(None, "Warning", "Please login to Facebook, and Confirm it , after that Click On OK button", QMessageBox.Ok)
+                            if ok:
+                                browser.close()
+                                return
+                        
+                        self.helper.UpDateOutput("Writing Post...")
+                    
                         self.helper.UpDateOutput("Select Message for Post...")
                         if len(ListOfMessages) > 0:
-                            send_message = ListOfMessages[randrange(0, len(ListOfMessages))]["message"]
+                            send_message = ListOfMessages[randrange(0, len(ListOfMessages))].get("message")
                         else:
                             send_message = message.strip()
                         
                         if send_message == "":
                             send_message = message.strip()
                         
-                        pyperclip.copy(send_message)
+                        if not Slogin is None:
+                            _slogin = Slogin.split('|')
+                            if _slogin[0] == 0:
+                                send_message = f"{ _slogin[1:]}\n\n {send_message}"
+                            else:
+                                send_message = f"{ send_message}\n\n {_slogin[1]}"
+                        
+                        try:
+                            element_xpath = f"//a[contains(@href, '/groups/{group_id}/buy_sell_discussion/') and @role='tab']"
+                            descriptionTab = page.locator(f"xpath={element_xpath}")
+                            # descriptionTab = page.get_by_text('Discussion').and_(page.get_by_role('tab'))
+                            await descriptionTab.wait_for(state="visible", timeout=6000)
+                            await descriptionTab.scroll_into_view_if_needed()
+                            if descriptionTab:
+                                await descriptionTab.click(force=True)
+                        except Exception:
+                            pass
+                        
+                        
                         self.helper.UpDateOutput(f"Message Select is {send_message}...")
                         Selector = ''
                         try:
                             Selector = ":is(div[role='textbox'][aria-label*='Create a public post...'], span:has-text('Write something...'))"
+                            
                             textarea_selector = await page.wait_for_selector(
                                 Selector,
                                 state="visible",
@@ -214,28 +241,34 @@ class Facebook:
                             )
                         except:
                             Selector = "span:has-text('Write something...')"
-                            textarea_selector = await page.wait_for_selector(Selector, state="visible", timeout=10000)
+                            textarea_selector = await page.wait_for_selector(Selector, state="visible", timeout=20000)
                         
+                        await textarea_selector.scroll_into_view_if_needed()
                         await asyncio.sleep(randrange(1, 3))
                         await textarea_selector.click(force=True)
-                        await asyncio.sleep(randrange(2, 4))
-                        # await page.screenshot(path=os.path.join(os.path.dirname(__file__), "..") + "/debug_screenshot_0.png")
+                        await asyncio.sleep(randrange(2, 6))
                         # page.get_by_label('Post anonymously').check()
                         text = await textarea_selector.inner_text()
                         if "Write something" in text:
                             # await page.keyboard.press("Control+V")
                             await page.evaluate("(el) => el.focus()", textarea_selector)
-                            await textarea_selector.press("Enter")
-                            await page.keyboard.type(send_message, delay=50) 
-                            self.helper.UpDateOutput("Posted...")
-                            # await page.screenshot(path=os.path.join(os.path.dirname(__file__), "..") + "/debug_screenshot_1.png")
+                            if len(send_message) > 20:
+                                pyperclip.copy(send_message)
+                                await textarea_selector.focus()
+                                await page.keyboard.insert_text(send_message) 
+                                await page.keyboard.press("Shift+Enter", delay=1000)
+                            else:
+                                await textarea_selector.press("Enter")
+                                await page.keyboard.type(send_message, delay=60) 
                             try:
+                                self.helper.UpDateOutput("Posted...")
                                 await page.evaluate("document.querySelector('span.x1lliihq').style.display='none'")
-                                post_button = await page.wait_for_selector("div[aria-label='Post']")
-                                await post_button.click()
+                                post_button = await page.wait_for_selector('div[aria-label="Post"][role="button"]', timeout=60000)
+                                await post_button.scroll_into_view_if_needed()
+                                await post_button.click(force=True)
                                 self.helper.UpDateOutput('Uploading Post...')
-                                # await page.screenshot(path=os.path.join(os.path.dirname(__file__), "..") + "/debug_screenshot_2.png")
-                                await asyncio.sleep(randrange(5, 15))
+                                # await page.screenshot(path=f"Output/Confirmation_{group_id}.png")
+                                await asyncio.sleep(randrange(5, 10))
                             except:
                                 logging.error("Error : \n" + traceback.format_exc())
                                 continue
@@ -243,29 +276,32 @@ class Facebook:
                             self.helper.UpDateOutput(f"Error in Post Group {group_id}")
                             continue
                     except Exception:
+                        self.helper.UpDateOutput(f"Error in Post Group {group_id}")
                         logging.error("Error : \n" + traceback.format_exc())
-
-                    DateNow = str(datetime.date.today().strftime("%d/%m/%Y"))
-                    TimeNow = int(time.time())
+                        continue
 
                     self.database.write_to_database(
                         TABLE_NAME_SEND_CHAT_MESSAGE,
                         {
-                            "group_id": group_id,
+                            "group_id": group,
                             "name": group if isinstance(group, str) else group["group_name"],
                             "message": send_message,
+                            "category": category,
                             "date": DateNow,
                             "time": TimeNow,
                         },
                     )
                     self.database.save_msg_or_post(user=group_id, message=send_message, source="FBG")
+                    self.helper.UpDateOutput(f"Saved {group_id}")
                     countPost += 1
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
+            return False
         finally:
-            self.helper.UpDateOutput('==== Send Post Done... ====')
-            await browser.set_offline(True)
-            await browser.close()
+            self.helper.UpDateOutput('==== Send Posts is Done... ====')
+            if await browser.is_connected():
+                await browser.close()
+            return True
             
     async def get_group_members(self, category, group_name: str):
         async with async_playwright() as p:
@@ -400,7 +436,7 @@ class Facebook:
                 await browser.close()
 
     async def send_to_members(
-        self, message: str, category: str, filePath: str=None, useing_AI=False, CompanName:str=None
+        self, message: str, category: str, filePath: str=None, useing_AI=False, CompanName:str=None , Slogin:str=None
     ):
         ListOfMessages = []
         if CompanName:
@@ -419,6 +455,13 @@ class Facebook:
         else:
             send_message = message
             
+        if not Slogin is None:
+            _slogin = Slogin.split('|')
+            if _slogin[0] == 0:
+                send_message = f"{ _slogin[1]}\n\n {send_message}"
+            else:
+                send_message = f"{ send_message}\n\n {_slogin[1]}"
+                
         self.database.create_table(TABLE_NAME_SEND_MESSAGE)
         self.helper.UpDateOutput("Get Users...")
         users = self.database.search_by_column(
@@ -458,7 +501,7 @@ class Facebook:
 
                 try:
                     # Navigate to the user's profile
-                    await page.goto(user["url"], timeout=12000)
+                    await page.goto(user["url"], wait_until="domcontentloaded")
                     send_message = ListOfMessages[randrange(0, len(ListOfMessages))]["message"]
                     if len(ListOfMessages) > 0:
                         while True:
@@ -515,173 +558,71 @@ class Facebook:
                 finally:
                     await browser.close()
     
-    def _send_to_members(
-        self, message: str, category: str, filePath: str=None, useing_AI=False, CompanName:str=None
-    ):
-        ListOfMessages = []
-        if CompanName:
-            while len(ListOfMessages) == 0:
-                ListOfMessages = self.database.get_msg_history(CompanName)
-                sleep(10)
-                
-        if self.driver is None:
-            self.helper.UpDateOutput("Driver is None")
-            return
-        countSend = 0
-        self.driver.set_window_size(1200, 650)
-        self.driver.minimize_window()
-        self.database.create_table(TABLE_NAME_SEND_MESSAGE)
-        try:
-            self.helper.UpDateOutput("Get Users...")
-            users = self.database.search_by_column(
-                TABLE_NAME_USERS, "category", category
-            )
-            for user in users:
-                try:
-                    if countSend >= 20:
-                        self.helper.UpDateOutput(
-                            "We are send 20 Message we will hold 1h for un-Block account"
-                        )
-                        sleep(3600)
-                        countSend = 0
+    
 
-                    self.helper.UpDateOutput(f"{countSend} Name: {user['name']}")
-                    self.helper.UpDateOutput(f"Open Message with {user['name']}")
-                    
-                    self.driver.get(user["url"])
-                    sleep(randrange(2, 8))
-                    if useing_AI:
-                        user_message = self.database.get_msg_history(Compan_ID)
-                        if len(user_message) > 0:
-                            send_message = user_message[
-                                randrange(0, len(user_message))
-                            ]["message"]
-                        else:
-                            send_message = message
-                    else:
-                        send_message = message
+    # def send_to_group_chat(self, category: str, list_of_chat_groups: str=None):
+    #     if self.driver is None:
+    #         self.helper.UpDateOutput("Driver is None")
+    #         return
+    #     self.driver.set_window_size(1200, 650)
+    #     self.database.create_table(TABLE_NAME_SEND_CHAT_MESSAGE)
+    #     try:
+    #         if list_of_chat_groups is None:
+    #             chats = self.database.search_by_column(
+    #                 TABLE_NAME_CHAT_GROUP, "category", category
+    #             )
+    #         else:
+    #             if self.helper.is_file_path(list_of_chat_groups):
+    #                 chats = self.helper.readlist_file(list_of_chat_groups)
+    #             else:
+    #                 chats = list_of_chat_groups.split(",")
 
-                    self.helper.UpDateOutput(
-                        f"Message for {user['name']} is {send_message}"
-                    )
+    #         for chat_number in chats:
+    #             try:
+    #                 url_group_chat = (
+    #                     f"https://www.facebook.com/messages/t/{chat_number}"
+    #                 )
+    #                 sleep(randrange(5))
+    #                 user_message = self.settings["message"]
+    #                 if not self.database.search_by_columns(
+    #                     TABLE_NAME_SEND_CHAT_MESSAGE,
+    #                     column1="groupId",
+    #                     column2="message",
+    #                     value1=chat_number,
+    #                     value2=user_message,
+    #                 ):
+    #                     self.driver.get(url_group_chat)
+    #                     self.database.write_to_database(
+    #                         TABLE_NAME_CHAT_GROUP,
+    #                         {"groupId": chat_number, "category": category},
+    #                     )
+    #                     message = WebDriverWait(self.driver, randrange(10)).until(
+    #                         EC.presence_of_element_located(
+    #                             (
+    #                                 By.XPATH,
+    #                                 '//div[@aria-label="Message" and @role="textbox"]',
+    #                             )
+    #                         )
+    #                     )
+    #                     for line in user_message.split("\n"):
+    #                         pyperclip.copy(line)
+    #                         message.send_keys(Keys.CONTROL, "v")
+    #                         message.send_keys(Keys.SHIFT, Keys.ENTER)
+    #                     self.database.write_to_database(
+    #                         TABLE_NAME_SEND_CHAT_MESSAGE,
+    #                         {"groupId": chat_number, "message": user_message},
+    #                     )
+    #                     sleep(randrange(1, 3))
+    #                     message.send_keys(Keys.RETURN)
+    #                     sleep(randrange(5, 10))
+    #             except Exception as e:
+    #                 self.helper.UpDateOutput(f"Pass Group ID {chat_number}")
+    #                 continue
+    #         # end for
+    #     except Exception as e:
+    #         logging.error("Error : \n" + traceback.format_exc())
+    #     finally:
+    #         self.driver.close()
 
-                    if not self.database.search_by_columns(
-                        TABLE_NAME_SEND_MESSAGE,
-                        column1="profileId",
-                        column2="message",
-                        value1=user["profileId"],
-                        value2=send_message,
-                    ):
-                        message_button = WebDriverWait(
-                            self.driver, randrange(10)
-                        ).until(
-                            EC.presence_of_element_located(
-                                (By.XPATH, '//div[@aria-label="Message"]')
-                            )
-                        )
-                        message_button.click()
-                        sleep(randrange(1, 4))
-                        message = WebDriverWait(self.driver, randrange(10)).until(
-                            EC.presence_of_element_located(
-                                (
-                                    By.XPATH,
-                                    '//div[@aria-label="Message" and @role="textbox"]',
-                                )
-                            )
-                        )
-                        pyperclip.copy(send_message)
-                        message.send_keys(Keys.CONTROL, "v")
-                        sleep(1)
-                        message.send_keys(Keys.SHIFT, Keys.ENTER)
-                        countSend += 1
-                        self.database.write_to_database(
-                            TABLE_NAME_SEND_MESSAGE,
-                            {
-                                "profilrID": user["profileId"],
-                                "name": user["name"],
-                                "message": send_message,
-                            },
-                        )
-                        self.database.save_msg_or_post(
-                            user=user["name"], message=send_message, source="FBM"
-                        )
-                        message.send_keys(Keys.RETURN)
-                        self.helper.UpDateOutput(
-                            f"Send to {user['name']} message {user_message}"
-                        )
-                        sleep(randrange(5, 10))
-                except Exception:
-                    self.helper.UpDateOutput(f"Pass {user['name']}")
-                    continue
-            # end for
-        except Exception:
-            logging.error("Error : \n" + traceback.format_exc())
-        finally:
-            self.driver.close()
-
-    def send_to_group_chat(self, category: str, list_of_chat_groups: str=None):
-        if self.driver is None:
-            self.helper.UpDateOutput("Driver is None")
-            return
-        self.driver.set_window_size(1200, 650)
-        self.database.create_table(TABLE_NAME_SEND_CHAT_MESSAGE)
-        try:
-            if list_of_chat_groups is None:
-                chats = self.database.search_by_column(
-                    TABLE_NAME_CHAT_GROUP, "category", category
-                )
-            else:
-                if self.helper.is_file_path(list_of_chat_groups):
-                    chats = self.helper.readlist_file(list_of_chat_groups)
-                else:
-                    chats = list_of_chat_groups.split(",")
-
-            for chat_number in chats:
-                try:
-                    url_group_chat = (
-                        f"https://www.facebook.com/messages/t/{chat_number}"
-                    )
-                    sleep(randrange(5))
-                    user_message = self.settings["message"]
-                    if not self.database.search_by_columns(
-                        TABLE_NAME_SEND_CHAT_MESSAGE,
-                        column1="groupId",
-                        column2="message",
-                        value1=chat_number,
-                        value2=user_message,
-                    ):
-                        self.driver.get(url_group_chat)
-                        self.database.write_to_database(
-                            TABLE_NAME_CHAT_GROUP,
-                            {"groupId": chat_number, "category": category},
-                        )
-                        message = WebDriverWait(self.driver, randrange(10)).until(
-                            EC.presence_of_element_located(
-                                (
-                                    By.XPATH,
-                                    '//div[@aria-label="Message" and @role="textbox"]',
-                                )
-                            )
-                        )
-                        for line in user_message.split("\n"):
-                            pyperclip.copy(line)
-                            message.send_keys(Keys.CONTROL, "v")
-                            message.send_keys(Keys.SHIFT, Keys.ENTER)
-                        self.database.write_to_database(
-                            TABLE_NAME_SEND_CHAT_MESSAGE,
-                            {"groupId": chat_number, "message": user_message},
-                        )
-                        sleep(randrange(1, 3))
-                        message.send_keys(Keys.RETURN)
-                        sleep(randrange(5, 10))
-                except Exception as e:
-                    self.helper.UpDateOutput(f"Pass Group ID {chat_number}")
-                    continue
-            # end for
-        except Exception as e:
-            logging.error("Error : \n" + traceback.format_exc())
-        finally:
-            self.driver.close()
-
-        pass
+    #     pass
 

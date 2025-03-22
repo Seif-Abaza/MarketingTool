@@ -16,10 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGroupBox, QHBoxLayout,
-    QLabel, QLayout, QListView, QMainWindow,
-    QMenu, QMenuBar, QPushButton, QSizePolicy,
-    QSplitter, QStatusBar, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QFrame, QGroupBox,
+    QHBoxLayout, QLabel, QLayout, QListView,
+    QMainWindow, QMenu, QMenuBar, QPushButton,
+    QSizePolicy, QSplitter, QStatusBar, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -183,6 +184,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.pushButton_7)
 
+        self.pushButton_9 = QPushButton(self.groupBox)
+        self.pushButton_9.setObjectName(u"pushButton_9")
+        self.pushButton_9.setEnabled(False)
+        sizePolicy.setHeightForWidth(self.pushButton_9.sizePolicy().hasHeightForWidth())
+        self.pushButton_9.setSizePolicy(sizePolicy)
+        self.pushButton_9.setMinimumSize(QSize(0, 50))
+        self.pushButton_9.setSizeIncrement(QSize(0, 50))
+        self.pushButton_9.setBaseSize(QSize(0, 50))
+        self.pushButton_9.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_9.setAutoDefault(True)
+        self.pushButton_9.setFlat(False)
+
+        self.verticalLayout.addWidget(self.pushButton_9)
+
         self.lblStatus = QLabel(self.groupBox)
         self.lblStatus.setObjectName(u"lblStatus")
         sizePolicy.setHeightForWidth(self.lblStatus.sizePolicy().hasHeightForWidth())
@@ -196,33 +211,6 @@ class Ui_MainWindow(object):
         self.lblStatus.setMargin(0)
 
         self.verticalLayout.addWidget(self.lblStatus)
-
-        self.label_2 = QLabel(self.groupBox)
-        self.label_2.setObjectName(u"label_2")
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setMaximumSize(QSize(16777215, 20))
-        self.label_2.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
-        self.label_2.setFrameShape(QFrame.Shape.NoFrame)
-        self.label_2.setFrameShadow(QFrame.Shadow.Plain)
-        self.label_2.setLineWidth(0)
-
-        self.verticalLayout.addWidget(self.label_2)
-
-        self.lblpost = QLabel(self.groupBox)
-        self.lblpost.setObjectName(u"lblpost")
-        sizePolicy.setHeightForWidth(self.lblpost.sizePolicy().hasHeightForWidth())
-        self.lblpost.setSizePolicy(sizePolicy)
-        self.lblpost.setMinimumSize(QSize(0, 50))
-        self.lblpost.setMaximumSize(QSize(16777215, 60))
-        font = QFont()
-        font.setFamilies([u"DejaVu Serif Condensed"])
-        font.setPointSize(20)
-        font.setBold(True)
-        self.lblpost.setFont(font)
-        self.lblpost.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.verticalLayout.addWidget(self.lblpost)
 
         self.label_3 = QLabel(self.groupBox)
         self.label_3.setObjectName(u"label_3")
@@ -242,6 +230,10 @@ class Ui_MainWindow(object):
         self.lblmsg.setSizePolicy(sizePolicy)
         self.lblmsg.setMinimumSize(QSize(0, 50))
         self.lblmsg.setMaximumSize(QSize(16777215, 60))
+        font = QFont()
+        font.setFamilies([u"DejaVu Serif Condensed"])
+        font.setPointSize(20)
+        font.setBold(True)
         self.lblmsg.setFont(font)
         self.lblmsg.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -283,6 +275,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.listView = QListView(self.groupBox_2)
         self.listView.setObjectName(u"listView")
+        self.listView.setAutoScrollMargin(5)
+        self.listView.setTabKeyNavigation(True)
+        self.listView.setDefaultDropAction(Qt.DropAction.IgnoreAction)
+        self.listView.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
 
         self.verticalLayout_2.addWidget(self.listView)
 
@@ -390,6 +386,7 @@ class Ui_MainWindow(object):
         self.pushButton_5.setDefault(False)
         self.pushButton_6.setDefault(False)
         self.pushButton_7.setDefault(False)
+        self.pushButton_9.setDefault(False)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -414,14 +411,13 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Telegram", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"WhatsApp", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Facebook", None))
-        self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"Youtube ( UpRich )", None))
+        self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"Youtube", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Tiktok", None))
         self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"Instegram", None))
         self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"VK", None))
-        self.pushButton_7.setText(QCoreApplication.translate("MainWindow", u"Twitter (X)", None))
+        self.pushButton_7.setText(QCoreApplication.translate("MainWindow", u"Odnoklassniki", None))
+        self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"Twitter (X)", None))
         self.lblStatus.setText("")
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Total Number of Post today", None))
-        self.lblpost.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Total Number of Messages today", None))
         self.lblmsg.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Total Number of users", None))
