@@ -3,6 +3,7 @@ import hashlib
 import logging
 import os
 import sys
+import time
 import traceback
 import unicodedata
 from random import randrange
@@ -10,7 +11,7 @@ from random import randrange
 import telethon
 from googletrans import Translator
 from langdetect import detect
-from PySide6.QtWidgets import QInputDialog, QLineEdit, QListView
+from PySide6.QtWidgets import QInputDialog, QLineEdit, QListView, QMessageBox
 from telethon import TelegramClient, functions, types
 from telethon.errors.rpcerrorlist import UsernameInvalidError
 from telethon.tl.functions.channels import InviteToChannelRequest
@@ -28,30 +29,45 @@ TABLE_COLLECTION = "import_data"
 
 class sTelegram:
 
-    def __init__(self, settings, database, category=None, output: QListView = None):
+    def __init__(
+        self,
+        settings=None,
+        database=None,
+        category=None,
+        output: QListView = None,
+        needReset: bool = False,
+    ):
         self.settings = settings
-        self.helper = helper(output)
-        self.database = database
-        self.database.create_table(TABLE_NAME)
-        self.database.create_table(TABLE_NAME_CHANNEL)
-        self.database.create_table(TABLE_NAME_MESSAGES)
-        self.category = category
-        api_id, api_hash, phone_number, session_name = (
-            self.settings["tg_api_id"],
-            self.settings["tg_api_hash"],
-            self.settings["tg_phone"],
-            "Sessions/teleSession",
-        )
-        self.is_debug = bool(os.getenv("MT_DEBUG", False))
-        if self.is_debug:
-            logging.basicConfig(filename="Log/debug.log", level=logging.DEBUG)
+        if needReset:
+            api_id, api_hash, phone_number, session_name = (
+                self.settings.value("tg_api_id"),
+                self.settings.value("tg_api_hash"),
+                self.settings.value("tg_phone"),
+                "Sessions/teleSession",
+            )
+            self.api_id = api_id
+            self.api_hash = api_hash
+            self.phone_number = phone_number
+            self.session_name = session_name
+            self.Tg = None
+            asyncio.run(self.Connected())
         else:
-            logging.basicConfig(filename="Log/error.log", level=logging.ERROR)
-        self.api_id = api_id
-        self.api_hash = api_hash
-        self.phone_number = phone_number
-        self.session_name = session_name
-        self.Tg = None
+            self.helper = helper(output)
+            self.database = database
+            self.database.create_table(TABLE_NAME)
+            self.database.create_table(TABLE_NAME_CHANNEL)
+            self.database.create_table(TABLE_NAME_MESSAGES)
+            self.category = category
+            self.is_debug = bool(os.getenv("MT_DEBUG", False))
+            if self.is_debug:
+                logging.basicConfig(filename="Log/debug.log", level=logging.DEBUG)
+            else:
+                logging.basicConfig(filename="Log/error.log", level=logging.ERROR)
+            self.api_id = api_id
+            self.api_hash = api_hash
+            self.phone_number = phone_number
+            self.session_name = session_name
+            self.Tg = None
 
     def show_message(self):
         number, ok = QInputDialog.getText(
@@ -94,6 +110,13 @@ class sTelegram:
                 return self.Tg
 
             return None
+        except telethon.errors.rpcerrorlist.PhoneNumberInvalidError:
+            QMessageBox.warning(
+                self,
+                "Error",
+                "Phone Number Invalid",
+                QMessageBox.StandardButton.Ok,
+            )
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
             await self.Tg.disconnect()
@@ -233,7 +256,6 @@ class sTelegram:
             self.helper.UpDateOutput(
                 f"Resolved channel: {MyChannel.title} (ID: {MyChannel.id})"
             )
-
         except UsernameInvalidError:
             dialog_list = await self.Tg.get_dialogs()
             for chats in dialog_list:
@@ -249,86 +271,16 @@ class sTelegram:
             self.helper.UpDateOutput(f"Error resolving channel: {e}")
             return
         try:
-            UserLists = []
             if member_list is None:
-                try:
+                members = self.database.read_from_database(
+                    TABLE_NAME, {"category": self.category}
+                )
+                if not members:
                     members = self.database.read_from_database(
-                        TABLE_NAME, {"category": self.category}
+                        TABLE_COLLECTION, {"category": self.category}
                     )
-                    if not members:
-                        members = self.database.read_from_database(
-                            TABLE_COLLECTION, {"category": self.category}
-                        )
 
-                    for member in members:
-                        try:
-                            if not member.get("username") is None:
-                                user = await self.Tg.get_entity(member.get("username"))
-                            else:
-                                user = await self.Tg.get_entity(
-                                    int(member.get("account"))
-                                )
-                            UserLists.append(user)
-                            self.helper.UpDateOutput(
-                                f"Add User {user.username} to {MyChannel.title}"
-                            )
-
-                            if len(UserLists) >= 20:
-                                self.helper.UpDateOutput("Send Invitations...")
-                                await self.Tg(
-                                    InviteToChannelRequest(
-                                        channel=MyChannel, users=UserLists
-                                    )
-                                )
-                                UserLists = []
-                                asyncio.sleep(randrange(10, 25))
-
-                        except ValueError:
-                            self.helper.UpDateOutput(
-                                f'Not fund {member.get("username")}'
-                            )
-                            continue
-                        except telethon.errors.rpcerrorlist.UsernameInvalidError:
-                            self.helper.UpDateOutput(
-                                f'Not fund {member.get("username")}'
-                            )
-                            continue
-                        except telethon.errors.rpcerrorlist.PeerFloodError:
-                            self.helper.UpDateOutput(
-                                f"========== We are must waiting =========="
-                            )
-                            asyncio.sleep(1800)
-                            continue
-                except Exception:
-                    logging.error("Error : \n" + traceback.format_exc())
-                    return False
-                finally:
-                    await self.Tg.disconnect()
-            else:
-                for member in member_list:
-                    try:
-                        if not member.get("username") is None:
-                            user = await self.Tg.get_entity(member.get("username"))
-                        else:
-                            user = await self.Tg.get_entity(int(member.get("account")))
-                        UserLists.append(user)
-                        self.helper.UpDateOutput(
-                            f"Add User {user.username} to {MyChannel.title}"
-                        )
-                        if len(UserLists) >= 20:
-                            self.helper.UpDateOutput("Send Invitations...")
-                            await self.Tg(
-                                InviteToChannelRequest(
-                                    channel=MyChannel, users=UserLists
-                                )
-                            )
-                            UserLists = []
-                            asyncio.sleep(randrange(10, 25))
-                    except ValueError:
-                        self.helper.UpDateOutput(f'Not fund {member.get("username")}')
-                        continue
-            return True
-
+            await self._memeber_add_implement(MyChannel=MyChannel, UserList=members)
         except Exception:
             logging.error("Error : \n" + traceback.format_exc())
             return False
@@ -708,3 +660,72 @@ class sTelegram:
             logging.error("Error : \n" + traceback.format_exc())
         finally:
             await self.Tg.disconnect()
+
+    async def _memeber_add_implement(self, MyChannel, UserList):
+        UserLists = []
+        for member in UserList:
+            try:
+                if not member.get("username") is None:
+                    user = await self.Tg.get_entity(member.get("username"))
+                else:
+                    user = await self.Tg.get_entity(int(member.get("account")))
+                try:
+                    participant = await self.Tg(
+                        functions.channels.GetParticipantRequest(MyChannel, user.id)
+                    )
+                    self.helper.UpDateOutput(
+                        f"User Exist {user.username} on {MyChannel.title}"
+                    )
+                    continue
+                except Exception:
+                    UserLists.append(user)
+                    self.helper.UpDateOutput(
+                        f"Add User {user.username} to {MyChannel.title}"
+                    )
+                if len(UserLists) >= 20:
+                    if MyChannel.is_channel:
+                        await self.Tg(
+                            InviteToChannelRequest(channel=MyChannel, users=UserLists)
+                        )
+                        self.helper.UpDateOutput("Send Invitations for your Channel...")
+                    else:
+                        for user in UserLists:
+                            await self.Tg(
+                                functions.messages.AddChatUserRequest(
+                                    chat_id=MyChannel.id,
+                                    user_id=user.id,
+                                )
+                            )
+                            self.helper.UpDateOutput(
+                                "Send Invitations for your Group..."
+                            )
+                            asyncio.sleep(3)
+                    UserLists = []
+                    self.helper.UpDateOutput(
+                        "I will Make Super Freezing Now DON'T CLOSE ME..."
+                    )
+                    time.sleep(randrange(30, 60))
+            except telethon.errors.ChatAdminRequiredError:
+                self.helper.UpDateOutput(
+                    f"Chat admin privileges are required to do that in the specified chat (for example, to send a message in a channel which is not yours), or invalid permissions used for the channel or group."
+                )
+                return False
+            except telethon.errors.ChatIdInvalidError:
+                self.helper.UpDateOutput(f"Group ID not exisit")
+                return False
+            except ValueError:
+                self.helper.UpDateOutput(f'Not fund {member.get("username")}')
+                continue
+            except telethon.errors.rpcerrorlist.UsernameInvalidError:
+                self.helper.UpDateOutput(f'Not fund {member.get("username")}')
+                continue
+            except telethon.errors.rpcerrorlist.FloodWaitError:
+                self.helper.UpDateOutput(
+                    "I will Make Super Freezing Now DON'T CLOSE ME... (45982 sec)"
+                )
+                time.sleep(45982)
+                continue
+            except telethon.errors.rpcerrorlist.PeerFloodError:
+                self.helper.UpDateOutput(f"========== We are must waiting ==========")
+                asyncio.sleep(1800)
+                continue

@@ -5,9 +5,9 @@ import os
 from PySide6.QtCore import QStringListModel
 from PySide6.QtWidgets import QListView
 
+from utils.helper import helper
 from Facebook.Facebook import Facebook
 from Telegram.sTelegram import sTelegram
-from utils.helper import helper
 from WhatsApp.WhatsApp import WhatsApp
 
 
@@ -123,7 +123,7 @@ class marketing:
 
     def parse_new_groups(self):
         wp = WhatsApp(
-            self.settings, self.database, run_browser=False, output=self.Output_Item
+            self.settings, self.database, output=self.Output_Item
         )
         wp.get_new_groups_google()
 
@@ -165,7 +165,7 @@ class marketing:
     ):
         self.helper.UpDateOutput("Post Message in Facebook Group")
         fb = Facebook(
-            self.settings, self.database, output=self.Output_Item, headless=False
+            self.settings, self.database, output=self.Output_Item
         )
         return await fb.post_to_groups(
             message=group_post,
@@ -179,7 +179,7 @@ class marketing:
     async def get_members_facebook_group(self, category: str, group_name: str = None):
         self.helper.UpDateOutput("Get Facebook Members in Group")
         fb = Facebook(
-            self.settings, self.database, output=self.Output_Item, headless=True
+            self.settings, self.database, output=self.Output_Item
         )
         return await fb.get_group_members(category, group_name)
 
@@ -194,7 +194,7 @@ class marketing:
     ):
         self.helper.UpDateOutput("Send Message to Facebook Members")
         fb = Facebook(
-            self.settings, self.database, output=self.Output_Item, headless=False
+            self.settings, self.database, output=self.Output_Item
         )
         return await fb.send_to_members(
             message,
@@ -207,5 +207,5 @@ class marketing:
 
     async def send_message_to_chatgroup(self):
         self.helper.UpDateOutput("Send Message to Chat Groups")
-        fb = Facebook(self.settings, self.database, self.category, headless=False)
+        fb = Facebook(self.settings, self.database, self.category)
         return await fb.send_to_group_chat(self.fb_send_msg_to_chatgroup)

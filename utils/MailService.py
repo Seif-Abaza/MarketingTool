@@ -1,16 +1,22 @@
-from MailTMClient import MailTMClient
 import json
+import os
+import sys
+
+from utils.MailTMClient import MailTMClient
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 TOKEN_FILE = "token.json"
 TOKEN = None
 
-class MailService():
+
+class MailService:
     def __init__(self):
         TOKEN = self.loadTokenFromFile()
         self.Client = MailTMClient(token=TOKEN)
-        
+
         pass
-    
-    def saveTokenToFile(self,token: str):
+
+    def saveTokenToFile(self, token: str):
         with open(TOKEN_FILE, "r+") as j:
             contents = json.loads(j.read())
             contents["token"] = token
@@ -18,8 +24,9 @@ class MailService():
             j.write(json.dumps(contents, indent=4))
             j.truncate()
 
-
-    def loadTokenFromFile(self,):
+    def loadTokenFromFile(
+        self,
+    ):
         with open(TOKEN_FILE, "r+") as j:
             contents = json.loads(j.read())
             if len(contents["token"]) > 10:
@@ -27,12 +34,12 @@ class MailService():
             else:
                 return False
 
-
-    def clearTokenFile(self,):
+    def clearTokenFile(
+        self,
+    ):
         with open(TOKEN_FILE, "w") as j:
             j.write(json.dumps({"token": ""}, indent=4))
 
-    
     def check_inbox(self) -> list:
         MailList = []
         inbox = (self.Client.getInbox())[::-1]
@@ -40,31 +47,31 @@ class MailService():
             for index, email in enumerate(inbox):
                 MailList.append(
                     {
-                        'id' : str(index + 1),
-                        'subject' : email.subject,
-                        'from':email.fromAddress
+                        "id": str(index + 1),
+                        "subject": email.subject,
+                        "from": email.fromAddress,
                     }
                 )
             return MailList
         else:
             return MailList
-    
-    def read_mail(self,index_mail:int) -> list:
+
+    def read_mail(self, index_mail: int) -> list:
         MailList = []
         inbox = self.Client.getInbox()
         for index, email in enumerate(inbox):
             if int(index + 1) == int(index_mail):
                 MailList.append(
                     {
-                        'subject':email.subject,
-                        'from':email.fromAddress,
-                        'to':", ".join(email.toAddress),
-                        'text':email.text
+                        "subject": email.subject,
+                        "from": email.fromAddress,
+                        "to": ", ".join(email.toAddress),
+                        "text": email.text,
                     }
                 )
         return MailList
-    
-    def delete_mail(self,index_index:int):
+
+    def delete_mail(self, index_index: int):
         inbox = self.Client.getInbox()
         for index, email in enumerate(inbox):
             if int(index + 1) == int(index_index):
@@ -74,7 +81,6 @@ class MailService():
                 if res == 1:
                     return False
         return False
-    
+
     def logout(self):
         self.clearTokenFile()
-    

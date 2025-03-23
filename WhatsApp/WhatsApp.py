@@ -17,7 +17,7 @@ from PySide6.QtWidgets import QListView, QMessageBox
 from utils.PhoneParsing import PhoneParsing
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
+import playwright._impl._errors
 from playwright.async_api import TimeoutError as PlaywrightTimeoutError
 from playwright.async_api import async_playwright
 from playwright.sync_api import sync_playwright
@@ -66,62 +66,21 @@ class WhatsApp:
 
     def __init__(
         self,
-        settings,
-        database,
-        run_browser=True,
+        settings=None,
+        database=None,
         output: QListView = None,
-        headless: bool = True,
+        runReset: bool = False,
     ):
-        self.settings = settings
-        self.database = database
+        if not runReset:
+            self.settings = settings
+            self.database = database
+            # Create Table if not exist
+            self.database.create_table(self.MESSAGES)
+            self.database.create_table(self.PHONE)
+            self.database.create_table(self.GROUPS)
 
-        # Create Table if not exist
-        self.database.create_table(self.MESSAGES)
-        self.database.create_table(self.PHONE)
-        self.database.create_table(self.GROUPS)
-
-        self.helper = helper(output)
-        self.helper.UpDateOutput("Starting WhatsApp...")
-        if not os.path.isdir(f"{self.helper.CHROME_USER_DATA}/whatsapp"):
-            with sync_playwright() as p:
-                # logger.info("Launching browser...")
-                browser = p.chromium.launch_persistent_context(
-                    user_data_dir=f"{self.helper.CHROME_USER_DATA}/whatsapp",
-                    headless=False,
-                    args=[
-                        "--no-sandbox",
-                        "--disable-blink-features=AutomationControlled",
-                        "--disable-features=IsolateOrigins,site-per-process",
-                        "--disable-web-security",
-                        "--disable-gpu",
-                        "--disable-dev-shm-usage",
-                    ],
-                    slow_mo=500,
-                )
-                page = browser.pages[0] if browser.pages else browser.new_page()
-
-                user_agents = [
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
-                ]
-                page.set_extra_http_headers({"User-Agent": random.choice(user_agents)})
-                page.goto(self.helper.WHATSAPP_WEB, timeout=10000)
-                page.wait_for_load_state("networkidle")
-                self.helper.UpDateOutput("Start WhatsApp")
-                page.wait_for_selector(
-                    '//canvas[@aria-label="Scan this QR code to link a device!" and @role="img"]',
-                    timeout=500000,
-                )
-                msg_box = QMessageBox()
-                msg_box.setWindowTitle("Confirmation")
-                msg_box.setText(
-                    "This is First time only, did you scanned your QR Code ?"
-                )
-                msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-                response = msg_box.exec()
-                if response == QMessageBox.No:
-                    self.driver.close()
+            self.helper = helper(output)
+            self.helper.UpDateOutput("Starting WhatsApp...")
 
     async def search(self, page, text_search: str):
         try:
@@ -143,14 +102,13 @@ class WhatsApp:
             logging.error("Error:\n" + traceback.format_exc())
             return False
 
-    def reLogin(self):
-        if os.path.exists(self.helper.CHROME_USER_DATA + "/whatsapp"):
-            shutil.rmtree(
-                self.helper.CHROME_USER_DATA + "/whatsapp", ignore_errors=True
-            )
+    def reLogin(self, userdata: str = None):
+        if not userdata:
+            userdata = self.helper.CHROME_USER_DATA + "/whatsapp"
+
         with sync_playwright() as p:
             browser = p.chromium.launch_persistent_context(
-                user_data_dir=self.helper.CHROME_USER_DATA + "/whatsapp",
+                user_data_dir=userdata,
                 headless=False,
                 args=[
                     "--no-sandbox",
@@ -167,22 +125,27 @@ class WhatsApp:
             ]
 
             page.set_extra_http_headers({"User-Agent": random.choice(user_agents)})
-            page.goto(self.helper.WHATSAPP_WEB, timeout=100000)
+            page.goto("https://web.whatsapp.com", timeout=100000)
             page.wait_for_load_state("networkidle")
-            self.helper.UpDateOutput("Start WhatsApp")
             page.wait_for_selector(
                 '//canvas[@aria-label="Scan this QR code to link a device!" and @role="img"]',
                 timeout=500000,
             )
+            # if expect(page.get_by_text("Log into WhatsApp Web")).to_be_visible():
+            #     pass
+
             msg_box = QMessageBox()
             msg_box.setWindowTitle("Confirmation")
             msg_box.setText("This is First time only, did you scanned your QR Code ?")
             msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
             response = msg_box.exec()
             if response == QMessageBox.No:
-                self.driver.close()
+                browser.close()
+                if os.path.exists(userdata):
+                    shutil.rmtree(userdata, ignore_errors=True)
                 return False
             else:
+                browser.close()
                 return True
 
     async def send_message(self, phone_number, message: str):
@@ -222,7 +185,7 @@ class WhatsApp:
             return True
         except PlaywrightTimeoutError:
             self.helper.UpDateOutput("Please Re-Login to WhatsApp")
-            return self.reLogin()
+            return await self.reLogin()
         except NoSuchElementException:
             logging.error("Error : \n" + traceback.format_exc())
             return False
@@ -422,14 +385,21 @@ class WhatsApp:
 
                 self.helper.UpDateOutput("Scan completed successfully.")
                 await self.reset_whatsapp(page)
-                browser.close()
+                await browser.close()
             return True
+        except playwright._impl._errors.TargetClosedError as tce:
+            await self.reLogin()
+            return False
+        except TimeoutError as te:
+            await self.reLogin()
+            return False
         except Exception as e:
             self.helper.UpDateOutput(f"An error occurred during scaning")
-            await self.reset_whatsapp(page)
-            browser.close()
             logging.error("Error : \n" + traceback.format_exc())
+            await self.reset_whatsapp(page)
             return False
+        finally:
+            await browser.close()
 
     def get_all_message(self, chat_name, category):
         try:
@@ -613,15 +583,25 @@ class WhatsApp:
             )
             # Click inside the input box
             await contenteditable_element.click()
+            # await page.screenshot(path="reset_1.png")
             # Select all text (Ctrl + A or Command + A) and delete
             await contenteditable_element.press("Control+A")  # For Windows/Linux
             await contenteditable_element.press("Backspace")
+            # await page.screenshot(path="reset_2.png")
             # Alternative for macOS
-            await contenteditable_element.press("Meta+A")
-            await contenteditable_element.press("Backspace")
+            if sys.platform == "darwin":
+                await contenteditable_element.press("Meta+A")
+                await contenteditable_element.press("Backspace")
             return True
-        except TimeoutException:
+        except playwright._impl._errors.TargetClosedError as tce:
+            await self.reLogin()
+            return False
+        except TimeoutError as te:
+            await self.reLogin()
+            return False
+        except PlaywrightTimeoutError:
             logging.error("Error : \n" + traceback.format_exc())
+            await self.reLogin()
             return False
 
     def get_new_groups_google(self, number_of_groups=0):

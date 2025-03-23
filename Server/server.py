@@ -24,8 +24,8 @@ PORT = 23004
 # IP_ADDRESS = "127.0.0.1"
 IP_ADDRESS = "172.86.114.80"
 SMS_APIKEY = "bd3c71fed30f5453Ac6421e78Ae4ff10"
-OLD_VERSION = "1.0.0"
-CURRENT_VERSION = "1.0.0"
+OLD_VERSION = "2.0.1"
+CURRENT_VERSION = "2.0.1"
 DOWNLOAD_PATH = os.path.join(os.getcwd(), "dist/")
 SERVER_IP = f"http://{IP_ADDRESS}:{PORT}"
 
@@ -34,7 +34,7 @@ VERSIONS = {
         "version": CURRENT_VERSION,
         "download_url": f"{IP_ADDRESS}/download/marketingtools_{CURRENT_VERSION}.exe",
         "patch_url": f"{IP_ADDRESS}/patch/windows_{OLD_VERSION}_to_{CURRENT_VERSION}.patch",
-        "sha256": "abcd1234...",  # ضع هنا التوقيع الفعلي للملف
+        "sha256": "abcd1234...",
     },
     "linux": {
         "version": CURRENT_VERSION,

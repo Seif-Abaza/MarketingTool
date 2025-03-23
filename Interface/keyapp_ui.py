@@ -407,7 +407,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Key", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u"MarketMiner", None))
-        self.label_6.setText(QCoreApplication.translate("Dialog", u"Version 1.0.0", None))
+        self.label_6.setText(QCoreApplication.translate("Dialog", u"Version 2.0.1", None))
         self.label_16.setText(QCoreApplication.translate("Dialog", u"<html><head/><body><p>The best software for marketing and advertising services.</p><p>Custom modifications are available. </p><p align=\"center\"><span style=\" font-weight:700;\">just contact us</span>.</p></body></html>", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Your Name", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Mail", None))

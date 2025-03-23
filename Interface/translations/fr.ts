@@ -4,77 +4,113 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="../admin_controller.ui" line="29"/>
         <source>Click Me</source>
-        <translation>Cliquez ici</translation>
+        <translation type="vanished">Cliquez ici</translation>
     </message>
     <message>
-        <location filename="../about.ui" line="14"/>
         <location filename="../ai_interface.ui" line="14"/>
         <location filename="../generate_mail.ui" line="14"/>
         <location filename="../generate_phone.ui" line="14"/>
-        <location filename="../import_excel.ui" line="14"/>
-        <location filename="../import.ui" line="17"/>
+        <location filename="../import.ui" line="20"/>
+        <location filename="../number_of_account.ui" line="14"/>
         <source>Dialog</source>
         <translation>Messages d&apos;intelligence artificielle</translation>
     </message>
     <message>
-        <location filename="../about.ui" line="47"/>
-        <location filename="../keyapp.ui" line="77"/>
         <source>MarketingTools</source>
-        <translation type="unfinished">MarketMiner</translation>
+        <translation type="obsolete">MarketMiner</translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="14"/>
+        <source>About</source>
+        <translation type="unfinished">À propos du programme</translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="47"/>
+        <location filename="../keyapp.ui" line="64"/>
+        <source>MarketMiner</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../about.ui" line="65"/>
-        <location filename="../keyapp.ui" line="95"/>
+        <location filename="../keyapp.ui" line="88"/>
         <source>Version 1.0.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="83"/>
-        <location filename="../keyapp.ui" line="211"/>
+        <location filename="../keyapp.ui" line="112"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The best software for marketing and advertising services.&lt;/p&gt;&lt;p&gt;Custom modifications are available. &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;just contact us&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="101"/>
-        <location filename="../keyapp.ui" line="113"/>
+        <location filename="../keyapp.ui" line="524"/>
         <source>For English-speaking</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="114"/>
-        <location filename="../keyapp.ui" line="126"/>
+        <location filename="../keyapp.ui" line="543"/>
         <source>لمتحديثين اللغة العربية</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../about.ui" line="127"/>
-        <location filename="../keyapp.ui" line="139"/>
+        <location filename="../keyapp.ui" line="562"/>
         <source>Для русскоязычных</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="144"/>
-        <location filename="../keyapp.ui" line="156"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/nt1t9b&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../about.ui" line="150"/>
+        <location filename="../keyapp.ui" line="588"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/7p817s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="154"/>
-        <location filename="../keyapp.ui" line="169"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/dzxxkv&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;الدعم الفني&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../about.ui" line="169"/>
+        <location filename="../keyapp.ui" line="607"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/4y01cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;الدعم الفني&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="164"/>
-        <location filename="../keyapp.ui" line="182"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/qszmuk&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;техподдержка&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../about.ui" line="188"/>
+        <location filename="../keyapp.ui" line="626"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/aij342&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;техподдержка&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../about.ui" line="185"/>
-        <location filename="../keyapp.ui" line="266"/>
+        <location filename="../about.ui" line="217"/>
+        <location filename="../keyapp.ui" line="383"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.binance.com/en/square/post/15833955645849&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;How you can buy USDT&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="237"/>
+        <location filename="../keyapp.ui" line="403"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/people/MarketMiner/61574189555294/&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Follow us&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="257"/>
+        <location filename="../keyapp.ui" line="423"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://t.me/marketminer25&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Telegram&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="280"/>
+        <location filename="../keyapp.ui" line="446"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/g6uu40&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Technical Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="293"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/Seif-Abaza/MarketMiner/issues&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#99c1f1;&quot;&gt;Github&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../about.ui" line="311"/>
+        <location filename="../keyapp.ui" line="477"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://usdtfreelancer.com&quot;&gt;&lt;span style=&quot; font-weight:700; text-decoration: underline; color:#1a5fb4;&quot;&gt;Support By USDTFreelancer.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -110,7 +146,7 @@
     </message>
     <message>
         <location filename="../generate_phone.ui" line="82"/>
-        <location filename="../tab_media.ui" line="1011"/>
+        <location filename="../tab_media.ui" line="1480"/>
         <source>Country</source>
         <translation>Pays</translation>
     </message>
@@ -135,46 +171,37 @@
         <translation>Remarques :</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="74"/>
         <source>Name</source>
-        <translation>Nom</translation>
+        <translation type="vanished">Nom</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="79"/>
-        <location filename="../import.ui" line="125"/>
-        <location filename="../keyapp.ui" line="329"/>
+        <location filename="../keyapp.ui" line="220"/>
         <location filename="../settings.ui" line="99"/>
         <source>Phone</source>
         <translation>Téléphone</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="84"/>
         <source>Account</source>
-        <translation>Compte</translation>
+        <translation type="vanished">Compte</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="89"/>
         <source>Source</source>
-        <translation>Source</translation>
+        <translation type="vanished">Source</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="104"/>
         <source>Search By</source>
-        <translation>Rechercher par</translation>
+        <translation type="vanished">Rechercher par</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="141"/>
         <source>Profile Name</source>
-        <translation>Nom du profil</translation>
+        <translation type="vanished">Nom du profil</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="154"/>
         <source>Group</source>
-        <translation>Groupe</translation>
+        <translation type="vanished">Groupe</translation>
     </message>
     <message>
-        <location filename="../import.ui" line="167"/>
-        <location filename="../tab_media.ui" line="1160"/>
+        <location filename="../tab_media.ui" line="1655"/>
         <source>Category</source>
         <translation>Catégorie</translation>
     </message>
@@ -184,81 +211,76 @@
         <translation>Clé</translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="59"/>
+        <location filename="../keyapp.ui" line="655"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#e01b24;&quot;&gt;Only 300 USDT for End-User Full Version&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="227"/>
+        <location filename="../keyapp.ui" line="673"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Paste the Transaction Hash (Txid), your account will be activated within 12 hours.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="234"/>
+        <location filename="../keyapp.ui" line="686"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body dir=&quot;rtl&quot;&gt;&lt;p align=&quot;center&quot;&gt;قم بلصق ال (Txid) Transaction Hash , في خلال 12 ساعة سيتم تفعيل حسابك &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="247"/>
+        <location filename="../keyapp.ui" line="705"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Вставьте хэш транзакции (Txid), ваша учетная запись будет активирована в течение 12 часов.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="287"/>
+        <location filename="../keyapp.ui" line="148"/>
         <source>Your Name</source>
         <translation>Votre nom</translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="305"/>
+        <location filename="../keyapp.ui" line="181"/>
         <source>account name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="315"/>
+        <location filename="../keyapp.ui" line="197"/>
         <source>mail@mail.com</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="336"/>
+        <location filename="../keyapp.ui" line="233"/>
         <source>Txid</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="347"/>
+        <location filename="../keyapp.ui" line="253"/>
         <source>+000...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="357"/>
+        <location filename="../keyapp.ui" line="269"/>
         <source>0x47a7...d93dd7</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="381"/>
-        <source>Buy USDT from Binance P2P</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../keyapp.ui" line="418"/>
+        <location filename="../keyapp.ui" line="313"/>
         <source>USDT Address</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="425"/>
+        <location filename="../keyapp.ui" line="320"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Binance : &lt;span style=&quot; font-weight:700; color:#ed333b;&quot;&gt;Only BUSD-T (BNB Smart Chain (BEP20))&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="440"/>
+        <location filename="../keyapp.ui" line="341"/>
         <source>0x47a7b312093304d536b376b9b8057317a7d93dd7</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</source>
         <translation type="vanished">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</translation>
     </message>
     <message>
-        <location filename="../keyapp.ui" line="294"/>
+        <location filename="../keyapp.ui" line="161"/>
         <source>Mail</source>
         <translation>Courriel</translation>
     </message>
@@ -303,33 +325,42 @@
         <translation>Chemin de sortie</translation>
     </message>
     <message>
+        <location filename="../import.ui" line="52"/>
+        <source>Save and Use it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../import.ui" line="62"/>
+        <source>Use This</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../import.ui" line="86"/>
         <location filename="../settings.ui" line="182"/>
-        <location filename="../settings.ui" line="203"/>
-        <location filename="../tab_media.ui" line="136"/>
-        <location filename="../tab_media.ui" line="238"/>
-        <location filename="../tab_media.ui" line="248"/>
-        <location filename="../tab_media.ui" line="489"/>
-        <location filename="../tab_media.ui" line="655"/>
-        <location filename="../tab_media.ui" line="946"/>
-        <location filename="../tab_media.ui" line="956"/>
-        <location filename="../tab_media.ui" line="1102"/>
-        <location filename="../tab_media.ui" line="1344"/>
-        <location filename="../tab_media.ui" line="1581"/>
-        <location filename="../tab_media.ui" line="1618"/>
-        <location filename="../tab_media.ui" line="1968"/>
-        <location filename="../tab_media.ui" line="1993"/>
-        <location filename="../tab_media.ui" line="2152"/>
-        <location filename="../tab_media.ui" line="2320"/>
+        <location filename="../tab_media.ui" line="151"/>
+        <location filename="../tab_media.ui" line="285"/>
+        <location filename="../tab_media.ui" line="302"/>
+        <location filename="../tab_media.ui" line="629"/>
+        <location filename="../tab_media.ui" line="1074"/>
+        <location filename="../tab_media.ui" line="1396"/>
+        <location filename="../tab_media.ui" line="1406"/>
+        <location filename="../tab_media.ui" line="1597"/>
+        <location filename="../tab_media.ui" line="1857"/>
+        <location filename="../tab_media.ui" line="2120"/>
+        <location filename="../tab_media.ui" line="2163"/>
+        <location filename="../tab_media.ui" line="2369"/>
+        <location filename="../tab_media.ui" line="2394"/>
+        <location filename="../tab_media.ui" line="2575"/>
+        <location filename="../tab_media.ui" line="2901"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../settings.ui" line="193"/>
         <source>Chrom Driver</source>
-        <translation>Google Chrome</translation>
+        <translation type="vanished">Google Chrome</translation>
     </message>
     <message>
-        <location filename="../settings.ui" line="214"/>
+        <location filename="../settings.ui" line="193"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
@@ -344,420 +375,689 @@
         <translation>Envoyer aux membres</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="93"/>
-        <location filename="../tab_media.ui" line="596"/>
-        <location filename="../tab_media.ui" line="1072"/>
-        <location filename="../tab_media.ui" line="1285"/>
-        <location filename="../tab_media.ui" line="2106"/>
-        <location filename="../tab_media.ui" line="2277"/>
+        <location filename="../tab_media.ui" line="99"/>
+        <location filename="../tab_media.ui" line="999"/>
+        <location filename="../tab_media.ui" line="1567"/>
+        <location filename="../tab_media.ui" line="1792"/>
+        <location filename="../tab_media.ui" line="2529"/>
+        <location filename="../tab_media.ui" line="2858"/>
         <source>Data Source</source>
         <translation>Source de données</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="156"/>
-        <location filename="../tab_media.ui" line="611"/>
-        <location filename="../tab_media.ui" line="1122"/>
-        <location filename="../tab_media.ui" line="1300"/>
-        <location filename="../tab_media.ui" line="2181"/>
-        <location filename="../tab_media.ui" line="2352"/>
+        <location filename="../tab_media.ui" line="180"/>
+        <location filename="../tab_media.ui" line="1020"/>
+        <location filename="../tab_media.ui" line="1617"/>
+        <location filename="../tab_media.ui" line="1807"/>
+        <location filename="../tab_media.ui" line="2604"/>
+        <location filename="../tab_media.ui" line="2935"/>
         <source>Database</source>
         <translation>Base de données</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="166"/>
-        <location filename="../tab_media.ui" line="621"/>
-        <location filename="../tab_media.ui" line="1132"/>
-        <location filename="../tab_media.ui" line="1310"/>
-        <location filename="../tab_media.ui" line="2203"/>
-        <location filename="../tab_media.ui" line="2368"/>
+        <location filename="../tab_media.ui" line="196"/>
+        <location filename="../tab_media.ui" line="1036"/>
+        <location filename="../tab_media.ui" line="1627"/>
+        <location filename="../tab_media.ui" line="1817"/>
+        <location filename="../tab_media.ui" line="2626"/>
+        <location filename="../tab_media.ui" line="2951"/>
         <source>File List</source>
         <translation>Liste externe</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="186"/>
-        <location filename="../tab_media.ui" line="836"/>
-        <location filename="../tab_media.ui" line="1499"/>
-        <location filename="../tab_media.ui" line="1889"/>
+        <location filename="../tab_media.ui" line="222"/>
+        <location filename="../tab_media.ui" line="1277"/>
+        <location filename="../tab_media.ui" line="2032"/>
+        <location filename="../tab_media.ui" line="2290"/>
         <source>Message Aria</source>
         <translation>Configuration des messages</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="203"/>
-        <location filename="../tab_media.ui" line="865"/>
-        <location filename="../tab_media.ui" line="1539"/>
-        <location filename="../tab_media.ui" line="1916"/>
+        <location filename="../tab_media.ui" line="239"/>
+        <location filename="../tab_media.ui" line="1306"/>
+        <location filename="../tab_media.ui" line="2072"/>
+        <location filename="../tab_media.ui" line="2317"/>
         <source>Message</source>
         <translation>Message</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="217"/>
-        <location filename="../tab_media.ui" line="925"/>
-        <location filename="../tab_media.ui" line="1569"/>
-        <location filename="../tab_media.ui" line="1956"/>
+        <location filename="../tab_media.ui" line="251"/>
+        <source>Translation My Message</source>
+        <translation type="unfinished">Traduisez ce message si nécessaire</translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="260"/>
+        <location filename="../tab_media.ui" line="1375"/>
+        <location filename="../tab_media.ui" line="2102"/>
+        <location filename="../tab_media.ui" line="2357"/>
         <source>Or Path To Message</source>
         <translation>Ou chemin vers un message précédent</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="224"/>
-        <location filename="../tab_media.ui" line="932"/>
-        <location filename="../tab_media.ui" line="1606"/>
-        <location filename="../tab_media.ui" line="1981"/>
+        <location filename="../tab_media.ui" line="267"/>
+        <location filename="../tab_media.ui" line="1382"/>
+        <location filename="../tab_media.ui" line="2145"/>
+        <location filename="../tab_media.ui" line="2382"/>
         <source>Or File To Send</source>
         <translation>Ou fichier à partager</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="281"/>
-        <location filename="../tab_media.ui" line="898"/>
-        <location filename="../tab_media.ui" line="1654"/>
-        <location filename="../tab_media.ui" line="2029"/>
+        <location filename="../tab_media.ui" line="351"/>
+        <location filename="../tab_media.ui" line="1339"/>
+        <location filename="../tab_media.ui" line="2199"/>
+        <location filename="../tab_media.ui" line="2430"/>
         <source>Slogin</source>
         <translation>Slogan</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="317"/>
-        <location filename="../tab_media.ui" line="463"/>
-        <location filename="../tab_media.ui" line="1004"/>
-        <location filename="../tab_media.ui" line="1707"/>
+        <location filename="../tab_media.ui" line="575"/>
+        <location filename="../tab_media.ui" line="1467"/>
+        <location filename="../tab_media.ui" line="2236"/>
         <source>Members Category</source>
         <translation>Catégorie de membres</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="358"/>
-        <location filename="../tab_media.ui" line="721"/>
-        <location filename="../tab_media.ui" line="1403"/>
-        <location filename="../tab_media.ui" line="1789"/>
+        <location filename="../tab_media.ui" line="450"/>
+        <location filename="../tab_media.ui" line="1150"/>
+        <location filename="../tab_media.ui" line="1926"/>
+        <location filename="../tab_media.ui" line="2686"/>
         <source>Use AI</source>
         <translation>Intelligence artificielle</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="365"/>
-        <location filename="../tab_media.ui" line="728"/>
-        <location filename="../tab_media.ui" line="1410"/>
-        <location filename="../tab_media.ui" line="1802"/>
+        <location filename="../tab_media.ui" line="457"/>
+        <location filename="../tab_media.ui" line="1157"/>
+        <location filename="../tab_media.ui" line="1933"/>
+        <location filename="../tab_media.ui" line="2699"/>
         <source>Use Compan ID</source>
         <translation>Campagne précédente</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="372"/>
-        <location filename="../tab_media.ui" line="735"/>
-        <location filename="../tab_media.ui" line="1417"/>
-        <location filename="../tab_media.ui" line="1815"/>
+        <location filename="../tab_media.ui" line="464"/>
+        <location filename="../tab_media.ui" line="1164"/>
+        <location filename="../tab_media.ui" line="1940"/>
+        <location filename="../tab_media.ui" line="2712"/>
         <source>Nothing</source>
         <translation>Rien</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="428"/>
-        <location filename="../tab_media.ui" line="800"/>
-        <location filename="../tab_media.ui" line="1473"/>
-        <location filename="../tab_media.ui" line="1865"/>
+        <location filename="../tab_media.ui" line="526"/>
+        <location filename="../tab_media.ui" line="1235"/>
+        <location filename="../tab_media.ui" line="2002"/>
+        <location filename="../tab_media.ui" line="2762"/>
         <source>Compan Name</source>
         <translation>Nom de la campagne</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="448"/>
+        <location filename="../tab_media.ui" line="552"/>
         <source>Get Members From Groups</source>
         <translation>Obtenir les membres des groupes</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="477"/>
+        <location filename="../tab_media.ui" line="607"/>
         <source>Group File List</source>
         <translation>Liste des groupes</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="500"/>
+        <location filename="../tab_media.ui" line="645"/>
+        <source>If from Excel , so the Group name = Name and write this Group Category for Save it on your database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="654"/>
         <source>Copy Message to Channel</source>
         <translation>Copier les messages vers un canal</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="515"/>
+        <location filename="../tab_media.ui" line="672"/>
+        <source>Replacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="687"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="739"/>
+        <source>Replace From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="751"/>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="803"/>
+        <source>Replace To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="815"/>
+        <source>Dub-Click on the text and Drop It for New Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="840"/>
         <source>From :</source>
         <translation>De :</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="525"/>
+        <location filename="../tab_media.ui" line="864"/>
         <source>To :</source>
         <translation>À :</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="535"/>
         <source>Only Message Befour this Date</source>
-        <translation>Tous les messages avant cette date</translation>
+        <translation type="vanished">Tous les messages avant cette date</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="551"/>
+        <location filename="../tab_media.ui" line="923"/>
         <source>Add Member to Chanel</source>
         <translation>Ajouter des membres à un canal</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="566"/>
-        <location filename="../tab_media.ui" line="1255"/>
-        <location filename="../tab_media.ui" line="2228"/>
+        <location filename="../tab_media.ui" line="947"/>
+        <location filename="../tab_media.ui" line="1756"/>
+        <location filename="../tab_media.ui" line="2797"/>
         <source>Group Name</source>
         <translation>Ryhmän nimi</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="576"/>
-        <location filename="../tab_media.ui" line="1269"/>
-        <location filename="../tab_media.ui" line="2254"/>
+        <location filename="../tab_media.ui" line="391"/>
+        <location filename="../tab_media.ui" line="967"/>
+        <location filename="../tab_media.ui" line="1770"/>
+        <location filename="../tab_media.ui" line="2829"/>
         <source>Member Category</source>
         <translation>Ryhmän kategoria</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="682"/>
-        <location filename="../tab_media.ui" line="1371"/>
+        <location filename="../tab_media.ui" line="882"/>
+        <source>Old Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="889"/>
+        <source>New Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="901"/>
+        <source>Stop in this Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1089"/>
+        <source>If you want to select users from Excel must important set account ID as a [Account] </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1111"/>
+        <location filename="../tab_media.ui" line="1884"/>
         <source>Send To Members</source>
         <translation>Lähetä jäsenille</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="975"/>
+        <location filename="../tab_media.ui" line="1438"/>
         <source>Target Members</source>
         <translation>Kohdejäsenet</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1018"/>
+        <location filename="../tab_media.ui" line="1493"/>
         <source>TimeZone</source>
         <translation>Aikavyöhyke</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1145"/>
+        <location filename="../tab_media.ui" line="1500"/>
+        <source>Translat Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1536"/>
+        <source>Translat to Other Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="1640"/>
         <source>Get Numbers from My Contact</source>
         <translation>Hae numerot yhteystiedoistani</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1198"/>
+        <location filename="../tab_media.ui" line="1699"/>
         <source>Get My WhatsApp Contact Numbers</source>
         <translation>Hae WhatsApp-yhteystietoni</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1229"/>
+        <location filename="../tab_media.ui" line="1730"/>
         <source>Add Numbers from Excel or CSV File</source>
         <translation>Lisää numeroita Excel- tai CSV-tiedostosta</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1238"/>
+        <location filename="../tab_media.ui" line="1739"/>
         <source>Get Data from Groups</source>
         <translation>Hae tietoja ryhmistä</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1629"/>
-        <location filename="../tab_media.ui" line="2004"/>
+        <location filename="../tab_media.ui" line="312"/>
+        <location filename="../tab_media.ui" line="1413"/>
+        <location filename="../tab_media.ui" line="2174"/>
+        <location filename="../tab_media.ui" line="2405"/>
         <source>Both</source>
         <translation>Molemmat</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="1737"/>
+        <location filename="../tab_media.ui" line="2219"/>
+        <location filename="../tab_media.ui" line="2450"/>
+        <source>Befour Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="2224"/>
+        <location filename="../tab_media.ui" line="2455"/>
+        <source>After Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../tab_media.ui" line="2272"/>
         <source>Post to Groups</source>
         <translation>Julkaise ryhmissä</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="2071"/>
+        <location filename="../tab_media.ui" line="2482"/>
         <source>Group Category</source>
         <translation>Ryhmäkategoria</translation>
     </message>
     <message>
-        <location filename="../tab_media.ui" line="2213"/>
+        <location filename="../tab_media.ui" line="2782"/>
         <source>Get Members fro Groups</source>
         <translation>Hae jäsenet ryhmistä</translation>
+    </message>
+    <message>
+        <location filename="../number_of_account.ui" line="31"/>
+        <source>Number Of Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../number_of_account.ui" line="55"/>
+        <source>Generate Phone Number</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../Controller.ui" line="14"/>
+        <location filename="../Controller.ui" line="20"/>
         <source>MainWindow</source>
         <translation>MarketingTool</translation>
     </message>
     <message>
-        <location filename="../Controller.ui" line="38"/>
-        <source>...</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../Controller.ui" line="63"/>
-        <source>Tab 1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../Controller.ui" line="88"/>
-        <source>Open</source>
-        <translation>Ouvrir</translation>
+        <location filename="../Controller.ui" line="76"/>
+        <source>Basic Informations</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Controller.ui" line="95"/>
-        <source>Edit</source>
-        <translation>Modifier</translation>
+        <source>Name</source>
+        <translation type="unfinished">Nom</translation>
     </message>
     <message>
         <location filename="../Controller.ui" line="102"/>
+        <source>Phone</source>
+        <translation type="unfinished">Téléphone</translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="109"/>
+        <source>Mail</source>
+        <translation type="unfinished">Courriel</translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="116"/>
+        <source>Computer Hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="145"/>
+        <source>Block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="152"/>
+        <location filename="../Controller.ui" line="275"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="176"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="193"/>
+        <source>Can Get Phone Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="203"/>
+        <source>Can Generate Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="210"/>
+        <source>Can Run Super Fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="217"/>
+        <source>Can Access Number Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="224"/>
+        <source>Can Export Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="231"/>
+        <source>Can Use Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="238"/>
+        <source>Can Scrip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="245"/>
+        <source>Can Send Messages To Members Or Users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="252"/>
+        <source>Can Use AI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="259"/>
+        <source>Can Use Online Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="266"/>
+        <source>Can Use Offline Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="301"/>
+        <source>Connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="311"/>
+        <source>User Mangment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="317"/>
+        <source>Application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="329"/>
+        <source>Run Online Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="334"/>
+        <source>Run Online Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="339"/>
+        <source>Run Offline Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="344"/>
+        <source>Run Offline Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="349"/>
+        <source>Open User Table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="354"/>
+        <source>Version Mangement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Controller.ui" line="359"/>
+        <source>Apps URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="vanished">Ouvrir</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="vanished">Modifier</translation>
+    </message>
+    <message>
         <source>Remove</source>
-        <translation>Supprimer</translation>
+        <translation type="vanished">Supprimer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="17"/>
         <source>MarketingTool</source>
-        <translation>MarketingTool</translation>
+        <translation type="vanished">MarketingTool</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="30"/>
+        <location filename="../mainwindow.ui" line="70"/>
         <source>Media</source>
         <translation>Médias sociaux</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="63"/>
+        <location filename="../mainwindow.ui" line="106"/>
+        <location filename="../mainwindow.ui" line="874"/>
         <source>Telegram</source>
         <translation>Telegram</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="103"/>
+        <location filename="../mainwindow.ui" line="146"/>
+        <location filename="../mainwindow.ui" line="879"/>
         <source>WhatsApp</source>
         <translation>WhatsApp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="143"/>
+        <location filename="../mainwindow.ui" line="186"/>
+        <location filename="../mainwindow.ui" line="884"/>
         <source>Facebook</source>
         <translation>Facebook</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="189"/>
+        <location filename="../mainwindow.ui" line="254"/>
         <source>Tiktok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="235"/>
+        <location filename="../mainwindow.ui" line="300"/>
+        <location filename="../mainwindow.ui" line="900"/>
         <source>Instegram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="281"/>
+        <location filename="../mainwindow.ui" line="346"/>
+        <location filename="../mainwindow.ui" line="908"/>
         <source>VK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="327"/>
+        <location filename="../mainwindow.ui" line="438"/>
         <source>Twitter (X)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="398"/>
         <source>Total Number of Post today</source>
-        <translation>Nombre total de publications aujourd&apos;hui</translation>
+        <translation type="vanished">Nombre total de publications aujourd&apos;hui</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="424"/>
-        <location filename="../mainwindow.ui" line="478"/>
-        <location filename="../mainwindow.ui" line="532"/>
+        <location filename="../mainwindow.ui" line="553"/>
+        <location filename="../mainwindow.ui" line="619"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="452"/>
+        <location filename="../mainwindow.ui" line="521"/>
         <source>Total Number of Messages today</source>
         <translation>Nombre total de messages aujourd&apos;hui</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="506"/>
+        <location filename="../mainwindow.ui" line="23"/>
+        <source>MarketMiner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="217"/>
+        <source>Youtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="392"/>
+        <location filename="../mainwindow.ui" line="916"/>
+        <source>Odnoklassniki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="587"/>
         <source>Total Number of users</source>
         <translation>Nombre d&apos;utilisateurs</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="545"/>
+        <location filename="../mainwindow.ui" line="636"/>
         <source>Output</source>
         <translation>Résultats</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="564"/>
+        <location filename="../mainwindow.ui" line="658"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="571"/>
+        <location filename="../mainwindow.ui" line="676"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://usdtfreelancer.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Sponsor: USDTFreelancer.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="594"/>
+        <location filename="../mainwindow.ui" line="702"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/people/MarketMiner/61574189555294/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Follow us&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="725"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://wa.link/hawg4s&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#12a75d;&quot;&gt;Technical Support&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="749"/>
         <source>Database</source>
         <translation>Base de données</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="604"/>
+        <location filename="../mainwindow.ui" line="759"/>
         <source>About</source>
         <translation>À propos du programme</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="614"/>
+        <location filename="../mainwindow.ui" line="763"/>
+        <source>Reset Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="782"/>
         <source>Network</source>
         <translation>Réseau interne</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="621"/>
+        <location filename="../mainwindow.ui" line="789"/>
         <source>Phone Number</source>
         <translation>Numéro de téléphone</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="634"/>
+        <location filename="../mainwindow.ui" line="809"/>
         <source>Explor</source>
         <translation>Sortie</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="639"/>
+        <location filename="../mainwindow.ui" line="814"/>
         <source>Search</source>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="644"/>
+        <location filename="../mainwindow.ui" line="819"/>
         <source>Support</source>
         <translation>Assistance</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="649"/>
+        <location filename="../mainwindow.ui" line="824"/>
         <source>Version</source>
         <translation>Version</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="654"/>
+        <location filename="../mainwindow.ui" line="829"/>
         <source>&amp;Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="659"/>
+        <location filename="../mainwindow.ui" line="834"/>
         <source>Allow Access</source>
         <translation>Autorisations</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="664"/>
+        <location filename="../mainwindow.ui" line="839"/>
         <source>Network Settings</source>
         <translation>Paramètres réseau</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="669"/>
+        <location filename="../mainwindow.ui" line="844"/>
         <source>Get Mobile Number</source>
         <translation>Obtenir un numéro de mobile</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="674"/>
+        <location filename="../mainwindow.ui" line="849"/>
         <source>Check Update</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="679"/>
+        <location filename="../mainwindow.ui" line="854"/>
         <source>Search By Phone Number</source>
         <translation>Recherche par numéro de téléphone</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="684"/>
+        <location filename="../mainwindow.ui" line="859"/>
         <source>Search By Email</source>
         <translation>Recherche par e-mail</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="689"/>
+        <location filename="../mainwindow.ui" line="864"/>
         <source>Search By Account</source>
         <translation>Recherche par nom de compte</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="694"/>
+        <location filename="../mainwindow.ui" line="869"/>
         <source>Get Temp Mail</source>
         <translation>Obtenir un e-mail temporaire</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="892"/>
+        <source>Google &amp; Youtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="924"/>
+        <source>Twitter</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
