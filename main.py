@@ -89,34 +89,31 @@ class MainWindw(QMainWindow, Ui_MainWindow):
         for media in self.settings.value("can_use"):
             match media.lower():
                 case "telegram":
-                    dir1_path = os.path.join(
-                        os.getcwd(), "Sessions/teleSession.session"
-                    )
-                    if os.path.exists(dir1_path):
+                    if os.path.isfile("./Sessions/teleSession.session"):
                         self.pushButton.clicked.connect(
                             lambda: self.on_dialog_order("Telegram")
                         )
                         self.pushButton.setEnabled(True)
                     else:
-                        self.pushButton.setEnabled(False)
+                        self.UpDateOutput("Click on About -> Reset Login -> Telegram")
                 case "whatsapp":
-                    dir1_path = os.path.join(os.getcwd(), "Sessions/whatsapp")
-                    if os.path.exists(dir1_path):
+                    if os.path.isdir("./Sessions/whatsapp"):
                         self.pushButton_2.clicked.connect(
                             lambda: self.on_dialog_order("WhatsApp")
                         )
                         self.pushButton_2.setEnabled(True)
                     else:
-                        self.pushButton_2.setEnabled(False)
+                        self.UpDateOutput("Click on About -> Reset Login -> WhatsApp")
                 case "facebook":
-                    dir1_path = os.path.join(os.getcwd(), "Sessions/facebook")
-                    if os.path.exists(dir1_path):
+                    if os.path.isdir("./Sessions/facebook"):
                         self.pushButton_3.clicked.connect(
                             lambda: self.on_dialog_order("Facebook")
                         )
                         self.pushButton_3.setEnabled(True)
                     else:
-                        self.pushButton_3.setEnabled(False)
+                        self.UpDateOutput("Click on About -> Reset Login -> Facebook")
+                case _:
+                    self.UpDateOutput(f"must make {media} account")
         self.UpDateOutput("....")
         # Menus
 
@@ -156,6 +153,8 @@ class MainWindw(QMainWindow, Ui_MainWindow):
         if os.path.exists(dir1_path):
             shutil.rmtree(dir1_path, ignore_errors=True)
 
+        self.ensure_playwright_installed()
+
         if WhatsApp(runReset=True).reLogin(userdata=dir1_path):
             QMessageBox.information(
                 self,
@@ -168,6 +167,9 @@ class MainWindw(QMainWindow, Ui_MainWindow):
         dir1_path = os.path.join(os.getcwd(), "Sessions/facebook")
         if os.path.exists(dir1_path):
             shutil.rmtree(dir1_path, ignore_errors=True)
+
+        self.ensure_playwright_installed()
+
         if Facebook(reset=True).reset(dir1_path, self.settings):
             QMessageBox.information(
                 self,
@@ -281,6 +283,19 @@ class MainWindw(QMainWindow, Ui_MainWindow):
         except Exception as e:
             logging.error(f"Error : {e}")
 
+    def ensure_playwright_installed(self):
+        package_name = "playwright"
+        # Check if Playwright is installed
+        if importlib.util.find_spec(package_name) is None:
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", package_name]
+            )
+
+        # Run Playwright install command
+        subprocess.check_call(
+            [sys.executable, "-m", "playwright", "install"], stderr=None
+        )
+
     def _initWidget(self, dialog: PopupDialog):
         dialog.groupBox_5.setVisible(False)
         dialog.frame_3.setVisible(False)
@@ -350,14 +365,14 @@ class main_class:
                         database=self.database,
                         settings=self.settings,
                     )
-                    print("Calculation")
                     self.calculation()
+                    self.window.showNormal()
                     # self.window.exec()
                     # thread.join()
 
                     # if self.window is None:
-                    #     self.database.close_connection()
-                    #     self.window.close()
+                    #    self.database.close_connection()
+                    #    self.window.close()
                 else:
                     sys.exit()
         else:
@@ -425,9 +440,10 @@ class main_class:
                     "com_hash": str(hash_computer()),
                 },
             )
-        except Exception:
+        except Exception as e:
+            # print(f"Error : {e}")
             QMessageBox.information(
-                None, "Account Holding", "Wait and try Later Please.", QMessageBox.Ok
+                None, "Account Holding", "Server Holding.", QMessageBox.Ok
             )
             sys.exit()
 
@@ -570,7 +586,6 @@ class main_class:
                 },
             )
 
-            # معالجة الرد
             if verify_response.status_code == 200 and verify_response.json().get(
                 "success"
             ):
@@ -602,21 +617,27 @@ if __name__ == "__main__":
     for mDir in ImportantDirs:
         dir1_path = os.path.join(project_dir, mDir)
         if not os.path.exists(dir1_path):
-            os.makedirs(dir1_path)
+            if mDir == "Sessions":
+                os.makedirs(dir1_path)
+                os.makedirs(f"{dir1_path}/facebook")
+            else:
+                os.makedirs(dir1_path)
 
     app = QApplication(sys.argv)
     translator = QTranslator()
     if os.path.exists("setup"):
         helping = Security("MarketingTools")
         lang = helping.read_and_decrypt_data_from_file("setup")
+        LanguageDir = ""
+        if os.path.exists("_internal"):
+            LanguageDir = f"_internal/locat/{lang}.qm"
+        else:
+            LanguageDir = f"locat/{lang}.qm"
         if not lang is None:
             if lang != "en":
-                langfile = f"locat/{lang}.qm"
-                if not os.path.exists(langfile):
-                    langfile = f"_internal/{langfile}"
-
-                if translator.load(langfile):
-                    app.installTranslator(translator)
+                if os.path.exists(LanguageDir):
+                    if translator.load(LanguageDir):
+                        app.installTranslator(translator)
         else:
             app.removeTranslator(translator)
     else:

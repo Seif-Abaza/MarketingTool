@@ -34,7 +34,7 @@ VERSIONS = {
         "version": CURRENT_VERSION,
         "download_url": f"{IP_ADDRESS}/download/marketingtools_{CURRENT_VERSION}.exe",
         "patch_url": f"{IP_ADDRESS}/patch/windows_{OLD_VERSION}_to_{CURRENT_VERSION}.patch",
-        "sha256": "abcd1234...",  # ضع هنا التوقيع الفعلي للملف
+        "sha256": "abcd1234...",
     },
     "linux": {
         "version": CURRENT_VERSION,
